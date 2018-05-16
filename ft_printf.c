@@ -6,31 +6,31 @@
 #include <locale.h>
 # define ULL unsigned long long
 
-typedef struct		s_flags
+typedef struct		s_flags // This struct will be used to keep track of options used in printf
 {
-	int				spaces;
-	int				spaces_count;
-	int				preci;
+	int				spaces; // Tracks width
+	int				spaces_count; //???
+	int				preci; // Tracks how many decimal places to have
 	int				preci_diff;
-	int				zero;
+	int				zero; // Tracks leading 0's
 	int				zero_base;
 	int				l;
-	int				pound;
-	int				minus;
-	int				plus;
-	int				empty;
-	int				display;
+	int				pound; // Tracks if a numbers alternate form is to be output
+	int				minus; // Track if output is to be pushed to the left
+	int				plus; // Used to have all numbers preceded by their respective sign
+	int				empty; // ???
+	int				display; // ???
 	int				temp;
 	int				star;
 	int				prio[3];
 }
 
-int	ft_nbrlen(int n)
+int	ft_nbrlen(int n) // Used to find the charactyer length of a number
 {
 	int	i;
 
 	i = 0;
-	while (n != 0)
+	while (n != 0) // While a numbers divisible by 10 increment I, this is it's length
 	{
 		n /= 10;
 		i++;
@@ -185,7 +185,7 @@ int	ft_is_printf(char c) // This fnction may be able to fit into ft_undef
 	return (2);
 }
 
-static void	ft_init_flags(t_flags *flag)
+static void	ft_init_flags(t_flags *flag) // Initializes the flags to zero
 {
 	flag->pound = 0;
 	flag->zero = 0;
@@ -211,7 +211,7 @@ int	ft_flag_bool(int *index) // Sets a flag true and moves the format string ove
 	return (1); //Sets flag true
 }
 
-ft_flag_preci(char *str, int *index, t_flags *flags)
+int	ft_flag_preci(char *str, int *index, t_flags *flags)
 {
 	int	value; // Stores the value for precision if a number is specified
 
@@ -294,10 +294,16 @@ static int	ft_flag_helper_1_0(int *index, t_flags flags)
 	return ((flag.l == 0 || flag.l == 3 || flag.l == 4) ? 1 : flags.l);
 }
 
-static int	ft_ft_flag_helper_1_1(int *index, t_flags flags)
+static int	ft_flag_helper_1_1(int *index, t_flags flags)
 {
 	*index += 1;
 	return ((flags.l == 0 || flags.l == 3 || flags.l == 4) ? 2 : flags.l);
+}
+
+static int	ft_flag_1_helper_2(int *index, t_flags flags)
+{
+	*index += 1;
+	return ((flags.l == 0 || flags.l == 4) ? 3 : flags.l);
 }
 
 int	ft_flag_length(char *str, int *index, t_flags flags)
@@ -305,7 +311,7 @@ int	ft_flag_length(char *str, int *index, t_flags flags)
 	if (str[*index] == 'l' && str[*index + 1] != 'l')
 		return (ft_flag_1_helper_0(index, flags));
 	if (str[*index] == 'l' && str[*index + i] == 'l')
-		return ft_flag_1_helper_1(index, flags);
+		return (ft_flag_1_helper_1(index, flags));
 	if (str[*index] == 'h' && str[*index + 1] != 'h')
 		return (ft_flag_1_helper_2(index, flags));
 	if (str[*index] == 'h' && str[*index + 1] == 'h')
@@ -344,9 +350,65 @@ static int	ft_load_flags(char *str, int index, t_flags *flag)
 		if (str[index] == 'l' || str[index] == 'h' || str[index] == 'j' || str[index] == 'z')
 			flag->l = ft_flag_length(str, &index, *flag);
 	}
-	flag			
+	flag->zero_base = flag_zero;
+	(flag->minus == 1 && flag->zero != 0) ? flag->spaces = flag->zero : 0;
+	(flag->minus == 1 && flag->zero != 0) ? flag->zero = 0 : 0;
+	(flag->minus == 1) ? flag->spaces = -flag->spaces : 0;
+	(flag->plus == 1 && flag->empty = 1) ? flag->empty = 0 : 0;
+	return (index);
+}
+
+static void	ft_init_table(int (*tab[128])())
+{
+	tab['d'] = &ft_d_i;
+	tab['i'] = &ft_d_i;
+	tab['D'] = ft_ld;
+	tab['x'] = &ft_x;
+	tab['X'] = &ft_lx;
+	tab['u'] = ft_u;
+	tab['U'] = &ft_lu;
+	tab['o'] = &ft_o;
+	tab['O'] = &ft_lo;
+	tab['p'] = &ft_p;
+	tab['s'] = &ft_s;
+	tab['S'] = &ft_ls;
+	tab['c'] = &ft_c;
+	tab['C'] = &ft_lc;
+	tab['f'] = &ft_f;
+	tab['F'] = &ft_f;
+	tab['b'] = &ft_b;
+	tab['B'] = &ft_lb;
+}
 			
-ft_printf_conv(char *str, va_list *pa, int *r_value, int index) // Parses for flags and what not
+void	ft_flag_star(va_list pa, t_flags *flags, int index)
+{
+	int	value;
+	value = va_arg(pa, long)'
+	if (flag->prio[index] == 1 && flag->zero <= 0)
+	{
+		flag->zero = value;
+		flag->zero_base = flag->zero;
+	}
+	else if (flag->prio[index] == 3 && flag->preci <= 0)
+	{
+		if (value < 0)
+		{
+			flag->preci = flag->zero;
+			flag->zero = 0;
+			flag->zero_base = 0;
+		}
+		else
+		{
+			flag->preci = value;
+			(flag->preci = 0) ? flag->preci = -1 : 0;
+		}
+	}
+	else if (flag->spaces <= 0)
+		flag->spaces = value;
+	flag->star -= 1;
+}
+
+int	ft_printf_conv(char *str, va_list *pa, int *r_value, int index) // Parses for flags and what not
 {
 	int	(*tab[128])(va_list, t_flags); // ???
 	int	i;
@@ -355,6 +417,13 @@ ft_printf_conv(char *str, va_list *pa, int *r_value, int index) // Parses for fl
 
 	i = 0;
 	index = ft_load_flags(str, index, &flags); // Initializes the flags to 0
+	ft_init_tables(tab); // Initialize the table whick stores the conversion functions this may be removed later on and replaced with somthing more efficient
+	while (flag.star > 0)
+	{
+		ft_flag_star(*pa, &flags, i);
+		i++;
+	}
+	
 }
 
 int	ft_printf(const char *format, ...) //str[*index + 2]his is the printf function giving general orders -- Look into changing to void
