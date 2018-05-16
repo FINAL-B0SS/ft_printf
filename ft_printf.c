@@ -272,7 +272,7 @@ int	ft_flag_star_bool(int *index, t_flags *flag)
 	return (1);
 }
 
-int	ft_flag_space(char *str, int *index)
+int	ft_flag_spaces(char *str, int *index) // Extrtacts the specified width
 {
 	int	i;
 	int	space;
@@ -344,7 +344,7 @@ static int	ft_load_flags(char *str, int index, t_flags *flag)
 		(str[index] == '+') ? flag->plus = ft_flag_bool(&index) : 0;
 		(str[index] == '0') ? flag->zero = ft_flag_zero(str, &index, flag) : 0;
 		(str[index] == '!') ? flag->display = ft_flag_bool(&index) : 0;
-		(str[index] == '*') ? flag->star += ft_star_bool(&index, flag) : 0;
+		(str[index] == '*') ? flag->star += ft_star_bool(&index, flag) : 0; // If there a  star than anyt width defined earlier must be overwritten
 		if (str[index] > '0' && str[index] <= '9') // Notice it doesn't accept zero
 			flag->spaces = ft_flag_spaces(str, &index);
 		if (str[index] == 'l' || str[index] == 'h' || str[index] == 'j' || str[index] == 'z')
@@ -383,7 +383,7 @@ static void	ft_init_table(int (*tab[128])())
 void	ft_flag_star(va_list pa, t_flags *flags, int index)
 {
 	int	value;
-	value = va_arg(pa, long)'
+	value = va_arg(pa, long);
 	if (flag->prio[index] == 1 && flag->zero <= 0)
 	{
 		flag->zero = value;
@@ -408,9 +408,50 @@ void	ft_flag_star(va_list pa, t_flags *flags, int index)
 	flag->star -= 1;
 }
 
+static void	ft_before(t_flags *flags, int v_len) // Handles putting spaces and zeros before output
+{
+	flags->spaces_count = 0;
+	if (flags->spaces && flags->spaces - v_len > 0)
+	{
+		while (flags->spaces-- - v_len != 0) // Writes the spaces for width
+		{
+			flags->spaces_count++;
+			(!flags->display) ? ft_putchar(' ') : 0;
+		}
+	}
+	else if (flags->spaces == 0 && flags->zero != 0) // Writes the zeros
+	{
+		while (flag->zero-- - v_len != 0)
+		{
+			flags->spaces_count++;
+			(!flags->display) ? ft_putchar('0') : 0;
+		}
+	}
+}
+
+static void	ft_after(t_flags *flags, int v_len) // Handles putting spaces after output
+{
+	if (flags->spaces + v_len < 0)
+	{
+		while (flags->spaces++ + v_len != 0)
+		{
+			flags->spaces_count++;
+			(!flags->display) ? ft_putchar(' ') : 0;
+		}
+	}
+}
+
+int	ft_conv_char(t_flags flags, char c)
+{
+	ft_before(&flags, ft_nbrlen(1));
+	(!flags.display) ? ft_putchar(c) : 0;
+	ft_after(&flags, ft_nbrlen(1));
+	return (1 + flags.spaces_count);
+}
+
 int	ft_printf_conv(char *str, va_list *pa, int *r_value, int index) // Parses for flags and what not
 {
-	int	(*tab[128])(va_list, t_flags); // ???
+	int	(*tab[128])(va_list, t_flags); // Stores the conversion functions to be used later
 	int	i;
 	int	j;
 	t_flags	flags; // Stores flags
@@ -420,10 +461,13 @@ int	ft_printf_conv(char *str, va_list *pa, int *r_value, int index) // Parses fo
 	ft_init_tables(tab); // Initialize the table whick stores the conversion functions this may be removed later on and replaced with somthing more efficient
 	while (flag.star > 0)
 	{
-		ft_flag_star(*pa, &flags, i);
+		ft_flag_star(*pa, &flags, i); // Extracts the number to be put in place of the star from the given arguments
 		i++;
 	}
-	
+	if (ft_is_printf(str[index] == 2))
+		*r_value += ft_conv_char(flags, str[index]); // Handles np specifier
+	else if (str[index] == '%')
+		*r_value += ft_conv_percent(flags);
 }
 
 int	ft_printf(const char *format, ...) //str[*index + 2]his is the printf function giving general orders -- Look into changing to void
