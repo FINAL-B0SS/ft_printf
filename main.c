@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdarg.h>
@@ -76,7 +77,7 @@ int	ft_atoi(char *s)
 	i = 0;
 	nb = 0;
 	sign = 1;
-	while (s[i] && s[i] == ' ' || s[i] == '\t' || s[i] == '\n')
+	while (s[i] && (s[i] == ' ' || s[i] == '\t' || s[i] == '\n'))
 		i++;
 	if (s[i] == '-')
 		sign = -1;
@@ -155,37 +156,33 @@ int	ft_modifier_check(char *s, int *i, t_options *options)
 	if (s[*i] == 'j')
 	{
 		options->modifier = "j";
-		return (ft_modifier_double_check(&s[*i], i += 1, options));
+		return (ft_modifier_double_check(&s[*i], i + 1, options));
 	}
 	if (s[*i] == 'z')
 	{
 		options->modifier = "z";
-		return (ft_modifier_double_check(&s[*i], i += 1, options));
+		return (ft_modifier_double_check(&s[*i], i + 1, options));
 	}
 	return (2);
 }
 
-#include <stdio.h>
 int	ft_check_and_save(char *s, int *i, t_options *options)
 {
 	*i += 1;
 	if (s[*i] && (s[*i] == '#' || s[*i] == '0' || s[*i] == '-' || s[*i] == '+' || s[*i] == ' '))
 	{
-		printf("F");
 		options->f += 1;
 		options->flag = s[*i];
 		*i += 1;
 	}
 	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
 	{
-		printf("W");
 		options->w += 1;
 		options->width = (ft_atoi(&s[*i]));
 		*i += ft_nbrlen(ft_atoi(&s[*i]));
 	}
 	if (s[*i] && (s[*i] == '.'))
 	{
-		printf("P");
 		options->p += 1;
 		options->precision = (ft_atoi(&s[*i]));
 		*i += ft_nbrlen(ft_atoi(&s[*i]));
@@ -224,15 +221,15 @@ void	ft_handle_it(t_options *options, va_list *args)
 {
 	if (options->conversion == 's')
 	{
-		ft_putstr(va_arg(args, char*));
+		ft_putstr(va_arg(*args, char*));
 	}
 	if (options->conversion == 'c')
 	{
-		ft_putchar(va_arg(args, int));
+		ft_putchar(va_arg(*args, int));
 	}
 	if (options->conversion == 'o')
 	{
-		ft_putnbr(ft_oct_to_decimal(va_arg(args, int)));
+		ft_putnbr(ft_oct_to_decimal(va_arg(*args, int)));
 	}
 }
 
