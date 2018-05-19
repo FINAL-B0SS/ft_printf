@@ -51,6 +51,22 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
+void	ft_putnbr(int n)
+{
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		n = -n;
+	}
+	if (n > 9)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+		ft_putchar(n + '0');
+}
+
 int	ft_atoi(char *s)
 {
 	int	i;
@@ -188,12 +204,35 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 		return (0);
 }
 
+int	ft_oct_to_decimal(int decimalNumber)
+{
+	int	octalNumber; 
+	int	i;
+
+	octalNumber = 0;
+	i = 1;
+	while (decimalNumber != 0)
+	{
+		octalNumber += (decimalNumber % 8) * i;
+		decimalNumber /= 8;
+		i *= 10;
+	}
+	return (octalNumber);
+}
 
 void	ft_handle_it(t_options *options, va_list *args)
 {
 	if (options->conversion == 's')
 	{
 		ft_putstr(va_arg(args, char*));
+	}
+	if (options->conversion == 'c')
+	{
+		ft_putchar(va_arg(args, int));
+	}
+	if (options->conversion == 'o')
+	{
+		ft_putnbr(ft_oct_to_decimal(va_arg(args, int)));
 	}
 }
 
@@ -238,6 +277,6 @@ int	ft_printf(const char *format, ...)
 
 int main()
 {
-	ft_printf("%stest\n", "Hello world\n");
+	ft_printf("%o\ntest\n", 10);
 	return (0);
 }
