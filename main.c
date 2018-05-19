@@ -327,6 +327,6 @@ int	ft_printf(const char *format, ...)
 
 int main()
 {
-	ft_printf("Octal: %o\nString: %s\nInteger: %d\nLowercase Hex: %x\nUpercase Hex: %X\nText inside format\n", 10, "Hello World!", 42, 10, 10);
+	ft_printf("Octal: %o\nString: %s\nInteger: %d\nLowercase Hex: %x\nUpercase Hex: %X\nAscii Charcter: %c\nText inside format\n", 10, "Hello World!", 42, 10, 10, 'A');
 	return (0);
 }
