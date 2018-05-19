@@ -152,9 +152,7 @@ int	ft_modifier_check(char *s, int *i, t_options *options)
 #include <stdio.h>
 int	ft_check_and_save(char *s, int *i, t_options *options)
 {
-	int	j;
-
-	j = *i;
+	*i += 1;
 	if (s[*i] && (s[*i] == '#' || s[*i] == '0' || s[*i] == '-' || s[*i] == '+' || s[*i] == ' '))
 	{
 		printf("F");
@@ -181,12 +179,22 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 	if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
 	{
 		options->c += 1;
-		//	printf("f: %d\nw: %d\np: %d\nm: %d\nc: %d\n", options->f, options->w, options->p, options->m, options->c);
+		options->conversion = s[*i];
+		//printf("f: %d\nw: %d\np: %d\nm: %d\nc: %d\n", options->f, options->w, options->p, options->m, options->c);
 	}
 	if (options->f <= 1 && options->w <= 1 && options->p <= 1 && options->m <= 1 && options->c == 1)
 		return (1);
 	else
 		return (0);
+}
+
+
+void	ft_handle_it(t_options *options, va_list *args)
+{
+	if (options->conversion == 's')
+	{
+		ft_putstr(va_arg(args, char*));
+	}
 }
 
 int	ft_printf(const char *format, ...)
@@ -212,7 +220,10 @@ int	ft_printf(const char *format, ...)
 		else if (format[i] == '%')
 		{
 			if (ft_check_and_save((char*)format, &i, &options))
+			{
+				ft_handle_it(&options, &args);	
 				i += 1;
+			}
 			else
 				return (0);
 		}
@@ -227,6 +238,6 @@ int	ft_printf(const char *format, ...)
 
 int main()
 {
-	ft_printf("%s%d%test\n");
+	ft_printf("%stest\n", "Hello world\n");
 	return (0);
 }
