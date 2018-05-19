@@ -296,7 +296,7 @@ void	ft_handle_it(t_options *options, va_list *args)
 		ft_putchar(va_arg(*args, int));
 	if (options->conversion == 'o')
 		ft_putstr(ft_otoa(va_arg(*args, unsigned long int)));
-	if (options->conversion == 'd')
+	if (options->conversion == 'd' || options->conversion == 'i')
 		ft_putnbr(va_arg(*args, int));
 	if (options->conversion == 'x' || options->conversion == 'X')
 		ft_putstr(ft_htoa(va_arg(*args, unsigned long int), options));
