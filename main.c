@@ -247,7 +247,6 @@ int	ft_printf(const char *format, ...)
 		return (0);
 	while (format[i])
 	{
-		ft_init_options(&options);
 		if (format[i] == '%' && format[i + 1] == '%')
 		{
 			write(1, "%", 1);
@@ -255,10 +254,10 @@ int	ft_printf(const char *format, ...)
 		}
 		else if (format[i] == '%')
 		{
+			ft_init_options(&options);
 			if (ft_check_and_save((char*)format, &i, &options))
 			{
 				ft_handle_it(&options, &args);	
-				i += 1;
 			}
 			else
 				return (0);
