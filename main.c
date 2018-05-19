@@ -267,28 +267,41 @@ char	*ft_htoa(unsigned long int number, t_options *options)
 	return (ft_strrev(print));
 }
 
+char	*ft_uitoa(unsigned int nbr)
+{
+	unsigned int	tmp;
+	unsigned int	count;
+	char		*str;
+
+	count = 1;
+	tmp = nbr;
+	while (tmp /= 10)
+		count++;
+	if (!(str = (char*)malloc(sizeof(char) * count)))
+		return (NULL);
+	while (count--)
+	{
+		str[count] = nbr >= 10 ? (nbr % 10) + 48 : nbr + 48;
+		nbr /= 10;
+	}
+	str[ft_strlen(str)] = '\0';
+	return (str);
+}
+
 void	ft_handle_it(t_options *options, va_list *args)
 {
 	if (options->conversion == 's')
-	{
 		ft_putstr(va_arg(*args, char*));
-	}
 	if (options->conversion == 'c')
-	{
 		ft_putchar(va_arg(*args, int));
-	}
 	if (options->conversion == 'o')
-	{
 		ft_putstr(ft_otoa(va_arg(*args, unsigned long int)));
-	}
 	if (options->conversion == 'd')
-	{
 		ft_putnbr(va_arg(*args, int));
-	}
 	if (options->conversion == 'x' || options->conversion == 'X')
-	{
 		ft_putstr(ft_htoa(va_arg(*args, unsigned long int), options));
-	}
+	if (options->conversion == 'u')
+		ft_putstr(ft_uitoa(va_arg(*args, unsigned int)));
 }
 
 int	ft_printf(const char *format, ...)
@@ -327,6 +340,6 @@ int	ft_printf(const char *format, ...)
 
 int main()
 {
-	ft_printf("Octal: %o\nString: %s\nInteger: %d\nLowercase Hex: %x\nUpercase Hex: %X\nAscii Charcter: %c\nText inside format\n", 10, "Hello World!", 42, 10, 10, 'A');
+	ft_printf("Octal: %o\nString: %s\nInteger: %d\nLowercase Hex: %x\nUpercase Hex: %X\nAscii Charcter: %c\nUnsigned int: %u\nText inside format\n", 10, "Hello World!", 42, 10, 10, 'A', 2147483649);
 	return (0);
 }
