@@ -94,15 +94,15 @@ int	ft_atoi(char *s)
 typedef struct	s_options
 {
 	char	flag;
-	int	width;
-	int	precision;
+	int		width;
+	int		precision;
 	char	conversion;
 	char	*modifier;
-	int	f;
-	int	w;
-	int	p;
-	int	c;
-	int	m;
+	int		f;
+	int		w;
+	int		p;
+	int		c;
+	int		m;
 }		t_options;
 
 void	ft_init_options(t_options *options)
@@ -217,6 +217,26 @@ int	ft_oct_to_decimal(int decimalNumber)
 	return (octalNumber);
 }
 
+void	print_hex(int nb, t_options options)
+{
+
+	char *hex;
+	int i;
+
+	hex = (options.conversion == 'x') ? "0123456789abcdef" : "0123456789ABCDEF";
+	i = 0;
+	if (nb / 16)
+	{
+		print_hex(nb / 16, options);
+		print_hex(nb % 16, options);
+	}
+	else
+	{
+		i = nb % 16;
+		write(1, &hex[i], 1);
+	}
+}
+
 void	ft_handle_it(t_options *options, va_list *args)
 {
 	if (options->conversion == 's')
@@ -230,6 +250,14 @@ void	ft_handle_it(t_options *options, va_list *args)
 	if (options->conversion == 'o')
 	{
 		ft_putnbr(ft_oct_to_decimal(va_arg(*args, int)));
+	}
+	if (options->conversion == 'd')
+	{
+		ft_putnbr(va_arg(*args, int));
+	}
+	if (options->conversion == 'x' || options->conversion == 'X')
+	{
+		print_hex(va_arg(*args, int), *options);
 	}
 }
 
@@ -256,16 +284,12 @@ int	ft_printf(const char *format, ...)
 		{
 			ft_init_options(&options);
 			if (ft_check_and_save((char*)format, &i, &options))
-			{
 				ft_handle_it(&options, &args);	
-			}
 			else
 				return (0);
 		}
 		else
-		{
 			write(1, &format[i], 1);
-		}
 		i++;
 	}
 	return (1);
@@ -273,6 +297,6 @@ int	ft_printf(const char *format, ...)
 
 int main()
 {
-	ft_printf("%o\ntest\n", 10);
+	ft_printf("Octal: %o\nString: %s\nInteger: %d\nLowercase Hex: %x\nUpercase Hex: %X\nText inside format\n", 10, "Hello World!", 42, 10, 10);
 	return (0);
 }
