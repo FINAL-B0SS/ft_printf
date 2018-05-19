@@ -42,6 +42,26 @@ void	ft_putendl(char *s)
 	write(1, "\n", 1);
 }
 
+char	*ft_strrev(char *str)
+{
+	int		i;
+	int		length;
+	char	buff;
+
+	i = 0;
+	while (str[length])
+		length++;
+	while (length - 1 > i)
+	{
+		buff = str[i];
+		str[i] = str[length - 1];
+		str[length - 1] = buff;
+		length--;
+		i++;
+	}
+	return (str);
+}
+
 int	ft_strlen(char *s)
 {
 	int	i;
@@ -201,40 +221,50 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 		return (0);
 }
 
-int	ft_oct_to_decimal(int decimalNumber)
+char	*ft_otoa(unsigned long int number)
 {
-	int	octalNumber; 
-	int	i;
+	char			*print;
+	unsigned int	i;
 
-	octalNumber = 0;
-	i = 1;
-	while (decimalNumber != 0)
+	i = 0;
+	print = (char*)malloc(sizeof(char) * 24);
+	if (number < i)
+		return ("errno: Unsigned Only!");
+	if (number == 0)
 	{
-		octalNumber += (decimalNumber % 8) * i;
-		decimalNumber /= 8;
-		i *= 10;
+		print[i] = '0';
+		i++;
 	}
-	return (octalNumber);
+	while (number)
+	{
+		print[i] = (number % 8) + 48;
+		number /= 8;
+		i++;
+	}
+	print[i] = '\0';
+	return (ft_strrev(print));
 }
 
-void	print_hex(int nb, t_options options)
+char	*ft_htoa(unsigned long int number, t_options *options)
 {
+	char	*print;
+	int	i;
 
-	char *hex;
-	int i;
-
-	hex = (options.conversion == 'x') ? "0123456789abcdef" : "0123456789ABCDEF";
 	i = 0;
-	if (nb / 16)
+	print = (char*)malloc(sizeof(char) * 18);
+	if (number == 0)
+		print[i] = '0';
+	while (number && options->conversion == 'x')
 	{
-		print_hex(nb / 16, options);
-		print_hex(nb % 16, options);
+		print[i++] = "0123456789abcdef"[number % 16];
+		number /= 16;
 	}
-	else
+	while (number && options->conversion == 'X')
 	{
-		i = nb % 16;
-		write(1, &hex[i], 1);
+		print[i++] = "0123456789ABCDEF"[number % 16];
+		number /= 16;
 	}
+	return (ft_strrev(print));
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
@@ -249,7 +279,7 @@ void	ft_handle_it(t_options *options, va_list *args)
 	}
 	if (options->conversion == 'o')
 	{
-		ft_putnbr(ft_oct_to_decimal(va_arg(*args, int)));
+		ft_putstr(ft_otoa(va_arg(*args, unsigned long int)));
 	}
 	if (options->conversion == 'd')
 	{
@@ -257,7 +287,7 @@ void	ft_handle_it(t_options *options, va_list *args)
 	}
 	if (options->conversion == 'x' || options->conversion == 'X')
 	{
-		print_hex(va_arg(*args, int), *options);
+		ft_putstr(ft_htoa(va_arg(*args, unsigned long int), options));
 	}
 }
 
