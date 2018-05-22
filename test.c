@@ -49,6 +49,7 @@ char	*ft_strrev(char *str)
 	char	buff;
 
 	i = 0;
+	length = 0;
 	while (str[length])
 		length++;
 	while (length - 1 > i)
@@ -70,22 +71,6 @@ int	ft_strlen(char *s)
 	while (s[i])
 		i++;
 	return (i);
-}
-
-void	ft_putnbr(int n)
-{
-	if (n < 0)
-	{
-		write(1, "-", 1);
-		n = -n;
-	}
-	if (n > 9)
-	{
-		ft_putnbr(n / 10);
-		ft_putnbr(n % 10);
-	}
-	else
-		ft_putchar(n + '0');
 }
 
 int	ft_atoi(char *s)
@@ -111,6 +96,33 @@ int	ft_atoi(char *s)
 	return (sign * nb);
 }
 
+char	*ft_itoa(int nbr)
+{
+	int		length;
+	int		sign;
+	char	*str;
+
+	sign = nbr;
+	length = 1;
+	while (sign /= 10)
+		length++;
+	sign = nbr < 0 ? 1 : 0;
+	length = nbr < 0 ? length += 1 : length;
+	str = (char*)malloc(sizeof(char) * length + 1);
+	if (!str)
+		return (NULL);
+	if (sign)
+		str[0] = '-';
+	nbr = nbr < 0 ? nbr *= -1 : nbr;
+	while (--length >= sign)
+	{
+		str[length] = (nbr >= 10) ? (nbr % 10) + 48 : nbr + 48;
+		nbr /= 10;
+	}
+	str[ft_strlen(str)] = '\0';
+	return (str);
+}
+
 typedef struct	s_options
 {
 	int		space;
@@ -134,6 +146,7 @@ void	ft_init_options(t_options *options)
 	options->space = 0;
 	options->minus = 0;
 	options->pound = 0;
+	options->zero = 0;
 	options->plus = 0;
 	options->width = 0;
 	options->precision = 0;
@@ -193,15 +206,23 @@ int	ft_modifier_check(char *s, int *i, t_options *options)
 	return (2);
 }
 
+void	ft_flag_save(char *s, t_options *options, int *i)
+{
+	while (s[*i] && (s[*i] == '#' || s[*i] == '0' || s[*i] == '-' || s[*i] == '+' || s[*i] == ' '))
+	{
+		(s[*i] == '0') ? options->zero += 1 : 0;
+		(s[*i] == '-') ? options->minus += 1 : 0;
+		(s[*i] == '+') ? options->plus += 1 : 0;
+		(s[*i] == '#') ? options->pound += 1 : 0;
+		(s[*i] == ' ') ? options->space += 1 : 0;
+		*i += 1;
+	}
+}
+
 int	ft_check_and_save(char *s, int *i, t_options *options)
 {
 	*i += 1;
-	/*if (s[*i] && (s[*i] == '#' || s[*i] == '0' || s[*i] == '-' || s[*i] == '+' || s[*i] == ' '))
-	{
-		options->f += 1;
-		options->flag = s[*i];
-		*i += 1;
-	}*/
+	ft_flag_save(s, options, i);
 	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
 	{
 		options->w += 1;
@@ -210,6 +231,7 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 	}
 	if (s[*i] && (s[*i] == '.'))
 	{
+		*i += 1;
 		options->p += 1;
 		options->precision = (ft_atoi(&s[*i]));
 		*i += ft_nbrlen(ft_atoi(&s[*i]));
@@ -220,11 +242,10 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 	{
 		options->c += 1;
 		options->conversion = s[*i];
-	//	printf("f: %d\nw: %d\np: %d\nm: %d\nc: %d\n", options->f, options->w, options->p, options->m, options->c);
-	//	printf("flag: %c\nwidth: %d\nprecicision: %d\nmodifier: %s\nconversion: %c\n", options->flag, options->width, options->precision, options->modifier, options->conversion);
-
+		//	printf("f: %d\nw: %d\np: %d\nm: %d\nc: %d\n", options->f, options->w, options->p, options->m, options->c);
+		//	printf("plus: %d\nminus: %d\npound: %d\nzero: %d\nspace: %d\nwidth: %d\nprecision: %d\n", options->plus, options->minus, options->pound, options->zero, options->space, options->width, options->precision);
 	}
-	if (options->f <= 1 && options->w <= 1 && options->p <= 1 && options->m <= 1 && options->c == 1)
+	if (options->w <= 1 && options->p <= 1 && options->m <= 1 && options->c == 1)
 		return (1);
 	else
 		return (0);
@@ -296,8 +317,8 @@ char	*ft_uitoa(unsigned int nbr)
 	str[ft_strlen(str)] = '\0';
 	return (str);
 }
-/*
-void	zero()
+
+void	ft_apply_flags_n(char *s, t_options *options)
 {
 	len = width;
 	width -= nbrlen(nb);
@@ -318,7 +339,7 @@ void	zero()
 	if (minus && nb > 0)
 		write(1, " ", 1);
 }
-*/
+
 void	ft_handle_it(t_options *options, va_list *args)
 {
 	if (options->conversion == 's')
@@ -329,10 +350,8 @@ void	ft_handle_it(t_options *options, va_list *args)
 		ft_putstr(ft_otoa(va_arg(*args, unsigned long int)));
 	if (options->conversion == 'd' || options->conversion == 'i')
 	{
-		int	d;
-		d = va_arg(*args, int);
-		ft_putnbr(d);
-	}
+		int	d = va_arg(*args, int);
+		ft_putstr(ft_itoa());
 	if (options->conversion == 'x' || options->conversion == 'X')
 		ft_putstr(ft_htoa(va_arg(*args, unsigned long int), options));
 	if (options->conversion == 'u')
@@ -356,7 +375,7 @@ int	ft_printf(const char *format, ...)
 		if (format[i] == '%' && format[i + 1] == '%')
 		{
 			write(1, "%", 1);
-			i += 2;
+			i += 1;
 		}
 		else if (format[i] == '%')
 		{
@@ -376,6 +395,6 @@ int	ft_printf(const char *format, ...)
 int main()
 {
 	//printf("% #-0+20d\n", 4242);
-	ft_printf("Octal: %o\nString: %s\nInteger: %d\nLowercase Hex: %x\nUpercase Hex: %X\nAscii Charcter: %c\nUnsigned int: %u\nText inside format\n", 10, "Hello World!", 42, 10, 10, 'A', 2147483649);
+	ft_printf("Handling %%%%: %%\nOctal: % +-0#42.42o\nString: %s\nInteger: %d\nLowercase Hex: %x\nUpercase Hex: %X\nAscii Charcter: %c\nUnsigned int: %u\nBasic text: Test test 123\n", 10, "Hello World!", 42, 10, 10, 'A', 2147483649);
 	return (0);
 }
