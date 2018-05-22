@@ -215,23 +215,23 @@ int	ft_default_to(t_options *options)
 	int	ret;
 
 	ret = 1;
-	(options->space && options->plus) ? options->space = 0 : 0;
+//	(options->space && options->plus) ? options->space = 0 : 0;
 	(options->zero && options->minus) ? options->zero = 0 : 0;
-	(options->plus && options->conversion == 's') ? ret -= 1 : 0;
-	(options->pound && options->conversion == 's') ? ret -= 1 : 0;
-	(options->zero && (options->conversion == 's')) ? ret -= 1 : 0;
-	(options->pound && options->conversion == 'd') ? ret -= 1 : 0;
-	(options->zero && (options->precision || options->conversion == 'd')) ? options->zero = 0 : 0;
-	(options->pound && options->conversion == 'i') ? options->zero = 0 : 0;
-	(options->plus && options->conversion == 'o') ? options->plus = 0 : 0;
-	(options->zero && options->conversion == 'o') ? options->zero = 0 : 0;
-	(options->plus && options->conversion == 'u') ? ret -= 1 : 0;
-	(options->pound && options->conversion == 'u') ? ret -= 1 : 0;
-	(options->zero && options->conversion == 'u') ? options->zero = 0 : 0;
-	(options->plus && options->conversion == 'x') ? ret -= 1 : 0;
-	(options->plus && options->conversion == 'X') ? ret -= 1 : 0;
-	(options->zero && options->conversion == 'x') ? options->zero = 0 : 0;
-	(options->zero && options->conversion == 'x') ? options->zero = 0 : 0;
+//	(options->plus && options->conversion == 's') ? ret -= 1 : 0;
+//	(options->pound && options->conversion == 's') ? ret -= 1 : 0;
+//	(options->zero && (options->conversion == 's')) ? ret -= 1 : 0;
+//	(options->pound && options->conversion == 'd') ? ret -= 1 : 0;
+//	(options->zero && (options->precision || options->conversion == 'd')) ? options->zero = 0 : 0;
+//	(options->pound && options->conversion == 'i') ? options->zero = 0 : 0;
+//	(options->plus && options->conversion == 'o') ? options->plus = 0 : 0;
+//	(options->zero && options->conversion == 'o') ? options->zero = 0 : 0;
+//	(options->plus && options->conversion == 'u') ? ret -= 1 : 0;
+//	(options->pound && options->conversion == 'u') ? ret -= 1 : 0;
+//	(options->zero && options->conversion == 'u') ? options->zero = 0 : 0;
+//	(options->plus && options->conversion == 'x') ? ret -= 1 : 0;
+//	(options->plus && options->conversion == 'X') ? ret -= 1 : 0;
+//	(options->zero && options->conversion == 'x') ? options->zero = 0 : 0;
+//	(options->zero && options->conversion == 'x') ? options->zero = 0 : 0;
 	return (ret ? 1 : 0);
 }
 
@@ -267,10 +267,15 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 	}
 	if (ft_modifier_check(s, i, options) == -1)
 		return (0);
-	if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
+	while (s[*i])
 	{
-		options->c += 1;
-		options->conversion = s[*i];
+		if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
+		{
+			options->c += 1;
+			options->conversion = s[*i];
+			break ;
+		}
+		*i += 1;
 	
 	}
 	if (options->w <= 1 && options->p <= 1 && options->m <= 1 && options->c == 1 && ft_default_to(options))
@@ -361,7 +366,7 @@ void	ft_apply_flags(char *s, t_options *options)
 		(!options->zero) ? write(1, " ", 1) : 0;
 		x -= 1;
 	}
-	(options->plus && s[0] != '-' && options->width && !options->minus) ? write(1, "+", 1) : 0;
+	(options->plus && s[0] != '-' && options->width && !options->minus && !options->zero) ? write(1, "+", 1) : 0;
 	(options->space && s[0] != '-') ? write(1, " ", 1) : 0;
 	(!options->minus) ? ft_putstr(s, options) : 0;
 }
@@ -408,8 +413,6 @@ int	ft_printf(const char *format, ...)
 			ft_init_options(&options);
 			if (ft_check_and_save((char*)format, &i, &options))
 				ft_handle_it(&options, &args);	
-			else
-				return (0);
 		}
 		else
 			write(1, &format[i], 1);
@@ -417,10 +420,18 @@ int	ft_printf(const char *format, ...)
 	}
 	return (1);
 }
-/*
+
 int main()
 {
-//	ft_printf("%hhd", 123);
-//	ft_printf("Handling %%%%: %%\nOctal: %o\nString: %10.2s\nInteger: %+d\nLowercase Hex: %x\nUpercase Hex: %X\nAscii Charcter: %c\nUnsigned int: %u\nBasic text: Test test 123\n", 10, "Hello World!", 42, 10, 10, 'A', 2147483649);
+	ft_printf("%qqqqqqq\n", "test");
+//	ft_printf("Handling %%%%: %%\n");
+//	ft_printf("Octal: %o\n", 42);
+//	ft_printf("String: %10.2s\n", "Hello World!");
+//	ft_printf("Integer: %+-020d\n", 42);
+//	ft_printf("Lowercase Hex: %x\n", 42);
+//	ft_printf("Upercase Hex: %X\n", 42);
+//	ft_printf("Ascii Charcter: %c\n", 'A');
+//	ft_printf("Unsigned int: %u\n", 214783649);
+//	ft_printf("Basic text: Test test 123\n");
 	return (0);
-}*/
+}
