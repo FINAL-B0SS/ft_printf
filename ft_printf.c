@@ -417,10 +417,10 @@ int	ft_printf(const char *format, ...)
 	}
 	return (1);
 }
-
+/*
 int main()
 {
 //	ft_printf("%hhd", 123);
 //	ft_printf("Handling %%%%: %%\nOctal: %o\nString: %10.2s\nInteger: %+d\nLowercase Hex: %x\nUpercase Hex: %X\nAscii Charcter: %c\nUnsigned int: %u\nBasic text: Test test 123\n", 10, "Hello World!", 42, 10, 10, 'A', 2147483649);
 	return (0);
-}
+}*/
