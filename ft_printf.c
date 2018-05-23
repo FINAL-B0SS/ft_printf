@@ -219,6 +219,7 @@ int	ft_default_to(t_options *options)
 	(options->zero && options->minus) ? options->zero = 0 : 0;
 	(options->plus && options->conversion == 's') ? options->plus = 0 : 0;
 	(options->space && options->conversion == 's') ? options->space = 0 : 0;
+	(options-> plus && options->conversion == 'c') ? options->plus = 0 : 0;
 //	(options->zero && (options->conversion == 's')) ? ret -= 1 : 0;
 //	(options->pound && options->conversion == 'd') ? ret -= 1 : 0;
 //	(options->zero && (options->precision || options->conversion == 'd')) ? options->zero = 0 : 0;
@@ -379,7 +380,11 @@ void	ft_handle_it(t_options *options, va_list *args)
 	if (options->conversion == 's')
 		ft_apply_flags(va_arg(*args, char*), options);
 	if (options->conversion == 'c')
-		ft_putchar(va_arg(*args, int));
+	{
+		char	s[2]; 
+		s[0] = (va_arg(*args, int));
+		ft_apply_flags(s, options);
+	}
 	if (options->conversion == 'o')
 		ft_apply_flags(ft_otoa(va_arg(*args, unsigned long int)), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
@@ -429,12 +434,12 @@ int main()
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: % o\n", 42);
-	ft_printf("String: % s\n", "Hello World!");
+//	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %+-020d\n", 42);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
-//	ft_printf("Ascii Charcter: %c\n", 'A');
-//	ft_printf("Unsigned int: %u\n", 214783649);
+	ft_printf("Ascii Charcter: %+c\n", 'A');
+//	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
 	return (0);
 }
