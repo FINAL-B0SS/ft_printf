@@ -223,7 +223,9 @@ int	ft_default_to(t_options *options)
 //	(options->pound && options->conversion == 'd') ? ret -= 1 : 0;
 //	(options->zero && (options->precision || options->conversion == 'd')) ? options->zero = 0 : 0;
 //	(options->pound && options->conversion == 'i') ? options->zero = 0 : 0;
-//	(options->plus && options->conversion == 'o') ? options->plus = 0 : 0;
+	(options->plus && options->conversion == 'o') ? options->plus = 0 : 0;
+	(options->space && options->conversion == 'o') ? options->space = 0 : 0;
+//	(options->minus && options->conversion == 'o') ? options->minus = 0 : 0;
 //	(options->zero && options->conversion == 'o') ? options->zero = 0 : 0;
 //	(options->plus && options->conversion == 'u') ? ret -= 1 : 0;
 //	(options->pound && options->conversion == 'u') ? ret -= 1 : 0;
@@ -354,10 +356,11 @@ char	*ft_uitoa(unsigned int nbr)
 void	ft_apply_flags(char *s, t_options *options)
 {
 	int	x;
+	(options->width) -= ft_strlen(s);
 	(options->precision) ? options->width -= options->precision : 0;
 	(options->plus) ? options->width -= 1 : 0;
 	(options->space && s[0] != '-') ? options->width -= 1 : 0;
-	((options->plus && s[0] != '-' && options->width > 0 && options->zero) || options->minus) ? write(1, "+", 1) : 0;
+	(options->plus && s[0] != '-' && options->width > 0 && options->zero) ? write(1, "+", 1) : 0;
 	(options->minus) ? ft_putstr(s, options) : 0;
 	x = options->width;
 	while (x > 0)
@@ -423,9 +426,9 @@ int	ft_printf(const char *format, ...)
 
 int main()
 {
-	ft_printf("%qqqqqqq\n", "test");
+//	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
-//	ft_printf("Octal: %o\n", 42);
+	ft_printf("Octal: % o\n", 42);
 //	ft_printf("String: %10.2s\n", "Hello World!");
 //	ft_printf("Integer: %+-020d\n", 42);
 //	ft_printf("Lowercase Hex: %x\n", 42);
