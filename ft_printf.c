@@ -113,6 +113,45 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
+char	*ft_strcpy(char *dest, const char *src)
+{
+	size_t	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strcat(char *dest, const char *src)
+{
+	size_t	i;
+
+	i = ft_strlen(dest);
+	while (*src)
+		dest[i++] = *src++;
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*str;
+
+	if (!s1 || !s2)
+		return (NULL);
+	if (!(str = (char *)malloc(ft_strlen((char *)s1) +
+					ft_strlen((char *)s2) + 1)))
+		return (NULL);
+	str = ft_strcpy(str, s1);
+	str = ft_strcat(str, s2);
+	return (str);
+}
+
 int	ft_atoi(char *s)
 {
 	int	i;
@@ -351,6 +390,7 @@ char	*ft_uitoa(unsigned int nbr)
 void	ft_apply_flags(char *s, t_options *options)
 {
 	int	x;
+	s = (options->pound && options->conversion == 'o' && !options->zero) ? ft_strjoin("0", s) : s;
 	(options->width) -= ft_strlen(s);
 	(options->precision) ? options->width -= options->precision : 0;
 	(options->plus) ? options->width -= 1 : 0;
@@ -427,8 +467,8 @@ int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
-//	ft_printf("Octal: % o\n", 42);
-	ft_printf("String: % s\n", "Hello World!");
+	ft_printf("Octal: %#o\n", 10);
+//	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %+-020d\n", 42);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
