@@ -217,8 +217,8 @@ int	ft_default_to(t_options *options)
 	ret = 1;
 //	(options->space && options->plus) ? options->space = 0 : 0;
 	(options->zero && options->minus) ? options->zero = 0 : 0;
-//	(options->plus && options->conversion == 's') ? ret -= 1 : 0;
-//	(options->pound && options->conversion == 's') ? ret -= 1 : 0;
+	(options->plus && options->conversion == 's') ? options->plus = 0 : 0;
+	(options->space && options->conversion == 's') ? options->space = 0 : 0;
 //	(options->zero && (options->conversion == 's')) ? ret -= 1 : 0;
 //	(options->pound && options->conversion == 'd') ? ret -= 1 : 0;
 //	(options->zero && (options->precision || options->conversion == 'd')) ? options->zero = 0 : 0;
@@ -230,10 +230,10 @@ int	ft_default_to(t_options *options)
 //	(options->plus && options->conversion == 'u') ? ret -= 1 : 0;
 //	(options->pound && options->conversion == 'u') ? ret -= 1 : 0;
 //	(options->zero && options->conversion == 'u') ? options->zero = 0 : 0;
-//	(options->plus && options->conversion == 'x') ? ret -= 1 : 0;
-//	(options->plus && options->conversion == 'X') ? ret -= 1 : 0;
-//	(options->zero && options->conversion == 'x') ? options->zero = 0 : 0;
-//	(options->zero && options->conversion == 'x') ? options->zero = 0 : 0;
+	(options->plus && options->conversion == 'x') ? options->plus = 0 : 0;
+	(options->plus && options->conversion == 'X') ? options->plus = 0 : 0;
+	(options->space && options->conversion == 'x') ? options->space = 0 : 0;
+	(options->space && options->conversion == 'X') ? options->space = 0 : 0;
 	return (ret ? 1 : 0);
 }
 
@@ -428,10 +428,10 @@ int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
-	ft_printf("Octal: % o\n", 42);
-//	ft_printf("String: %10.2s\n", "Hello World!");
+//	ft_printf("Octal: % o\n", 42);
+	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %+-020d\n", 42);
-//	ft_printf("Lowercase Hex: %x\n", 42);
+//	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
 //	ft_printf("Ascii Charcter: %c\n", 'A');
 //	ft_printf("Unsigned int: %u\n", 214783649);
