@@ -212,30 +212,24 @@ int	ft_modifier_check(char *s, int *i, t_options *options)
 
 int	ft_default_to(t_options *options)
 {
-	int	ret;
-
-	ret = 1;
 //	(options->space && options->plus) ? options->space = 0 : 0;
 	(options->zero && options->minus) ? options->zero = 0 : 0;
 	(options->plus && options->conversion == 's') ? options->plus = 0 : 0;
 	(options->space && options->conversion == 's') ? options->space = 0 : 0;
 	(options-> plus && options->conversion == 'c') ? options->plus = 0 : 0;
-//	(options->zero && (options->conversion == 's')) ? ret -= 1 : 0;
-//	(options->pound && options->conversion == 'd') ? ret -= 1 : 0;
+	(options->space && options->conversion == 'c') ? options->space = 0 : 0;
 //	(options->zero && (options->precision || options->conversion == 'd')) ? options->zero = 0 : 0;
 //	(options->pound && options->conversion == 'i') ? options->zero = 0 : 0;
 	(options->plus && options->conversion == 'o') ? options->plus = 0 : 0;
 	(options->space && options->conversion == 'o') ? options->space = 0 : 0;
 //	(options->minus && options->conversion == 'o') ? options->minus = 0 : 0;
 //	(options->zero && options->conversion == 'o') ? options->zero = 0 : 0;
-//	(options->plus && options->conversion == 'u') ? ret -= 1 : 0;
-//	(options->pound && options->conversion == 'u') ? ret -= 1 : 0;
 //	(options->zero && options->conversion == 'u') ? options->zero = 0 : 0;
 	(options->plus && options->conversion == 'x') ? options->plus = 0 : 0;
 	(options->plus && options->conversion == 'X') ? options->plus = 0 : 0;
 	(options->space && options->conversion == 'x') ? options->space = 0 : 0;
 	(options->space && options->conversion == 'X') ? options->space = 0 : 0;
-	return (ret ? 1 : 0);
+	return (1);
 }
 
 void	ft_flag_save(char *s, t_options *options, int *i)
@@ -434,11 +428,11 @@ int main()
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: % o\n", 42);
-//	ft_printf("String: % s\n", "Hello World!");
+	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %+-020d\n", 42);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
-	ft_printf("Ascii Charcter: %+c\n", 'A');
+//	printf("Ascii Charcter: %c\n", 'A');
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
 	return (0);
