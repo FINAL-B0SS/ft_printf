@@ -251,7 +251,7 @@ int	ft_modifier_check(char *s, int *i, t_options *options)
 
 int	ft_default_to(t_options *options)
 {
-//	(options->space && options->plus) ? options->space = 0 : 0;
+/*	(options->space && options->plus) ? options->space = 0 : 0;
 	(options->zero && options->minus) ? options->zero = 0 : 0;
 	(options->plus && options->conversion == 's') ? options->plus = 0 : 0;
 	(options->space && options->conversion == 's') ? options->space = 0 : 0;
@@ -267,7 +267,7 @@ int	ft_default_to(t_options *options)
 	(options->plus && options->conversion == 'x') ? options->plus = 0 : 0;
 	(options->plus && options->conversion == 'X') ? options->plus = 0 : 0;
 	(options->space && options->conversion == 'x') ? options->space = 0 : 0;
-	(options->space && options->conversion == 'X') ? options->space = 0 : 0;
+	(options->space && options->conversion == 'X') ? options->space = 0 : 0;*/
 	return (1);
 }
 
@@ -467,12 +467,12 @@ int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
-	ft_printf("Octal: %#o\n", 10);
+//	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %+-020d\n", 42);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
-//	printf("Ascii Charcter: %c\n", 'A');
+	printf("Ascii Charcter: %c\n", '*');
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
 	return (0);
