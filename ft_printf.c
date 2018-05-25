@@ -389,24 +389,24 @@ char	*ft_uitoa(unsigned int nbr)
 
 void	ft_apply_flags(char *s, t_options *options)
 {
-	int	x;
-	s = (options->pound && options->conversion == 'o' && !options->zero) ? ft_strjoin("0", s) : s;
-	(options->width) -= ft_strlen(s);
-	(options->precision) ? options->width -= options->precision : 0;
-	(options->plus) ? options->width -= 1 : 0;
-	(options->space && s[0] != '-') ? options->width -= 1 : 0;
-	(options->plus && s[0] != '-' && options->width > 0 && options->zero) ? write(1, "+", 1) : 0;
-	(options->minus) ? ft_putstr(s, options) : 0;
-	x = options->width;
-	while (x > 0)
-	{
-		(options->zero) ? write(1, "0", 1) : 0;
-		(!options->zero) ? write(1, " ", 1) : 0;
-		x -= 1;
-	}
-	(options->plus && s[0] != '-' && options->width && !options->minus && !options->zero) ? write(1, "+", 1) : 0;
-	(options->space && s[0] != '-') ? write(1, " ", 1) : 0;
-	(!options->minus) ? ft_putstr(s, options) : 0;
+//	int	x;
+//	s = (options->pound && options->conversion == 'o' && !options->zero) ? ft_strjoin("0", s) : s;
+//	(options->width) -= ft_strlen(s);
+//	(options->precision) ? options->width -= options->precision : 0;
+//	(options->plus) ? options->width -= 1 : 0;
+//	(options->space && s[0] != '-') ? options->width -= 1 : 0;
+//	(options->plus && s[0] != '-' && options->width > 0 && options->zero) ? write(1, "+", 1) : 0;
+/*	(options->minus)*/1 ? ft_putstr(s, options) : 0;
+//	x = options->width;
+//	while (x > 0)
+//	{
+//		(options->zero) ? write(1, "0", 1) : 0;
+//		(!options->zero) ? write(1, " ", 1) : 0;
+//		x -= 1;
+//	}
+//	(options->plus && s[0] != '-' && options->width && !options->minus && !options->zero) ? write(1, "+", 1) : 0;
+//	(options->space && s[0] != '-') ? write(1, " ", 1) : 0;
+//	(!options->minus) ? ft_putstr(s, options) : 0;
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
@@ -422,7 +422,7 @@ void	ft_handle_it(t_options *options, va_list *args)
 	if (options->conversion == 'o')
 		ft_apply_flags(ft_otoa(va_arg(*args, unsigned long int)), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
-		ft_apply_flags(ft_itoa(va_arg(*args, int)), options);
+		ft_apply_flags(ft_uitoa(va_arg(*args, int)), options);
 	if (options->conversion == 'x' || options->conversion == 'X')
 		ft_apply_flags(ft_htoa(va_arg(*args, unsigned long int), options), options);
 	if (options->conversion == 'u')
