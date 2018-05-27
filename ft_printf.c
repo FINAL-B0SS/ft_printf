@@ -616,11 +616,7 @@ void	ft_handle_it(t_options *options, va_list *args)
 	if (options->conversion == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(*args, wchar_t))));
 	if (options->conversion == 'c')
-	{
-		char	s[2]; 
-		s[0] = (va_arg(*args, int));
-		ft_apply_flags(s, options);
-	}
+		ft_putchar(va_arg(*args, int));
 	if (options->conversion == 'o' || options->conversion == 'O')
 		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int), options), options);
 	if (options->conversion == 'p')
