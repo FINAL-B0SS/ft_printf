@@ -452,7 +452,7 @@ char		*ft_itoabase_umax(size_t num, int base)
 	free(basestr);
 	return (str);
 }
-/*
+
 char	*ft_hash_enable(char *s, t_options *options)
 {
 	if (options->conversion == 'x' && options->pound)
@@ -463,12 +463,75 @@ char	*ft_hash_enable(char *s, t_options *options)
 		s = ft_strjoin("0", s);
 	return (s);
 }
-*/
+
+
+char	*ft_otoa(unsigned long int number)
+{
+	char			*print;
+	unsigned int	i;
+
+	i = 0;
+	print = (char*)malloc(sizeof(char) * 24);
+	if (number < i)
+		return ("errno: Unsigned Only!");
+	if (number == 0)
+	{
+		print[i] = '0';
+		i++;
+	}
+	while (number)
+	{
+		print[i] = (number % 8) + 48;
+		number /= 8;
+		i++;
+	}
+	print[i] = '\0';
+	return (ft_strrev(print));
+}
+
+char	*ft_ptoa(unsigned long int number, t_options *options)
+{
+	char	*print;
+	int		i;
+
+	i = 0;
+	print = (char*)malloc(sizeof(char) * 12);
+	if (number == 0)
+		print[i] = '0';
+	while (number && options->conversion == 'p')
+	{
+		print[i++] = "0123456789abcdef"[number % 16];
+		number /= 16;
+	}
+	return (ft_strrev(print));
+}
+
+char	*ft_htoa(unsigned long int number, t_options *options)
+{
+	char	*print;
+	int		i;
+
+	i = 0;
+	print = (char*)malloc(sizeof(char) * 18);
+	if (number == 0)
+		print[i] = '0';
+	while (number && options->conversion == 'x')
+	{
+		print[i++] = "0123456789abcdef"[number % 16];
+		number /= 16;
+	}
+	while (number && options->conversion == 'X')
+	{
+		print[i++] = "0123456789ABCDEF"[number % 16];
+		number /= 16;
+	}
+	return (ft_strrev(print));
+}
+
 void	ft_apply_flags(char *s, t_options *options)
 {
 	int	x;
-	s = (options->pound && options->conversion == 'o' && !options->zero) ? ft_strjoin("0", s) : s;
-//	s = ft_hash_enable(s, options); 
+	s = ft_hash_enable(s, options); 
 	(options->width) -= ft_strlen(s);
 	(options->precision) ? options->width -= options->precision : 0;
 	(options->plus) ? options->width -= 1 : 0;
@@ -478,11 +541,7 @@ void	ft_apply_flags(char *s, t_options *options)
 	x = options->width;
 	while (x > 0)
 	{
-		while (options->precision)
-		{
-			(options->zero) ? write(1, "0", 1) : 0;
-			options->precision -= 1;
-		}
+		(options->zero) ? write(1, "0", 1) : 0;
 		(!options->zero) ? write(1, " ", 1) : 0;
 		x -= 1;
 	}
@@ -553,14 +612,13 @@ void	ft_handle_it(t_options *options, va_list *args)
 		ft_apply_flags(s, options);
 	}
 	if (options->conversion == 'o' || options->conversion == 'O')
-		ft_apply_flags(ft_my_type(args, options, 8), options);
+		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int)), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
 		ft_apply_flags(ft_my_type(args, options, 10), options);
-	if (options->conversion == 'x' || options->conversion == 'X' || options->conversion == 'p')
-		ft_apply_flags(ft_my_type(args, options, 16), options);
+	if (options->conversion == 'x' || options->conversion == 'X')
+		ft_apply_flags(ft_htoa(va_arg(*args, unsigned int), options), options);
 	if (options->conversion == 'u')
 		ft_putstr(ft_itoabase_umax(va_arg(*args, intmax_t), 10), options);
-
 }
 	
 int	ft_printf(const char *format, ...)
@@ -599,11 +657,11 @@ int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
-//	ft_printf("Octal: %#o\n", 10);
+	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
-	ft_printf("Integer: %d\n", -2147483648);
-//	ft_printf("Lowercase Hex: % x\n", 42);
-//	ft_printf("Upercase Hex: %X\n", 42);
+//	ft_printf("Integer: %d\n", -2147483648);
+	ft_printf("Lowercase Hex: %#x\n", 42);
+	ft_printf("Upercase Hex: %#X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
