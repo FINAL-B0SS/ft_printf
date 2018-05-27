@@ -459,7 +459,7 @@ char	*ft_hash_enable(char *s, t_options *options)
 		s = ft_strjoin("0x", s);
 	else if (options->conversion == 'X' && options->pound)
 		s = ft_strjoin("0X", s);
-	else if ((options->conversion == 'o' || options->conversion == 'O') && options->pound)
+	else if ((options->conversion == 'o' || options->conversion == 'O') && options->pound && s != "0")
 		s = ft_strjoin("0", s);
 	return (s);
 }
@@ -613,6 +613,8 @@ void	ft_handle_it(t_options *options, va_list *args)
 	}
 	if (options->conversion == 'o' || options->conversion == 'O')
 		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int)), options);
+	if (options->conversion == 'p')
+		ft_apply_flags(ft_ptoa(va_arg(*args, unsigned long int), options), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
 		ft_apply_flags(ft_my_type(args, options, 10), options);
 	if (options->conversion == 'x' || options->conversion == 'X')
