@@ -352,14 +352,15 @@ static	int	get_unumlen(size_t num, int base)
 	return (i);
 }
 
-char		*ft_itoabase_umax(size_t num, int base)
+char		*ft_itoabase_umax(void *n, int base)
 {
 	char			*str;
 	int				len;
 	char			*basestr;
+	size_t	num = (size_t)n;
 
 	basestr = ft_strdup("0123456789abcdef");
-	len = get_unumlen(num, base);
+	len = get_unumlen((size_t)num, base);
 	if (!(str = (char *)malloc(sizeof(*str) * len + 1)))
 	{
 		return (NULL);
@@ -396,21 +397,21 @@ void	ft_apply_flags(char *s, t_options *options)
 //	(!options->minus) ? ft_putstr(s, options) : 0;
 }
 
-int	ft_my_type(va_list *args, t_options *options)
+void	*ft_my_type(va_list *args, t_options *options)
 {
 //	if (!options->modifier)
 //		return ((int)va_arg(*args, int));
 	if (options->modifier == "j" || options->modifier == "z")
-		return ((intmax_t)va_arg(*args, intmax_t));
+		return ((intmax_t*)va_arg(*args, intmax_t*));
 	if (options->modifier = "ll")
-		return ((long long)va_arg(*args, long long));
+		return ((long long*)va_arg(*args, long long*));
 	if (options->modifier == "l")
-		return ((long)va_arg(*args, long));
+		return ((long*)va_arg(*args, long*));
 	if (options->modifier == "hh")
-		return (char)va_arg(*args, int);
+		return ((char*)va_arg(*args, int*));
 	if (options->modifier == "h")
-		return ((short)va_arg(*args, int));
-	return (va_arg(*args, intmax_t));
+		return ((short*)va_arg(*args, int*));
+	return ((intmax_t*)va_arg(*args, intmax_t*));
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
@@ -426,7 +427,7 @@ void	ft_handle_it(t_options *options, va_list *args)
 	if (options->conversion == 'o' || options->conversion == 'O')
 		ft_apply_flags(ft_itoabase_umax(ft_my_type(args, options), 8), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
-		ft_apply_flags(ft_itoabase_umax(/*ft_my_type(args, options)*/va_arg(*args, intmax_t), 10), options);
+		ft_apply_flags(ft_itoabase_umax(ft_my_type(args, options), 10), options);
 	if (options->conversion == 'x' || options->conversion == 'X' || options->conversion == 'p')
 		ft_apply_flags((ft_itoabase_umax(ft_my_type(args, options), 16)), options);
 	if (options->conversion == 'u')
