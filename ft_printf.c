@@ -399,8 +399,8 @@ void	ft_apply_flags(char *s, t_options *options)
 
 void	*ft_my_type(va_list *args, t_options *options)
 {
-//	if (!options->modifier)
-//		return ((int)va_arg(*args, int));
+	if (!options->modifier)
+		return ((int)va_arg(*args, int));
 	if (options->modifier == "j" || options->modifier == "z")
 		return ((intmax_t*)va_arg(*args, intmax_t*));
 	if (options->modifier = "ll")
