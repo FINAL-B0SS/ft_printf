@@ -456,9 +456,11 @@ char	*ft_my_type(va_list *args, t_options *options, int base)
 	else if (options->modifier == "l")
 		options->data = (va_arg(*args, long));
 	else if (options->modifier == "hh")
-		options->data = (va_arg(*args, int));
+		options->data = (char)(va_arg(*args, int));
 	else if (options->modifier == "h")
-		options->data = (va_arg(*args, int));	
+		options->data = (short)(va_arg(*args, int));	
+	else
+		options->data = va_arg(*args, intmax_t);
 	s = options->data > 0 ? ft_itoabase_umax(options->data, base, options) : ft_itoa_smax(options->data);
 }
 
@@ -522,7 +524,7 @@ int main()
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
-	ft_printf("Integer: %d\n", 2147483648);
+	ft_printf("Integer: %d\n", 214836477);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
