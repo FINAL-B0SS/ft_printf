@@ -480,11 +480,9 @@ void	ft_handle_it(t_options *options, va_list *args)
 	if (options->conversion == 'x' || options->conversion == 'X' || options->conversion == 'p')
 		ft_apply_flags(ft_my_type(args, options, 16), options);
 	if (options->conversion == 'u')
-		ft_putstr(ft_my_type(args, options, 10), options);
+		ft_putstr(ft_itoabase_umax(va_arg(*args, intmax_t), 10), options);
 
 }
-
-
 	
 int	ft_printf(const char *format, ...)
 {
@@ -524,7 +522,7 @@ int main()
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
-	ft_printf("Integer: %d\n", 214836477);
+	ft_printf("Integer: %u\n", 4294967295 );
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
