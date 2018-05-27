@@ -398,19 +398,19 @@ void	ft_apply_flags(char *s, t_options *options)
 
 int	ft_my_type(va_list *args, t_options *options)
 {
-	if (!options->modifier)
-		return ((int)va_arg(*args, int));
-	else if (options->modifier == "j" || options->modifier == "z")
+//	if (!options->modifier)
+//		return ((int)va_arg(*args, int));
+	if (options->modifier == "j" || options->modifier == "z")
 		return ((intmax_t)va_arg(*args, intmax_t));
-	else if (options->modifier = "ll")
+	if (options->modifier = "ll")
 		return ((long long)va_arg(*args, long long));
-	else if (options->modifier == "l")
+	if (options->modifier == "l")
 		return ((long)va_arg(*args, long));
-	else if (options->modifier == "hh")
+	if (options->modifier == "hh")
 		return (char)va_arg(*args, int);
-	else if (options->modifier == "h")
+	if (options->modifier == "h")
 		return ((short)va_arg(*args, int));
-	return(va_arg(*args, int));
+	return (va_arg(*args, intmax_t));
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
@@ -426,7 +426,7 @@ void	ft_handle_it(t_options *options, va_list *args)
 	if (options->conversion == 'o' || options->conversion == 'O')
 		ft_apply_flags(ft_itoabase_umax(ft_my_type(args, options), 8), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
-		ft_apply_flags(ft_itoabase_umax(ft_my_type(args, options), 10), options);
+		ft_apply_flags(ft_itoabase_umax(/*ft_my_type(args, options)*/va_arg(*args, intmax_t), 10), options);
 	if (options->conversion == 'x' || options->conversion == 'X' || options->conversion == 'p')
 		ft_apply_flags((ft_itoabase_umax(ft_my_type(args, options), 16)), options);
 	if (options->conversion == 'u')
@@ -473,7 +473,7 @@ int main()
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
-	ft_printf("Integer: %d\n", 42);
+	ft_printf("Integer: %d\n", 4294967171);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
