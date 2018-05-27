@@ -214,6 +214,8 @@ char	*ft_itoa(int nbr)
 	sign = nbr < 0 ? 1 : 0;
 	length = nbr < 0 ? length += 1 : length;
 	str = (char*)malloc(sizeof(char) * length + 1);
+	if (nbr == -2147483648)
+		return (str = ft_strdup("-2147483648"));
 	if (!str)
 		return (NULL);
 	if (sign)
@@ -447,7 +449,7 @@ char	*ft_my_type(va_list *args, t_options *options, int base)
 	char	*s;
 
 	if (!options->modifier)
-		s = ft_itoa(va_arg(*args, int));
+		s = ft_itoa((va_arg(*args, ssize_t)));
 	else if (options->modifier == "j" || options->modifier == "z")
 		s = ft_itoabase_umax(va_arg(*args, intmax_t), base);
 	else if (options->modifier = "ll")
@@ -460,7 +462,7 @@ char	*ft_my_type(va_list *args, t_options *options, int base)
 		s = ft_itoabase_umax((short)va_arg(*args, int), base);	
 	else
 		s = ft_itoabase_umax(va_arg(*args, intmax_t), base);
-//	s = options->data > 0 ? ft_itoabase_umax(options->data, base, options) : ft_itoa_smax(options->data);
+	return (s);
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
@@ -522,7 +524,7 @@ int main()
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
-	ft_printf("Integer: %u\n", 4294967295 );
+	ft_printf("Integer: %d\n", -2147483648);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
