@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdarg.h>
@@ -150,6 +151,27 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str = ft_strcpy(str, s1);
 	str = ft_strcat(str, s2);
 	return (str);
+}
+
+char	*ft_strdup(char *s1)
+{
+	int		s1_len;
+	char	*str_copy;
+	int		i;
+
+	s1_len = ft_strlen(s1);
+	str_copy = malloc(sizeof(*str_copy) * (s1_len + 1));
+	if (str_copy)
+	{
+		i = 0;
+		while (s1[i] != '\0')
+		{
+			str_copy[i] = s1[i];
+			i++;
+		}
+		str_copy[i] = '\0';
+	}
+	return (str_copy);
 }
 
 int	ft_atoi(char *s)
@@ -320,70 +342,35 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 		return (0);
 }
 
-char	*ft_otoa(unsigned long int number)
+static	int	get_unumlen(size_t num, int base)
 {
-	char		*print;
-	unsigned int	i;
-
-	i = 0;
-	print = (char*)malloc(sizeof(char) * 24);
-	if (number < i)
-		return ("errno: Unsigned Only!");
-	if (number == 0)
-	{
-		print[i] = '0';
-		i++;
-	}
-	while (number)
-	{
-		print[i] = (number % 8) + 48;
-		number /= 8;
-		i++;
-	}
-	print[i] = '\0';
-	return (ft_strrev(print));
-}
-
-char	*ft_htoa(unsigned long int number, t_options *options)
-{
-	char	*print;
 	int	i;
 
-	i = 0;
-	print = (char*)malloc(sizeof(char) * 18);
-	if (number == 0)
-		print[i] = '0';
-	while (number && options->conversion == 'x')
-	{
-		print[i++] = "0123456789abcdef"[number % 16];
-		number /= 16;
-	}
-	while (number && options->conversion == 'X')
-	{
-		print[i++] = "0123456789ABCDEF"[number % 16];
-		number /= 16;
-	}
-	return (ft_strrev(print));
+	i = 1;
+	while (num /= base)
+		i++;
+	return (i);
 }
 
-char	*ft_uitoa(unsigned int nbr)
+char		*ft_itoabase_umax(size_t num, int base)
 {
-	unsigned int	tmp;
-	unsigned int	count;
-	char		*str;
+	char			*str;
+	int				len;
+	char			*basestr;
 
-	count = 1;
-	tmp = nbr;
-	while (tmp /= 10)
-		count++;
-	if (!(str = (char*)malloc(sizeof(char) * count)))
-		return (NULL);
-	while (count--)
+	basestr = ft_strdup("0123456789abcdef");
+	len = get_unumlen(num, base);
+	if (!(str = (char *)malloc(sizeof(*str) * len + 1)))
 	{
-		str[count] = nbr >= 10 ? (nbr % 10) + 48 : nbr + 48;
-		nbr /= 10;
+		return (NULL);
 	}
-	str[ft_strlen(str)] = '\0';
+	str[len] = '\0';
+	str[--len] = basestr[num % base];
+	while (num /= base)
+	{
+		str[--len] = basestr[num % base];
+	}
+	free(basestr);
 	return (str);
 }
 
@@ -409,6 +396,22 @@ void	ft_apply_flags(char *s, t_options *options)
 //	(!options->minus) ? ft_putstr(s, options) : 0;
 }
 
+int	ft_my_type(va_list *args, t_options *options)
+{
+	if (!options->modifier)
+		return ((int)va_arg(*args, int));
+	else if (options->modifier == "j" || options->modifier == "z")
+		return ((intmax_t)va_arg(*args, intmax_t));
+	else if (options->modifier = "ll")
+		return ((long long)va_arg(*args, long long));
+	else if (options->modifier == "l")
+		return ((long)va_arg(*args, long));
+	else if (options->modifier == "hh")
+		return (char)va_arg(*args, int);
+	else if (options->modifier == "h")
+		return ((short)va_arg(*args, int));
+}
+
 void	ft_handle_it(t_options *options, va_list *args)
 {	
 	if (options->conversion == 's')
@@ -419,14 +422,14 @@ void	ft_handle_it(t_options *options, va_list *args)
 		s[0] = (va_arg(*args, int));
 		ft_apply_flags(s, options);
 	}
-	if (options->conversion == 'o')
-		ft_apply_flags(ft_otoa(va_arg(*args, unsigned long int)), options);
+	if (options->conversion == 'o' || options->conversion == 'O')
+		ft_apply_flags(ft_itoabase_umax(ft_my_type(args, options), 8), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
-		ft_apply_flags(ft_uitoa(va_arg(*args, int)), options);
-	if (options->conversion == 'x' || options->conversion == 'X')
-		ft_apply_flags(ft_htoa(va_arg(*args, unsigned long int), options), options);
+		ft_apply_flags(ft_itoabase_umax(ft_my_type(args, options), 10), options);
+	if (options->conversion == 'x' || options->conversion == 'X' || options->conversion == 'p')
+		ft_apply_flags((ft_itoabase_umax(ft_my_type(args, options), 16)), options);
 	if (options->conversion == 'u')
-		ft_putstr(ft_uitoa(va_arg(*args, unsigned int)), options);
+		ft_putstr(ft_itoabase_umax(ft_my_type(args, options), 10), options);
 }
 
 
@@ -469,10 +472,10 @@ int main()
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
-//	ft_printf("Integer: %+-020d\n", 42);
+	ft_printf("Integer: %d\n", 42);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
-	printf("Ascii Charcter: %c\n", '*');
+//	printf("Ascii Charcter: %c\n", '*');
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
 	return (0);
