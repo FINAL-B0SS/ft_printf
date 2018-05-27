@@ -424,24 +424,24 @@ char		*ft_itoabase_umax(size_t num, int base)
 
 void	ft_apply_flags(char *s, t_options *options)
 {
-//	int	x;
-//	s = (options->pound && options->conversion == 'o' && !options->zero) ? ft_strjoin("0", s) : s;
-//	(options->width) -= ft_strlen(s);
-//	(options->precision) ? options->width -= options->precision : 0;
-//	(options->plus) ? options->width -= 1 : 0;
-//	(options->space && s[0] != '-') ? options->width -= 1 : 0;
-//	(options->plus && s[0] != '-' && options->width > 0 && options->zero) ? write(1, "+", 1) : 0;
-/*	(options->minus)*/1 ? ft_putstr(s, options) : 0;
-//	x = options->width;
-//	while (x > 0)
-//	{
-//		(options->zero) ? write(1, "0", 1) : 0;
-//		(!options->zero) ? write(1, " ", 1) : 0;
-//		x -= 1;
-//	}
-//	(options->plus && s[0] != '-' && options->width && !options->minus && !options->zero) ? write(1, "+", 1) : 0;
-//	(options->space && s[0] != '-') ? write(1, " ", 1) : 0;
-//	(!options->minus) ? ft_putstr(s, options) : 0;
+	int	x;
+	s = (options->pound && options->conversion == 'o' && !options->zero) ? ft_strjoin("0", s) : s;
+	(options->width) -= ft_strlen(s);
+	(options->precision) ? options->width -= options->precision : 0;
+	(options->plus) ? options->width -= 1 : 0;
+	(options->space && s[0] != '-') ? options->width -= 1 : 0;
+	(options->plus && s[0] != '-' && options->width > 0 && options->zero) ? write(1, "+", 1) : 0;
+	(options->minus) ? ft_putstr(s, options) : 0;
+	x = options->width;
+	while (x > 0)
+	{
+		(options->zero) ? write(1, "0", 1) : 0;
+		(!options->zero) ? write(1, " ", 1) : 0;
+		x -= 1;
+	}
+	(options->plus && s[0] != '-' && options->width && !options->minus && !options->zero) ? write(1, "+", 1) : 0;
+	(options->space && s[0] != '-') ? write(1, " ", 1) : 0;
+	(!options->minus) ? ft_putstr(s, options) : 0;
 }
 
 char	*ft_my_type(va_list *args, t_options *options, int base)
