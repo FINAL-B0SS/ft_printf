@@ -23,10 +23,13 @@ typedef struct	s_options
 	int		p;
 	int		c;
 	int		m;
+	int		data;
+	int		negative;
 }		t_options;
 
 void	ft_init_options(t_options *options)
 {
+	options->data = 0;
 	options->space = 0;
 	options->minus = 0;
 	options->pound = 0;
@@ -41,6 +44,7 @@ void	ft_init_options(t_options *options)
 	options->p = 0;
 	options->c = 0;
 	options->m = 0;
+	options->negative = 0;
 }
 
 int	ft_nbrlen(int n)
@@ -352,15 +356,14 @@ static	int	get_unumlen(size_t num, int base)
 	return (i);
 }
 
-char		*ft_itoabase_umax(void *n, int base)
+char		*ft_itoabase_umax(size_t num, int base, t_options *options)
 {
 	char			*str;
 	int				len;
 	char			*basestr;
-	size_t	num = (size_t)n;
 
 	basestr = ft_strdup("0123456789abcdef");
-	len = get_unumlen((size_t)num, base);
+	len = get_unumlen(num, base);
 	if (!(str = (char *)malloc(sizeof(*str) * len + 1)))
 	{
 		return (NULL);
@@ -372,6 +375,7 @@ char		*ft_itoabase_umax(void *n, int base)
 		str[--len] = basestr[num % base];
 	}
 	free(basestr);
+	str = options->negative ? ft_strjoin("-", str) : str;
 	return (str);
 }
 
@@ -397,25 +401,27 @@ void	ft_apply_flags(char *s, t_options *options)
 //	(!options->minus) ? ft_putstr(s, options) : 0;
 }
 
-void	*ft_my_type(va_list *args, t_options *options)
+void	ft_my_type(va_list *args, t_options *options)
 {
-//	if (!options->modifier)
-//		return ((int)va_arg(*args, int));
-	if (options->modifier == "j" || options->modifier == "z")
-		return ((intmax_t*)va_arg(*args, intmax_t*));
-	if (options->modifier = "ll")
-		return ((long long*)va_arg(*args, long long*));
-	if (options->modifier == "l")
-		return ((long*)va_arg(*args, long*));
-	if (options->modifier == "hh")
-		return ((char*)va_arg(*args, int*));
-	if (options->modifier == "h")
-		return ((short*)va_arg(*args, int*));
-	return ((intmax_t*)va_arg(*args, intmax_t*));
+	if (!options->modifier)
+		options->data = ((int)va_arg(*args, int));
+	else if (options->modifier == "j" || options->modifier == "z")
+		options->data = ((intmax_t)va_arg(*args, intmax_t));
+	else if (options->modifier = "ll")
+		options->data = ((long long)va_arg(*args, long long));
+	else if (options->modifier == "l")
+		options->data = ((long)va_arg(*args, long));
+	else if (options->modifier == "hh")
+		options->data = ((char)va_arg(*args, int));
+	else if (options->modifier == "h")
+		options->data = ((short)va_arg(*args, int));	
+	(options->data < 0) ? options->negative += 1 : 0;
+	options->negative ? options->data *= -1 : 0; 
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
 {	
+	ft_my_type(args, options);
 	if (options->conversion == 's')
 		ft_apply_flags(va_arg(*args, char*), options);
 	if (options->conversion == 'c')
@@ -425,13 +431,13 @@ void	ft_handle_it(t_options *options, va_list *args)
 		ft_apply_flags(s, options);
 	}
 	if (options->conversion == 'o' || options->conversion == 'O')
-		ft_apply_flags(ft_itoabase_umax(ft_my_type(args, options), 8), options);
+		ft_apply_flags(ft_itoabase_umax(options->data, 8, options), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
-		ft_apply_flags(ft_itoabase_umax(ft_my_type(args, options), 10), options);
+		ft_apply_flags(ft_itoabase_umax(options->data, 10, options), options);
 	if (options->conversion == 'x' || options->conversion == 'X' || options->conversion == 'p')
-		ft_apply_flags((ft_itoabase_umax(ft_my_type(args, options), 16)), options);
+		ft_apply_flags((ft_itoabase_umax(options->data, 16, options)), options);
 	if (options->conversion == 'u')
-		ft_putstr(ft_itoabase_umax(ft_my_type(args, options), 10), options);
+		ft_putstr(ft_itoabase_umax(options->data, 10, options), options);
 }
 
 
@@ -474,7 +480,7 @@ int main()
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
-	ft_printf("Integer: %d\n", 4294967171);
+	ft_printf("Integer: %d\n", 123);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
