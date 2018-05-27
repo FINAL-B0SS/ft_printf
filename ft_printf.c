@@ -465,11 +465,13 @@ char	*ft_hash_enable(char *s, t_options *options)
 }
 
 
-char	*ft_otoa(unsigned long int number)
+char	*ft_otoa(unsigned long int number, t_options *options)
 {
 	char			*print;
-	unsigned int	i;
+	unsigned int		i;
+	unsigned long int	x;
 
+	x = number;
 	i = 0;
 	print = (char*)malloc(sizeof(char) * 24);
 	if (number < i)
@@ -485,8 +487,12 @@ char	*ft_otoa(unsigned long int number)
 		number /= 8;
 		i++;
 	}
+	
 	print[i] = '\0';
-	return (ft_strrev(print));
+	ft_strrev(print);
+	if (x != 0 && options->pound)
+		print = ft_strjoin("0", print);
+	return (print);
 }
 
 char	*ft_ptoa(unsigned long int number, t_options *options)
@@ -525,13 +531,17 @@ char	*ft_htoa(unsigned long int number, t_options *options)
 		print[i++] = "0123456789ABCDEF"[number % 16];
 		number /= 16;
 	}
-	return (ft_strrev(print));
+	ft_strrev(print);
+	if (options->pound && options->conversion == 'x')
+		print = ft_strjoin("0x", print);
+	else if (options->pound && options->conversion == 'X')
+		print = ft_strjoin("0X", print);
+	return (print);
 }
 
 void	ft_apply_flags(char *s, t_options *options)
 {
 	int	x;
-	s = ft_hash_enable(s, options); 
 	(options->width) -= ft_strlen(s);
 	(options->precision) ? options->width -= options->precision : 0;
 	(options->plus) ? options->width -= 1 : 0;
@@ -612,7 +622,7 @@ void	ft_handle_it(t_options *options, va_list *args)
 		ft_apply_flags(s, options);
 	}
 	if (options->conversion == 'o' || options->conversion == 'O')
-		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int)), options);
+		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int), options), options);
 	if (options->conversion == 'p')
 		ft_apply_flags(ft_ptoa(va_arg(*args, unsigned long int), options), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
@@ -659,7 +669,7 @@ int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
-	ft_printf("Octal: %#o\n", 10);
+	ft_printf("Octal: %#o\n", 0);
 //	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %d\n", -2147483648);
 	ft_printf("Lowercase Hex: %#x\n", 42);
