@@ -397,7 +397,7 @@ static	int	get_unumlen(size_t num, int base)
 	return (i);
 }
 
-char		*ft_itoabase_umax(size_t num, int base, t_options *options)
+char		*ft_itoabase_umax(size_t num, int base)
 {
 	char			*str;
 	int				len;
@@ -417,7 +417,6 @@ char		*ft_itoabase_umax(size_t num, int base, t_options *options)
 		str[--len] = basestr[num % base];
 	}
 	free(basestr);
-	str = options->negative ? ft_strjoin("-", str) : str;
 	return (str);
 }
 
@@ -448,20 +447,20 @@ char	*ft_my_type(va_list *args, t_options *options, int base)
 	char	*s;
 
 	if (!options->modifier)
-		options->data = (va_arg(*args, int));
+		s = ft_itoa(va_arg(*args, int));
 	else if (options->modifier == "j" || options->modifier == "z")
-		options->data = (va_arg(*args, intmax_t));
+		s = ft_itoabase_umax(va_arg(*args, intmax_t), base);
 	else if (options->modifier = "ll")
-		options->data = (va_arg(*args, long long));
+		s = ft_itoabase_umax(va_arg(*args, long long), base);
 	else if (options->modifier == "l")
-		options->data = (va_arg(*args, long));
+		s = ft_itoabase_umax(va_arg(*args, long), base);
 	else if (options->modifier == "hh")
-		options->data = (char)(va_arg(*args, int));
+		s = ft_itoabase_umax((char)va_arg(*args, int), base);
 	else if (options->modifier == "h")
-		options->data = (short)(va_arg(*args, int));	
+		s = ft_itoabase_umax((short)va_arg(*args, int), base);	
 	else
-		options->data = va_arg(*args, intmax_t);
-	s = options->data > 0 ? ft_itoabase_umax(options->data, base, options) : ft_itoa_smax(options->data);
+		s = ft_itoabase_umax(va_arg(*args, intmax_t), base);
+//	s = options->data > 0 ? ft_itoabase_umax(options->data, base, options) : ft_itoa_smax(options->data);
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
@@ -479,9 +478,10 @@ void	ft_handle_it(t_options *options, va_list *args)
 	if (options->conversion == 'd' || options->conversion == 'i')
 		ft_apply_flags(ft_my_type(args, options, 10), options);
 	if (options->conversion == 'x' || options->conversion == 'X' || options->conversion == 'p')
-		ft_apply_flags((ft_itoabase_umax(options->data, 16, options)), options);
+		ft_apply_flags(ft_my_type(args, options, 16), options);
 	if (options->conversion == 'u')
-		ft_putstr(ft_itoabase_umax(options->data, 10, options), options);
+		ft_putstr(ft_my_type(args, options, 10), options);
+
 }
 
 
@@ -517,7 +517,7 @@ int	ft_printf(const char *format, ...)
 	}
 	return (1);
 }
-/*
+
 int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
@@ -531,4 +531,4 @@ int main()
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
 	return (0);
-}*/
+}
