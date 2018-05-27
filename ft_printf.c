@@ -509,7 +509,9 @@ char	*ft_ptoa(unsigned long int number, t_options *options)
 		print[i++] = "0123456789abcdef"[number % 16];
 		number /= 16;
 	}
-	return (ft_strrev(print));
+	ft_strrev(print);
+	ft_strjoin("0x", print);
+	return (print);
 }
 
 char	*ft_htoa(unsigned long int number, t_options *options)
