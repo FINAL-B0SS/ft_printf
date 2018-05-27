@@ -378,7 +378,7 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 	else
 		return (0);
 }
-
+/*
 static	int	get_snumlen(intmax_t num)
 {
 	int	i;
@@ -389,11 +389,11 @@ static	int	get_snumlen(intmax_t num)
 	return (i);
 }
 
-/*
+
 ** The ft_itoa_smax() function takes a number, which can be as large as
 ** intmax_t, and converts it into a string.
 */
-
+/*
 char		*ft_itoa_smax(intmax_t num)
 {
 	char		*str;
@@ -419,7 +419,7 @@ char		*ft_itoa_smax(intmax_t num)
 		str[0] = '-';
 	return (str);
 }
-
+*/
 static	int	get_unumlen(size_t num, int base)
 {
 	int	i;
