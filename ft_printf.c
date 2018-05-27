@@ -452,7 +452,7 @@ char		*ft_itoabase_umax(size_t num, int base)
 	free(basestr);
 	return (str);
 }
-
+/*
 char	*ft_hash_enable(char *s, t_options *options)
 {
 	if (options->conversion == 'x' && options->pound)
@@ -463,12 +463,12 @@ char	*ft_hash_enable(char *s, t_options *options)
 		s = ft_strjoin("0", s);
 	return (s);
 }
-
+*/
 void	ft_apply_flags(char *s, t_options *options)
 {
 	int	x;
 	s = (options->pound && options->conversion == 'o' && !options->zero) ? ft_strjoin("0", s) : s;
-	s = ft_hash_enable(s, options); 
+//	s = ft_hash_enable(s, options); 
 	(options->width) -= ft_strlen(s);
 	(options->precision) ? options->width -= options->precision : 0;
 	(options->plus) ? options->width -= 1 : 0;
