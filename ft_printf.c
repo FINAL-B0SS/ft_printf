@@ -478,7 +478,11 @@ void	ft_apply_flags(char *s, t_options *options)
 	x = options->width;
 	while (x > 0)
 	{
-		(options->zero) ? write(1, "0", 1) : 0;
+		while (options->precision)
+		{
+			(options->zero) ? write(1, "0", 1) : 0;
+			options->precision -= 1;
+		}
 		(!options->zero) ? write(1, " ", 1) : 0;
 		x -= 1;
 	}
