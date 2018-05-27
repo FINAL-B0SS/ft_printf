@@ -24,7 +24,6 @@ typedef struct	s_options
 	int		c;
 	int		m;
 	int		data;
-	int		negative;
 }		t_options;
 
 void	ft_init_options(t_options *options)
@@ -44,7 +43,6 @@ void	ft_init_options(t_options *options)
 	options->p = 0;
 	options->c = 0;
 	options->m = 0;
-	options->negative = 0;
 }
 
 int	ft_nbrlen(int n)
@@ -176,6 +174,39 @@ char	*ft_strdup(char *s1)
 		str_copy[i] = '\0';
 	}
 	return (str_copy);
+}
+
+size_t	ft_wstrlen(const wchar_t *s)
+{
+	size_t len;
+
+	len = 0;
+	while (s[len] != L'\0')
+	{
+		len++;
+	}
+	return (len);
+}
+
+wchar_t	*ft_wstrdup(const wchar_t *wstr)
+{
+	size_t	len;
+	wchar_t	*wstr_copy;
+	int		i;
+
+	len = ft_wstrlen(wstr);
+	wstr_copy = malloc(sizeof(*wstr_copy) * (len + 1));
+	if (wstr_copy)
+	{
+		i = 0;
+		while (wstr[i] != L'\0')
+		{
+			wstr_copy[i] = wstr[i];
+			i++;
+		}
+		wstr_copy[i] = L'\0';
+	}
+	return (wstr_copy);
 }
 
 int	ft_atoi(char *s)
@@ -465,10 +496,40 @@ char	*ft_my_type(va_list *args, t_options *options, int base)
 	return (s);
 }
 
+int		ft_putwstr(wchar_t *ws)
+{
+	int i;
+
+	i = 0;
+	while (ws[i] != '\0')
+	{
+		ft_putchar(ws[i]);
+		i++;
+	}
+	return (i);
+}
+
+wchar_t	*ft_wchrtostr(wchar_t wchar)
+{
+	wchar_t	*wstr;
+
+	wstr = (wchar_t *)malloc(sizeof(wchar) * 2);
+	if (wstr)
+	{
+		wstr[0] = wchar;
+		wstr[1] = L'\0';
+	}
+	return (wstr);
+}
+
 void	ft_handle_it(t_options *options, va_list *args)
 {	
 	if (options->conversion == 's')
 		ft_apply_flags(va_arg(*args, char*), options);
+	if (options->conversion == 'S')
+		ft_putwstr(ft_wstrdup(va_arg(*args, wchar_t *)));		
+	if (options->conversion == 'C')
+		ft_putwstr((ft_wchrtostr(va_arg(*args, wchar_t))));
 	if (options->conversion == 'c')
 	{
 		char	s[2]; 
