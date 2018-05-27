@@ -346,6 +346,47 @@ int	ft_check_and_save(char *s, int *i, t_options *options)
 		return (0);
 }
 
+static	int	get_snumlen(intmax_t num)
+{
+	int	i;
+
+	i = 1;
+	while (num /= 10)
+		i++;
+	return (i);
+}
+
+/*
+** The ft_itoa_smax() function takes a number, which can be as large as
+** intmax_t, and converts it into a string.
+*/
+
+char		*ft_itoa_smax(intmax_t num)
+{
+	char		*str;
+	int			len;
+	uintmax_t	tmp;
+
+	len = get_snumlen(num);
+	tmp = num;
+	if (num < 0)
+	{
+		tmp = -num;
+		len++;
+	}
+	if (!(str = (char *)malloc(sizeof(*str) * len)))
+	{
+		return (NULL);
+	}
+	str[len] = '\0';
+	str[--len] = tmp % 10 + '0';
+	while (tmp /= 10)
+		str[--len] = tmp % 10 + '0';
+	if (num < 0)
+		str[0] = '-';
+	return (str);
+}
+
 static	int	get_unumlen(size_t num, int base)
 {
 	int	i;
@@ -361,6 +402,7 @@ char		*ft_itoabase_umax(size_t num, int base, t_options *options)
 	char			*str;
 	int				len;
 	char			*basestr;
+//	printf("%d\n", num);
 
 	basestr = ft_strdup("0123456789abcdef");
 	len = get_unumlen(num, base);
@@ -401,27 +443,27 @@ void	ft_apply_flags(char *s, t_options *options)
 //	(!options->minus) ? ft_putstr(s, options) : 0;
 }
 
-void	ft_my_type(va_list *args, t_options *options)
+char	*ft_my_type(va_list *args, t_options *options, int base)
 {
+	char	*s;
+
 	if (!options->modifier)
-		options->data = ((int)va_arg(*args, int));
+		options->data = (va_arg(*args, int));
 	else if (options->modifier == "j" || options->modifier == "z")
-		options->data = ((intmax_t)va_arg(*args, intmax_t));
+		options->data = (va_arg(*args, intmax_t));
 	else if (options->modifier = "ll")
-		options->data = ((long long)va_arg(*args, long long));
+		options->data = (va_arg(*args, long long));
 	else if (options->modifier == "l")
-		options->data = ((long)va_arg(*args, long));
+		options->data = (va_arg(*args, long));
 	else if (options->modifier == "hh")
-		options->data = ((char)va_arg(*args, int));
+		options->data = (va_arg(*args, int));
 	else if (options->modifier == "h")
-		options->data = ((short)va_arg(*args, int));	
-	(options->data < 0) ? options->negative += 1 : 0;
-	options->negative ? options->data *= -1 : 0; 
+		options->data = (va_arg(*args, int));	
+	s = options->data > 0 ? ft_itoabase_umax(options->data, base, options) : ft_itoa_smax(options->data);
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
 {	
-	ft_my_type(args, options);
 	if (options->conversion == 's')
 		ft_apply_flags(va_arg(*args, char*), options);
 	if (options->conversion == 'c')
@@ -431,9 +473,9 @@ void	ft_handle_it(t_options *options, va_list *args)
 		ft_apply_flags(s, options);
 	}
 	if (options->conversion == 'o' || options->conversion == 'O')
-		ft_apply_flags(ft_itoabase_umax(options->data, 8, options), options);
+		ft_apply_flags(ft_my_type(args, options, 8), options);
 	if (options->conversion == 'd' || options->conversion == 'i')
-		ft_apply_flags(ft_itoabase_umax(options->data, 10, options), options);
+		ft_apply_flags(ft_my_type(args, options, 10), options);
 	if (options->conversion == 'x' || options->conversion == 'X' || options->conversion == 'p')
 		ft_apply_flags((ft_itoabase_umax(options->data, 16, options)), options);
 	if (options->conversion == 'u')
@@ -480,7 +522,7 @@ int main()
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
-	ft_printf("Integer: %d\n", 123);
+	ft_printf("Integer: %d\n", 2147483648);
 //	ft_printf("Lowercase Hex: % x\n", 42);
 //	ft_printf("Upercase Hex: %X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
