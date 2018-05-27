@@ -410,6 +410,7 @@ int	ft_my_type(va_list *args, t_options *options)
 		return (char)va_arg(*args, int);
 	else if (options->modifier == "h")
 		return ((short)va_arg(*args, int));
+	return(va_arg(*args, int));
 }
 
 void	ft_handle_it(t_options *options, va_list *args)
