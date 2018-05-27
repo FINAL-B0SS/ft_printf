@@ -461,8 +461,6 @@ char	*ft_hash_enable(char *s, t_options *options)
 		s = ft_strjoin("0X", s);
 	else if ((options->conversion == 'o' || options->conversion == 'O') && options->pound && s != "0")
 		s = ft_strjoin("0", s);
-	if (s == "00");
-		s = "0";
 	return (s);
 }
 
@@ -661,7 +659,7 @@ int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
-	ft_printf("Octal: %#o\n", 0);
+	ft_printf("Octal: %#o\n", 10);
 //	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %d\n", -2147483648);
 	ft_printf("Lowercase Hex: %#x\n", 42);
