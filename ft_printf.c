@@ -612,7 +612,7 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 void	ft_handle_it(t_options *options, va_list *args)
 {	
 	if (options->conversion == 's')
-		ft_apply_flags(va_arg(*args, char*), options);
+		ft_putstr(va_arg(*args, char*), options);
 	if (options->conversion == 'S')
 		ft_putwstr(ft_wstrdup(va_arg(*args, wchar_t *)));		
 	if (options->conversion == 'C')
@@ -667,11 +667,11 @@ int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
-	ft_printf("Octal: %#o\n", 0);
-//	ft_printf("String: % s\n", "Hello World!");
+//	ft_printf("Octal: %#o\n", 0);
+	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %d\n", -2147483648);
-	ft_printf("Lowercase Hex: %#x\n", 42);
-	ft_printf("Upercase Hex: %#X\n", 42);
+//	ft_printf("Lowercase Hex: %#x\n", 42);
+//	ft_printf("Upercase Hex: %#X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
