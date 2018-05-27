@@ -510,7 +510,7 @@ char	*ft_ptoa(unsigned long int number, t_options *options)
 		number /= 16;
 	}
 	ft_strrev(print);
-	ft_strjoin("0x", print);
+	print = ft_strjoin("0x",iprint);
 	return (print);
 }
 
