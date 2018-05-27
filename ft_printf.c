@@ -517,7 +517,7 @@ int	ft_printf(const char *format, ...)
 	}
 	return (1);
 }
-
+/*
 int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
@@ -531,4 +531,4 @@ int main()
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
 	return (0);
-}
+}*/
