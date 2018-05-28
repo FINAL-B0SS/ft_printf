@@ -654,7 +654,7 @@ int	ft_printf(const char *format, ...)
 	}
 	return (1);
 }
-
+/*
 int main()
 {
 	//	ft_printf("%qqqqqqq\n", "test");
@@ -671,6 +671,5 @@ int main()
 	ft_printf("%4.5i\n", 42);
 	ft_printf("%04.5i\n", 42);
 	ft_printf("%04.3i\n", 42);
-	ft_printf("%04.2i\n", 42);
-	return (0);
-}
+	ft_printf("%04.2i\n", 42);/	return (0);
+}*/
