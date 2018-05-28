@@ -453,18 +453,6 @@ char		*ft_itoabase_umax(size_t num, int base)
 	return (str);
 }
 
-char	*ft_hash_enable(char *s, t_options *options)
-{
-	if (options->conversion == 'x' && options->pound)
-		s = ft_strjoin("0x", s);
-	else if (options->conversion == 'X' && options->pound)
-		s = ft_strjoin("0X", s);
-	else if ((options->conversion == 'o' || options->conversion == 'O') && options->pound && s != "0")
-		s = ft_strjoin("0", s);
-	return (s);
-}
-
-
 char	*ft_otoa(unsigned long int number, t_options *options)
 {
 	char			*print;
@@ -562,21 +550,28 @@ void	ft_apply_flags(char *s, t_options *options)
 	(!options->minus) ? ft_putstr(s, options) : 0;
 }
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+		s1++ && s2++;
+	return (*(unsigned char*)s1) - *((unsigned char*)s2);
+}
+
 char	*ft_my_type(va_list *args, t_options *options, int base)
 {
 	char	*s;
 
 	if (!options->modifier)
 		s = ft_itoa((va_arg(*args, ssize_t)));
-	else if (options->modifier == "j" || options->modifier == "z")
+	else if (ft_strcmp(options->modifier, "j") || ft_strcmp(options->modifier, "z"))
 		s = ft_itoabase_umax(va_arg(*args, intmax_t), base);
-	else if (options->modifier = "ll")
+	else if (ft_strcmp(options->modifier,"ll"))
 		s = ft_itoabase_umax(va_arg(*args, long long), base);
-	else if (options->modifier == "l")
+	else if (ft_strcmp(options->modifier, "l"))
 		s = ft_itoabase_umax(va_arg(*args, long), base);
-	else if (options->modifier == "hh")
+	else if (ft_strcmp(options->modifier, "hh"))
 		s = ft_itoabase_umax((char)va_arg(*args, int), base);
-	else if (options->modifier == "h")
+	else if (ft_strcmp(options->modifier, "h"))
 		s = ft_itoabase_umax((short)va_arg(*args, int), base);	
 	else
 		s = ft_itoabase_umax(va_arg(*args, intmax_t), base);
@@ -662,18 +657,23 @@ int	ft_printf(const char *format, ...)
 	}
 	return (1);
 }
-/*
+
 int main()
 {
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 0);
-	ft_printf("String: % s\n", "Hello World!");
+//	ft_printf("String: % s\n", "Hello World!");
 //	ft_printf("Integer: %d\n", -2147483648);
 //	ft_printf("Lowercase Hex: %#x\n", 42);
 //	ft_printf("Upercase Hex: %#X\n", 42);
 //	printf("Ascii Charcter: %c\n", '*');
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
+	ft_printf("%-5.3s\n", "LYDI");
+	ft_printf("%4.5i\n", 42);
+	ft_printf("%04.5i\n", 42);
+	ft_printf("%04.3i\n", 42);
+	ft_printf("%04.2i\n", 42);
 	return (0);
-}*/
+}
