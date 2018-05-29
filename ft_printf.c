@@ -585,15 +585,18 @@ char	*ft_chop(char *s, t_options *options)
 	dest[i] = '\0';
 	return (dest);
 }
+
 void	ft_apply_flags(char *s, t_options *options)
 {
-	s = (options->precision) ? ft_chop(s, options) : s;
+	s = (!options->num && options->precision) ? ft_chop(s, options) : s;
 	(s[0] == '-') ? options->precision += 1 : 0;
 	(options->num) ? options->precision -= ft_strlen(s) : 0;
-	(!options->num) ? options->width -= options->precision : 0;
+	(!options->num) ? options->width -= ft_strlen(s) : 0;
 	(options->num) ? options->width -= options->precision + ft_strlen(s) : 0;
 	(options->plus) ? options->width -= 1 : 0;
 	(options->space) ? options->width -= 3 : 0;
+	(options->num) ? options->width -= ft_strlen(s) : 0;
+	(options->num && s[0] == '-') ? options->width += 1 : 0;
 	s = options->num ? ft_zeros(s, options) : s;
 	s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	s = ft_spaces(s, options);
