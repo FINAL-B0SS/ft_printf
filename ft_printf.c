@@ -526,25 +526,79 @@ char	*ft_htoa(unsigned long int number, t_options *options)
 	return (print);
 }
 
+char	*ft_zeros(char *s, t_options *options)
+{
+	char	*block;
+	int		i;
+
+	i = 0;
+	block = (char*)malloc(sizeof(char) * options->precision + 1);
+	if (!block)
+		return (s);
+	while (i < options->precision)
+	{
+		block[i] = '0';
+		i++;
+	}
+	block[i] = '\0';
+	if (s[0] == '-')
+	{
+		s = ft_strjoin(block, &s[1]);
+		s = ft_strjoin("-", s);
+	}
+	else
+		s = ft_strjoin(block, s);
+	return(s);
+}
+
+char	*ft_spaces(char *s, t_options *options)
+{
+	char	*block;
+	int		i;
+
+	i = 0;
+	block = (char*)malloc(sizeof(char) * options->width + 1);
+	if (!block)
+		return (s);
+	while (i < options->width)
+	{
+		block[i] = ' ';
+		i++;
+	}
+	block[i] = '\0';
+	s = (options->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
+	return (s);
+}
+
+char	*ft_chop(char *s, t_options *options)
+{
+	char	*dest;
+	int		i;
+
+	i = 0;
+	dest = (char*)malloc(sizeof(char) * options->precision + 1);
+	while (i < options->precision)
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
 void	ft_apply_flags(char *s, t_options *options)
 {
-	int	x;
-	(options->width) -= ft_strlen(s);
-	(options->precision) ? options->width -= options->precision : 0;
+	s = (options->precision) ? ft_chop(s, options) : s;
+	(s[0] == '-') ? options->precision += 1 : 0;
+	(options->num) ? options->precision -= ft_strlen(s) : 0;
+	(!options->num) ? options->width -= options->precision : 0;
+	(options->num) ? options->width -= options->precision + ft_strlen(s) : 0;
 	(options->plus) ? options->width -= 1 : 0;
-	(options->space && s[0] != '-') ? options->width -= 1 : 0;
-	(options->plus && s[0] != '-' && options->width > 0 && options->zero) ? write(1, "+", 1) : 0;
-	(options->minus) ? ft_putstr(s) : 0;
-	x = options->width;
-	while (x > 0)
-	{
-		(options->zero) ? write(1, "0", 1) : 0;
-		(!options->zero) ? write(1, " ", 1) : 0;
-		x -= 1;
-	}
-	(options->plus && s[0] != '-' && options->width && !options->minus && !options->zero) ? write(1, "+", 1) : 0;
-	(options->space && s[0] != '-') ? write(1, " ", 1) : 0;
-	(!options->minus) ? ft_putstr(s) : 0;
+	(options->space) ? options->width -= 1 : 0;
+	s = options->num ? ft_zeros(s, options) : s;
+	s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
+	s = ft_spaces(s, options);
+	s = (options->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
+	ft_putstr(s);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -604,7 +658,7 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 void	ft_handle_it(t_options *options, va_list *args)
 {	
 	if (options->conversion == 's')
-		ft_putstr(va_arg(*args, char*));
+		ft_apply_flags(va_arg(*args, char*), options);
 	if (options->conversion == 'S')
 		ft_putwstr(ft_wstrdup(va_arg(*args, wchar_t *)));		
 	if (options->conversion == 'C')
@@ -637,7 +691,7 @@ int	ft_printf(const char *format, ...)
 		return (0);
 	while (format[i])
 	{
-		if (format[i] == '%' && format[i + 1] == '%')
+	 	if (format[i] == '%' && format[i + 1] == '%')
 		{
 			write(1, "%", 1);
 			i += 1;
@@ -657,19 +711,21 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	//	ft_printf("%qqqqqqq\n", "test");
-	//	ft_printf("Handling %%%%: %%\n");
-	//	ft_printf("Octal: %#o\n", 0);
-	//	ft_printf("String: % s\n", "Hello World!");
-	//	ft_printf("Integer: %d\n", -2147483648);
-	//	ft_printf("Lowercase Hex: %#x\n", 42);
-	//	ft_printf("Upercase Hex: %#X\n", 42);
-	//	printf("Ascii Charcter: %c\n", '*');
-	//	ft_printf("Unsigned int: %030u\n", 214783649);
-	//	ft_printf("Basic text: Test test 123\n");
+//	ft_printf("%qqqqqqq\n", "test");
+//	ft_printf("Handling %%%%: %%\n");
+//	ft_printf("Octal: %#o\n", 0);
+//	ft_printf("String: % s\n", "Hello World!");
+//	ft_printf("Integer: %d\n", -2147483648);
+//	ft_printf("Lowercase Hex: %#x\n", 42);
+//	ft_printf("Upercase Hex: %#X\n", 42);
+//	printf("Ascii Charcter: %c\n", '*');
+//	ft_printf("Unsigned int: %030u\n", 214783649);
+//	ft_printf("Basic text: Test test 123\n");
 	ft_printf("%-5.3s\n", "LYDI");
-	ft_printf("%4.5i\n", 42);
+	ft_printf("% 4.5i\n", 42);
 	ft_printf("%04.5i\n", 42);
 	ft_printf("%04.3i\n", 42);
-	ft_printf("%04.2i\n", 42);/	return (0);
+	ft_printf("%04.2i\n", 42);
+//	ft_printf("%-+d", 42);
+	return (0);
 }*/
