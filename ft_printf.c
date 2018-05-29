@@ -588,19 +588,23 @@ char	*ft_chop(char *s, t_options *options)
 
 void	ft_apply_flags(char *s, t_options *options)
 {
-	s = (!options->num && options->precision) ? ft_chop(s, options) : s;
-	(s[0] == '-') ? options->precision += 1 : 0;
-	(options->num) ? options->precision -= ft_strlen(s) : 0;
-	(!options->num) ? options->width -= ft_strlen(s) : 0;
-	(options->num) ? options->width -= options->precision + ft_strlen(s) : 0;
-	(options->plus) ? options->width -= 1 : 0;
-	(options->space) ? options->width -= 1 : 0;
-	(options->num) ? options->width -= ft_strlen(s) : 0;
-	(options->num && s[0] == '-') ? options->width += 1 : 0;
-	s = options->num ? ft_zeros(s, options) : s;
-	s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
-	s = ft_spaces(s, options);
-	s = (options->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
+	if (options->num)
+	{
+		(options->space && s[0] != '-') ? options->width -= 1 : 0;
+		options->precision -= ft_strlen(s);
+		(options->plus) ? options->width -= 1 : 0;
+		s = ft_zeros(s, options);
+		options->width -= ft_strlen(s);
+		s = ft_spaces(s, options);
+		s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
+		s = (options->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
+	}
+	else
+	{
+		s = (options->precision) ? ft_chop(s, options) : s;
+		options->width -= ft_strlen(s);
+		s = ft_spaces(s, options);
+	}
 	ft_putstr(s);
 }
 
@@ -732,7 +736,6 @@ int main()
 	printf("%04.2i\n", 42);
 	printf("%  i\n", 42);
 	printf("% i\n", -42);
-	printf("% 4i\n", 42);
 	printf("% 4i\n", 42);
 	printf("%-i\n", 42);
 	printf("%-ld\n", -2147483648);
