@@ -594,6 +594,7 @@ void	ft_apply_flags(char *s, t_options *options)
 	(options->num) ? options->width -= options->precision + ft_strlen(s) : 0;
 	(options->plus) ? options->width -= 1 : 0;
 	(options->space) ? options->width -= 3 : 0;
+	(options->minus) ? options->width -= 2 : 0;
 	s = options->num ? ft_zeros(s, options) : s;
 	s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	s = ft_spaces(s, options);
@@ -730,6 +731,13 @@ int main()
 	printf("%  i\n", 42);
 	printf("% i\n", -42);
 	printf("% 4i\n", 42);
+	printf("% 4i\n", 42);
+	printf("%-i\n", 42);
+	printf("%-ld\n", -2147483648);
+	printf("%-i\n",-42);
+	printf("%-4d\n", 42);
+	printf("%-5d\n", -42);
+	printf("%-4i\n", 42);
 	printf("\t---------------Theirs------------------\n");
 	ft_printf("%-5.3s\n", "LYDI");
 	ft_printf("% 4.5i\n", 42);
@@ -739,7 +747,12 @@ int main()
 	ft_printf("%  i\n", 42);
 	ft_printf("% i\n", -42);
 	ft_printf("% 4i\n", 42);
-
+	ft_printf("%-i\n", 42);
+	ft_printf("%-d\n", -2147483648);
+	ft_printf("%-i\n",-42);
+	ft_printf("%-4d\n", 42);
+	ft_printf("%-5d\n", -42);
+	ft_printf("%-4i\n", 42);
 //	ft_printf("%-+d", 42);
 	return (0);
 }*/
