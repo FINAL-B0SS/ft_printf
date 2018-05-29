@@ -548,7 +548,11 @@ char	*ft_chop(char *s, t_options *options)
 
 void	ft_apply_flags(char *s, t_options *options)
 {
-	(!s) ? ft_putstr("null") : 0;
+	if (!s)
+	{
+		ft_putstr("null");
+		return ;
+	}
 	if (options->num)
 	{
 		(options->space && s[0] != '-') ? options->width -= 1 : 0;
@@ -566,7 +570,7 @@ void	ft_apply_flags(char *s, t_options *options)
 		options->width -= ft_strlen(s);
 		s = ft_spaces(s, options);
 	}
-	s ? ft_putstr(s) : 0;
+	ft_putstr(s);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
