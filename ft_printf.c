@@ -625,7 +625,7 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 void	ft_handle_it(t_options *options, va_list *args)
 {	
 	if (options->conversion == 's')
-		ft_apply_flags(ft_strdup(va_arg(*args, char*)), options);
+		ft_putstr("okay");//ft_apply_flags(ft_strdup(va_arg(*args, char*)), options);
 	if (options->conversion == 'S')
 		ft_putwstr(ft_wstrdup(va_arg(*args, wchar_t *)));		
 	if (options->conversion == 'C')
