@@ -593,7 +593,7 @@ void	ft_apply_flags(char *s, t_options *options)
 	(!options->num) ? options->width -= options->precision : 0;
 	(options->num) ? options->width -= options->precision + ft_strlen(s) : 0;
 	(options->plus) ? options->width -= 1 : 0;
-	(options->space) ? options->width -= 1 : 0;
+	(options->space) ? options->width -= 3 : 0;
 	s = options->num ? ft_zeros(s, options) : s;
 	s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	s = ft_spaces(s, options);
@@ -721,11 +721,25 @@ int main()
 //	printf("Ascii Charcter: %c\n", '*');
 //	ft_printf("Unsigned int: %030u\n", 214783649);
 //	ft_printf("Basic text: Test test 123\n");
+	printf("\t-----------------Mine----------------\n");
+	printf("%-5.3s\n", "LYDI");
+	printf("% 4.5i\n", 42);
+	printf("%04.5i\n", 42);
+	printf("%04.3i\n", 42);
+	printf("%04.2i\n", 42);
+	printf("%  i\n", 42);
+	printf("% i\n", -42);
+	printf("% 4i\n", 42);
+	printf("\t---------------Theirs------------------\n");
 	ft_printf("%-5.3s\n", "LYDI");
 	ft_printf("% 4.5i\n", 42);
 	ft_printf("%04.5i\n", 42);
 	ft_printf("%04.3i\n", 42);
 	ft_printf("%04.2i\n", 42);
+	ft_printf("%  i\n", 42);
+	ft_printf("% i\n", -42);
+	ft_printf("% 4i\n", 42);
+
 //	ft_printf("%-+d", 42);
 	return (0);
 }*/
