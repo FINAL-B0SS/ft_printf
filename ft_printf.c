@@ -550,7 +550,7 @@ void	ft_apply_flags(char *s, t_options *options)
 {
 	if (!s)
 	{
-		write(1, "(null)", 7);
+		write(1, "(null)", 6);
 		return ;
 	}
 	if (options->num)
