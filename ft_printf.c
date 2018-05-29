@@ -549,7 +549,10 @@ char	*ft_chop(char *s, t_options *options)
 void	ft_apply_flags(char *s, t_options *options)
 {
 	if (!s)
+	{
+		write(1, "(null)", 7);
 		return ;
+	}
 	if (options->num)
 	{
 		(options->space && s[0] != '-') ? options->width -= 1 : 0;
@@ -626,8 +629,8 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 
 void	ft_handle_it(t_options *options, va_list *args)
 {	
-	if (options->conversion == 's')
-		ft_apply_flags(va_arg(*args, char*), options);
+//	if (options->conversion == 's')
+//		ft_apply_flags(va_arg(*args, char*), options);
 	if (options->conversion == 'S')
 		ft_putwstr(ft_wstrdup(va_arg(*args, wchar_t *)));		
 	if (options->conversion == 'C')
