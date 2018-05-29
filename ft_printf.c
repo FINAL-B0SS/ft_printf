@@ -548,6 +548,7 @@ char	*ft_zeros(char *s, t_options *options)
 	}
 	else
 		s = ft_strjoin(block, s);
+	options->zero = 0;
 	return(s);
 }
 
