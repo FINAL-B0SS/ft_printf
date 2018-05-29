@@ -562,7 +562,7 @@ char	*ft_spaces(char *s, t_options *options)
 		return (s);
 	while (i < options->width)
 	{
-		block[i] = ' ';
+		block[i] = (options->zero) ? '0' : ' ';
 		i++;
 	}
 	block[i] = '\0';
