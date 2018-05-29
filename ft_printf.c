@@ -594,7 +594,7 @@ void	ft_apply_flags(char *s, t_options *options)
 	(!options->num) ? options->width -= ft_strlen(s) : 0;
 	(options->num) ? options->width -= options->precision + ft_strlen(s) : 0;
 	(options->plus) ? options->width -= 1 : 0;
-	(options->space) ? options->width -= 3 : 0;
+	(options->space) ? options->width -= 1 : 0;
 	(options->num) ? options->width -= ft_strlen(s) : 0;
 	(options->num && s[0] == '-') ? options->width += 1 : 0;
 	s = options->num ? ft_zeros(s, options) : s;
