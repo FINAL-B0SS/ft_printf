@@ -549,7 +549,7 @@ char	*ft_chop(char *s, t_options *options)
 void	ft_apply_flags(char *s, t_options *options)
 {
 	if (!s)
-		ft_putstr("null!");
+		ft_putstr("null");
 	if (options->num)
 	{
 		(options->space && s[0] != '-') ? options->width -= 1 : 0;
