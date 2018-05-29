@@ -759,6 +759,6 @@ int main()
 	ft_printf("%-4d\n", 42);
 	ft_printf("%-5d\n", -42);
 	ft_printf("%-4i\n", 42);
-//	ft_printf("%-+d", 42);
+	ft_printf("%-+d", 42);
 	return (0);
 }*/
