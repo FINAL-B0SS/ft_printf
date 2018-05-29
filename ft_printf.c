@@ -336,22 +336,32 @@ void	ft_flag_save(char *s, t_options *options, int *i)
 	}
 }
 
-int	ft_check_and_save(char *s, int *i, t_options *options)
+int	ft_check_and_save(char *s, int *i, t_options *options, va_list *args)
 {
 	*i += 1;
 	ft_flag_save(s, options, i);
 	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
 	{
-		options->w += 1;
-		options->width = (ft_atoi(&s[*i]));
-		*i += ft_nbrlen(ft_atoi(&s[*i]));
+		if (s[*i] == '*')
+			options->width = va_arg(*args, int);
+		else
+		{
+			options->w += 1;
+			options->width = (ft_atoi(&s[*i]));
+			*i += ft_nbrlen(ft_atoi(&s[*i]));
+		}
 	}
 	if (s[*i] && (s[*i] == '.'))
 	{
 		*i += 1;
-		options->p += 1;
-		options->precision = (ft_atoi(&s[*i]));
-		*i += ft_nbrlen(ft_atoi(&s[*i]));
+		if (s[*i] == '*')
+			options->precision = va_arg(*args, int);
+		else
+		{
+			options->p += 1;
+			options->precision = (ft_atoi(&s[*i]));
+			*i += ft_nbrlen(ft_atoi(&s[*i]));
+		}
 	}
 	if (ft_modifier_check(s, i, options) == -1)
 		return (0);
@@ -671,7 +681,7 @@ int	ft_printf(const char *format, ...)
 		else if (format[i] == '%')
 		{
 			ft_init_options(&options);
-			if (ft_check_and_save((char*)format, &i, &options))
+			if (ft_check_and_save((char*)format, &i, &options, &args))
 				ft_handle_it(&options, &args);	
 		}
 		else
