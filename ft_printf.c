@@ -596,8 +596,8 @@ void	ft_apply_flags(char *s, t_options *options)
 		s = ft_zeros(s, options);
 		options->width -= ft_strlen(s);
 		s = ft_spaces(s, options);
-		s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 		s = (options->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
+		s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	}
 	else
 	{
