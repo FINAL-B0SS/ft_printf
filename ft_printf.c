@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 02:24:15 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 02:36:33 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -493,13 +493,266 @@ char	*ft_mod_cast(va_list *args, t_ops *ops, int base)
 	return (s);
 }
 
-void	ft_putwstr(wchar_t *ws)
+int		ft_power(int nb, int power)
+{
+	if (power == 0)
+		return (1);
+	else if (power < 0)
+		return (0);
+	return (nb * ft_power(nb, power - 1));
+}
+
+long	ft_power_long(long nb, long pow)
+{
+	if (pow == 0)
+		return (1);
+	else if (pow < 0)
+		return (0);
+	return (nb * ft_power(nb, pow - 1));
+}
+
+long	ft_nbrlen2(long nb, long base)
+{
+	long	length;
+
+	length = 1;
+	while (ft_power_long(base, length) <= nb)
+		length++;
+	return (length);
+}
+
+char	*ft_itoa_base(int n, int base, int uppercase, t_ops *ops)
+{
+	char	*str;
+	int		i;
+	int		length;
+
+	if (base < 2 || base > 16 || (base != 10 && n < 0))
+		return (NULL);
+	if (base == 10)
+		return (ft_itoa(n, ops));
+	length = ft_nbrlen2(n, base);
+	str = (char*)malloc(sizeof(*str) * (length + 1));
+	i = 0;
+	while (i < length)
+	{
+		if (base > 10 && (n % base >= 10) && uppercase)
+			str[i++] = (n % base) - 10 + 'A';
+		else if (base > 10 && (n % base >= 10))
+			str[i++] = (n % base) - 10 + 'a';
+		else
+			str[i++] = (n % base) + '0';
+		n /= base;
+	}
+	str[i] = '\0';
+	return (ft_strrev(str));
+}
+
+static int		count_words(char const *s, char c)
+{
+	int		count;
+
+	count = 0;
+	while (*s)
+	{
+		if (*s == c)
+			s++;
+		else
+		{
+			count++;
+			while (*s && *s != c)
+				s++;
+		}
+	}
+	return (count);
+}
+
+size_t	ft_strlen_char(const char *s, char c)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	return (i);
+}
+
+void	ft_memdel(void **ap)
+{
+	if (ap && *ap)
+	{
+		free(*ap);
+		*ap = NULL;
+	}
+}
+
+static char		*get_next_word(const char *s, char c)
+{
+	size_t	length;
+	char	*word;
+	int		i;
+
+	i = 0;
+	length = ft_strlen_char(s, c);
+	if (!(word = (char*)malloc(length + 1)))
+		return (NULL);
+	while (*s && *s != c)
+		word[i++] = *s++;
+	word[i] = '\0';
+	return (word);
+}
+
+char			**ft_strsplit(char const *s, char c)
+{
+	char	**tab;
+	int		nb_words;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	nb_words = count_words(s, c);
+	if (!(tab = (char**)malloc(sizeof(*tab) * (nb_words + 1))))
+		return (NULL);
+	i = 0;
+	while (*s)
+	{
+		if (*s == c)
+			s++;
+		else
+		{
+			tab[i] = get_next_word(s, c);
+			i++;
+			while (*s && *s != c)
+				s++;
+		}
+	}
+	tab[i] = NULL;
+	return (tab);
+}
+
+#define WCHAR_MASK_1 "0xxxxxxx"
+#define WCHAR_MASK_2 "110xxxxx 10xxxxxx"
+#define WCHAR_MASK_3 "1110xxxx 10xxxxxx 10xxxxxx"
+#define WCHAR_MASK_4 "11110xxx 10xxxxxx 10xxxxxx 10xxxxxx"
+
+char	**apply_mask(char *bin, char *m)
+{
+	int		length_bin;
+	int		length_mask;
+	char	*mask;
+	size_t	i;
+
+	mask = ft_strdup(m);
+	length_bin = ft_strlen(bin) - 1;
+	length_mask = ft_strlen(mask) - 1;
+	while (length_mask >= 0 && length_bin >= 0)
+	{
+		if (mask[length_mask] == 'x')
+		{
+			mask[length_mask] = bin[length_bin];
+			length_bin--;
+		}
+		length_mask--;
+	}
+	i = 0;
+	while (i < ft_strlen(mask))
+	{
+		if (mask[i] == 'x')
+			mask[i] = '0';
+		i++;
+	}
+	return (ft_strsplit(mask, ' '));
+}
+
+static int	convert_and_check_nb(char c, int base)
+{
+	int		result;
+
+	if (c >= '0' && c <= '9')
+		result = c - 48;
+	else if (c >= 'a' && c <= 'z')
+		result = c - 97 + 10;
+	else if (c >= 'A' && c <= 'Z')
+		result = c - 65 + 10;
+	else
+		result = -1;
+	if (result < base && result != -1)
+		return (result);
+	else
+		return (-1);
+}
+
+static int	length_number(char *str, int base)
+{
+	int		length;
+
+	length = 0;
+	while (str[length])
+	{
+		if (convert_and_check_nb(str[length], base) == -1)
+			break ;
+		length++;
+	}
+	return (length);
+}
+
+int			ft_atoi_base(char *nb, int base)
+{
+	int		result;
+	int		length;
+
+	if (base == 10)
+		return (ft_atoi(nb));
+	while (*nb == ' ' || *nb == '\t' || *nb == '\n'
+			|| *nb == '\v' || *nb == '\r' || *nb == '\f')
+		nb++;
+	result = 0;
+	length = length_number(nb, base) - 1;
+	while (*nb && length >= 0 && convert_and_check_nb(*nb, base) != -1)
+	{
+		result += convert_and_check_nb(*nb, base) * ft_power(base, length);
+		nb++;
+		length--;
+	}
+	return (result);
+}
+
+void	ft_putwchar(wchar_t c, t_ops *ops)
+{
+	int		character;
+	char	*bin;
+	char	**mask;
+	int		to_print;
+	int		i;
+
+	character = (int)c;
+	bin = ft_itoa_base(character, 2, 0, ops);
+	if (ft_strlen(bin) <= 7)
+		mask = apply_mask(bin, WCHAR_MASK_1);
+	else if (ft_strlen(bin) <= 11)
+		mask = apply_mask(bin, WCHAR_MASK_2);
+	else if (ft_strlen(bin) <= 16)
+		mask = apply_mask(bin, WCHAR_MASK_3);
+	else
+		mask = apply_mask(bin, WCHAR_MASK_4);
+	ft_memdel((void **)&bin);
+	i = 0;
+	while (mask[i])
+	{
+		to_print = ft_atoi_base(mask[i], 2);
+		write(1, &to_print, 1);
+		i++;
+	}
+	ft_memdel((void **)mask);
+}
+
+void	ft_putwstr(wchar_t *ws, t_ops *ops)
 {
 	int i;
 
 	i = -1;
 	while (ws[++i])
-		ft_putchar(ws[i]);
+		ft_putwchar(ws[i], ops);
 }
 
 wchar_t	*ft_wchrtostr(wchar_t wchar)
@@ -520,9 +773,9 @@ void	ft_handle_it(t_ops *ops, va_list *args)
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(*args, char*), ops);
 	else if (ops->conv == 'S')
-		ft_putwstr(va_arg(*args, wchar_t*));
+		ft_putwstr(va_arg(*args, wchar_t*), ops);
 	else if (ops->conv == 'C')
-		ft_putwstr((ft_wchrtostr(va_arg(*args, wchar_t))));
+		ft_putwstr((ft_wchrtostr(va_arg(*args, wchar_t))), ops);
 	else if (ops->conv == 'c')
 		ft_putchar(va_arg(*args, int));
 	else if (ops->conv == 'o' || ops->conv == 'O')
