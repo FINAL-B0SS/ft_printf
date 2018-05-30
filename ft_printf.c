@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
+/*   Updated: 2018/05/29 23:50:15 by maljean          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdlib.h>
@@ -25,7 +37,7 @@ typedef struct	s_options
 	int		c;
 	int		m;
 	int		data;
-}		t_options;
+}				t_options;
 
 void	ft_init_options(t_options *options)
 {
@@ -242,8 +254,7 @@ char	*ft_itoa(int nbr, t_options *options)
 		return (str = ft_strdup("-2147483648"));
 	if (!str)
 		return (NULL);
-	if (sign)
-		str[0] = '-';
+	(sign) ? str[0] = '-' : 0;
 	nbr = nbr < 0 ? nbr *= -1 : nbr;
 	while (--length >= sign)
 	{
