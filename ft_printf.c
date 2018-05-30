@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:26:26 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:30:30 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,20 +264,15 @@ char	*ft_itoa(int nbr, t_ops *ops)
 	str[ft_strlen(str)] = '\0';
 	return (str);
 }
-/*
-int	ft_mod_double_check(char *s, int *i, t_ops *ops, char *mod)
+
+int	ft_conv_check(int i, char *s, char c)
 {
-	ops->mod = mod;
-	*i += ft_strlen(ops->mod);
-	if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
-	{
-		ops->m += 1;
-		return (1);
-	}
-	else
-		return (-1);
+	while (s[++i])
+		if (c == s[i])
+			return (1);
+	return (0);
 }
-*/
+
 int	ft_mod_check(char *s, int *i, t_ops *ops)
 {
 	(s[*i] == 'h' && s[*i + 1] == 'h') ? ops->mod = "hh" : 0;
@@ -289,7 +284,7 @@ int	ft_mod_check(char *s, int *i, t_ops *ops)
 	if (ops->mod)
 	{
 		*i += ft_strlen(ops->mod);
-		if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
+		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 		{
 			ops->m += 1;
 			return (1);
@@ -334,7 +329,7 @@ int	ft_check_and_save(char *s, int *i, t_ops *ops)
 		return (0);
 	while (s[*i])
 	{
-		if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
+		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 		{
 			ops->c += 1;
 			ops->conv = s[*i];
