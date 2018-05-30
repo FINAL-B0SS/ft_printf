@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 01:22:19 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 01:23:09 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -520,7 +520,7 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 
 void	ft_handle_it(t_ops *ops, va_list *args)
 {
-	if (ops->conv == 's' || 'S')
+	if (ops->conv == 's')
 		ft_apply_flags(va_arg(*args, char*), ops);
 	else if (ops->conv == 'S')
 		ft_putwstr(va_arg(*args, wchar_t*));
@@ -538,6 +538,7 @@ void	ft_handle_it(t_ops *ops, va_list *args)
 		ft_apply_flags(ft_htoa(va_arg(*args, unsigned int), ops), ops);
 	else if (ops->conv == 'u')
 		ft_putstr(ft_itoabase_umax(va_arg(*args, intmax_t), 10, ops));
+	printf("test\n");
 }
 
 int	ft_conv_check(int i, char *s, char c)
