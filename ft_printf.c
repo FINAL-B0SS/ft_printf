@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:54:51 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:57:02 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,7 +340,7 @@ int	ft_parse(char *s, int *i, t_ops *ops)
 	return ((ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1) ? 1 : 0);
 }
 
-static	int	get_unumlen(size_t num, int base)
+static int	get_unumlen(size_t num, int base)
 {
 	int	i;
 
@@ -350,7 +350,7 @@ static	int	get_unumlen(size_t num, int base)
 	return (i);
 }
 
-char		*ft_itoabase_umax(size_t num, int base, t_ops *ops)
+char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 {
 	char			*str;
 	int				len;
@@ -567,7 +567,7 @@ char	*ft_my_type(va_list *args, t_ops *ops, int base)
 	return (s);
 }
 
-int		ft_putwstr(wchar_t *ws)
+int	ft_putwstr(wchar_t *ws)
 {
 	int i;
 
