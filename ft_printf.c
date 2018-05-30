@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:40:45 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:42:04 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -617,12 +617,10 @@ void	ft_handle_it(t_ops *ops, va_list *args)
 int	ft_printf(const char *format, ...)
 {
 	va_list		args;
-	int		i;
-	int		ret;
-	t_ops	ops;
+	int			i;
+	t_ops		ops;
 
 	i = -1;
-	ret = 0;
 	va_start(args, format);
 	if (!format)
 		return (0);
