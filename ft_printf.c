@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:52:34 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:53:08 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,9 +346,8 @@ char		*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	static int		len;
 	char			*basestr;
 
-	len = 0;
 	while (num /= base)
-		len++;
+		len += 1;
 	basestr = ft_strdup("0123456789abcdef");
 	ops->num += 1;
 	if (!(str = (char *)malloc(sizeof(*str) * len + 1)))
