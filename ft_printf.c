@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 01:02:34 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 01:13:14 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -547,7 +547,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (*(unsigned char*)s1) - *((unsigned char*)s2);
 }
 
-char	*ft_my_type(va_list *args, t_ops *ops, int base)
+char	*ft_mod_cast(va_list *args, t_ops *ops, int base)
 {
 	char	*s;
 
@@ -609,7 +609,7 @@ void	ft_handle_it(t_ops *ops, va_list *args)
 	if (ops->conv == 'p')
 		ft_apply_flags(ft_ptoa(va_arg(*args, unsigned long int), ops), ops);
 	if (ops->conv == 'd' || ops->conv == 'i')
-		ft_apply_flags(ft_my_type(args, ops, 10), ops);
+		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(*args, unsigned int), ops), ops);
 	if (ops->conv == 'u')
@@ -636,7 +636,10 @@ int	ft_printf(const char *format, ...)
 		else if (format[i] == '%')
 		{
 			ft_init_ops(&ops);
-			(ft_parse((char*)format, &i, &ops)) ? ft_handle_it(&ops, &args) : 0;
+			if (ft_parse((char*)format, &i, &ops))
+				ft_handle_it(&ops, &args);
+			else
+				return (0);
 		}
 		else
 			write(1, &format[i], 1);
