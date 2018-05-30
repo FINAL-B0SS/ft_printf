@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 01:14:09 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 01:15:46 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -596,23 +596,23 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 
 void	ft_handle_it(t_ops *ops, va_list *args)
 {
-//	if (ops->conv == 's')
-//		ft_apply_flags(va_arg(*args, char*), ops);
-	if (ops->conv == 'S')
+	if (ops->conv == 's')
+		ft_apply_flags(va_arg(*args, char*), ops);
+	else if (ops->conv == 'S')
 		ft_putwstr(va_arg(*args, wchar_t*));
-	if (ops->conv == 'C')
+	else if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(*args, wchar_t))));
-	if (ops->conv == 'c')
+	else if (ops->conv == 'c')
 		ft_putchar(va_arg(*args, int));
-	if (ops->conv == 'o' || ops->conv == 'O')
+	else if (ops->conv == 'o' || ops->conv == 'O')
 		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int), ops), ops);
-	if (ops->conv == 'p')
+	else if (ops->conv == 'p')
 		ft_apply_flags(ft_ptoa(va_arg(*args, unsigned long int), ops), ops);
-	if (ops->conv == 'd' || ops->conv == 'i')
+	else if (ops->conv == 'd' || ops->conv == 'i')
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
-	if (ops->conv == 'x' || ops->conv == 'X')
+	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(*args, unsigned int), ops), ops);
-	if (ops->conv == 'u')
+	else if (ops->conv == 'u')
 		ft_putstr(ft_itoabase_umax(va_arg(*args, intmax_t), 10, ops));
 }
 
