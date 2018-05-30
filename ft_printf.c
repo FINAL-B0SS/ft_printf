@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:05:32 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:06:54 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -621,12 +621,12 @@ int	ft_printf(const char *format, ...)
 	int		ret;
 	t_ops	ops;
 
-	i = 0;
+	i = -1;
 	ret = 0;
 	va_start(args, format);
 	if (!format)
 		return (0);
-	while (format[i])
+	while (format[++i])
 	{
 		if (format[i] == '%' && format[i + 1] == '%')
 		{
@@ -641,7 +641,6 @@ int	ft_printf(const char *format, ...)
 		}
 		else
 			write(1, &format[i], 1);
-		i++;
 	}
 	return (1);
 }
