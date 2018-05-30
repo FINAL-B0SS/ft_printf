@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 02:38:08 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 16:20:41 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -532,7 +532,7 @@ void	ft_handle_it(t_ops *ops, va_list *args)
 		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int), ops), ops);
 	else if (ops->conv == 'p')
 		ft_apply_flags(ft_ptoa(va_arg(*args, unsigned long int), ops), ops);
-	else if (ops->conv == 'd' || ops->conv == 'i')
+	else if (ops->conv == 'd' || ops->conv == 'i' || ops->conv == 'D')
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(*args, unsigned int), ops), ops);
