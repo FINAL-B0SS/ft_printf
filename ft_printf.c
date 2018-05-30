@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:01:06 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:05:32 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <limits.h>
 #include <locale.h>
 
-typedef struct	s_options
+typedef struct	s_ops
 {
 	int		num;
 	int		space;
@@ -28,35 +28,35 @@ typedef struct	s_options
 	int		plus;
 	int		zero;
 	int		width;
-	int		precision;
-	char	conversion;
-	char	*modifier;
+	int		prec;
+	char	conv;
+	char	*mod;
 	int		f;
 	int		w;
 	int		p;
 	int		c;
 	int		m;
 	int		data;
-}				t_options;
+}				t_ops;
 
-void	ft_init_options(t_options *options)
+void	ft_init_ops(t_ops *ops)
 {
-	options->num = 0;
-	options->data = 0;
-	options->space = 0;
-	options->minus = 0;
-	options->pound = 0;
-	options->zero = 0;
-	options->plus = 0;
-	options->width = 0;
-	options->precision = 0;
-	options->conversion = 0;
-	options->modifier = 0;
-	options->f = 0;
-	options->w = 0;
-	options->p = 0;
-	options->c = 0;
-	options->m = 0;
+	ops->num = 0;
+	ops->data = 0;
+	ops->space = 0;
+	ops->minus = 0;
+	ops->pound = 0;
+	ops->zero = 0;
+	ops->plus = 0;
+	ops->width = 0;
+	ops->prec = 0;
+	ops->conv = 0;
+	ops->mod = 0;
+	ops->f = 0;
+	ops->w = 0;
+	ops->p = 0;
+	ops->c = 0;
+	ops->m = 0;
 }
 
 int	ft_nbrlen(int n)
@@ -236,7 +236,7 @@ int	ft_atoi(char *s)
 	return (sign * nb);
 }
 
-char	*ft_itoa(int nbr, t_options *options)
+char	*ft_itoa(int nbr, t_ops *ops)
 {
 	int		length;
 	int		sign;
@@ -244,7 +244,7 @@ char	*ft_itoa(int nbr, t_options *options)
 
 	sign = nbr;
 	length = 1;
-	options->num += 1;
+	ops->num += 1;
 	while (sign /= 10)
 		length++;
 	sign = nbr < 0 ? 1 : 0;
@@ -265,79 +265,79 @@ char	*ft_itoa(int nbr, t_options *options)
 	return (str);
 }
 
-int	ft_modifier_double_check(char *s, int *i, t_options *options, char *mod)
+int	ft_mod_double_check(char *s, int *i, t_ops *ops, char *mod)
 {
-	options->modifier = mod;
-	*i += ft_strlen(options->modifier);
+	ops->mod = mod;
+	*i += ft_strlen(ops->mod);
 	if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
 	{
-		options->m += 1;
+		ops->m += 1;
 		return (1);
 	}
 	else
 		return (-1);
 }
 
-int	ft_modifier_check(char *s, int *i, t_options *options)
+int	ft_mod_check(char *s, int *i, t_ops *ops)
 {
 	if (s[*i] == 'h' && s[*i + 1] == 'h')
-		return (ft_modifier_double_check(s, i, options, "hh"));
+		return (ft_mod_double_check(s, i, ops, "hh"));
 	if (s[*i] == 'h' && s[*i + 1] != 'h')
-		return (ft_modifier_double_check(s, i, options, "h"));
+		return (ft_mod_double_check(s, i, ops, "h"));
 	if (s[*i] == 'l' && s[*i + 1] != 'l')
-		return (ft_modifier_double_check(s, i, options, "l"));
+		return (ft_mod_double_check(s, i, ops, "l"));
 	if (s[*i] == 'l' && s[*i + 1] == 'l')
-		return (ft_modifier_double_check(s, i, options, "ll"));
+		return (ft_mod_double_check(s, i, ops, "ll"));
 	if (s[*i] == 'j')
-		return (ft_modifier_double_check(s, i, options, "j"));
+		return (ft_mod_double_check(s, i, ops, "j"));
 	if (s[*i] == 'z')
-		return (ft_modifier_double_check(s, i, options, "z"));
+		return (ft_mod_double_check(s, i, ops, "z"));
 	return (2);
 }
 
-void	ft_flag_save(char *s, t_options *options, int *i)
+void	ft_flag_save(char *s, t_ops *ops, int *i)
 {
 	while (s[*i] && (s[*i] == '#' || s[*i] == '0' || s[*i] == '-' || s[*i] == '+' || s[*i] == ' '))
 	{
-		(s[*i] == '0') ? options->zero += 1 : 0;
-		(s[*i] == '-') ? options->minus += 1 : 0;
-		(s[*i] == '+') ? options->plus += 1 : 0;
-		(s[*i] == '#') ? options->pound += 1 : 0;
-		(s[*i] == ' ') ? options->space += 1 : 0;
+		(s[*i] == '0') ? ops->zero += 1 : 0;
+		(s[*i] == '-') ? ops->minus += 1 : 0;
+		(s[*i] == '+') ? ops->plus += 1 : 0;
+		(s[*i] == '#') ? ops->pound += 1 : 0;
+		(s[*i] == ' ') ? ops->space += 1 : 0;
 		*i += 1;
 	}
 }
 
-int	ft_check_and_save(char *s, int *i, t_options *options)
+int	ft_check_and_save(char *s, int *i, t_ops *ops)
 {
 	*i += 1;
-	ft_flag_save(s, options, i);
+	ft_flag_save(s, ops, i);
 	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
 	{
-		options->w += 1;
-		options->width = (ft_atoi(&s[*i]));
+		ops->w += 1;
+		ops->width = (ft_atoi(&s[*i]));
 		*i += ft_nbrlen(ft_atoi(&s[*i]));
 	}
 	if (s[*i] && (s[*i] == '.'))
 	{
 		*i += 1;
-		options->p += 1;
-		options->precision = (ft_atoi(&s[*i]));
+		ops->p += 1;
+		ops->prec = (ft_atoi(&s[*i]));
 		*i += ft_nbrlen(ft_atoi(&s[*i]));
 	}
-	if (ft_modifier_check(s, i, options) == -1)
+	if (ft_mod_check(s, i, ops) == -1)
 		return (0);
 	while (s[*i])
 	{
 		if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
 		{
-			options->c += 1;
-			options->conversion = s[*i];
+			ops->c += 1;
+			ops->conv = s[*i];
 			break ;
 		}
 		*i += 1;
 	}
-	return ((options->w <= 1 && options->p <= 1 && options->m <= 1 && options->c == 1) ? 1 : 0);
+	return ((ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1) ? 1 : 0);
 }
 
 static	int	get_unumlen(size_t num, int base)
@@ -350,7 +350,7 @@ static	int	get_unumlen(size_t num, int base)
 	return (i);
 }
 
-char		*ft_itoabase_umax(size_t num, int base, t_options *options)
+char		*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 {
 	char			*str;
 	int				len;
@@ -358,7 +358,7 @@ char		*ft_itoabase_umax(size_t num, int base, t_options *options)
 
 	basestr = ft_strdup("0123456789abcdef");
 	len = get_unumlen(num, base);
-	options->num += 1;
+	ops->num += 1;
 	if (!(str = (char *)malloc(sizeof(*str) * len + 1)))
 	{
 		return (NULL);
@@ -373,7 +373,7 @@ char		*ft_itoabase_umax(size_t num, int base, t_options *options)
 	return (str);
 }
 
-char	*ft_otoa(unsigned long int number, t_options *options)
+char	*ft_otoa(unsigned long int number, t_ops *ops)
 {
 	char				*print;
 	unsigned int		i;
@@ -381,7 +381,7 @@ char	*ft_otoa(unsigned long int number, t_options *options)
 
 	x = number;
 	i = 0;
-	options->num += 1;
+	ops->num += 1;
 	print = (char*)malloc(sizeof(char) * 24);
 	if (number < i)
 		return ("errno: Unsigned Only!");
@@ -398,21 +398,21 @@ char	*ft_otoa(unsigned long int number, t_options *options)
 	}
 	print[i] = '\0';
 	ft_strrev(print);
-	(x != 0 && options->pound) ? print = ft_strjoin("0", print) : 0;
+	(x != 0 && ops->pound) ? print = ft_strjoin("0", print) : 0;
 	return (print);
 }
 
-char	*ft_ptoa(unsigned long int number, t_options *options)
+char	*ft_ptoa(unsigned long int number, t_ops *ops)
 {
 	char	*print;
 	int		i;
 
 	i = 0;
-	options->num += 1;
+	ops->num += 1;
 	print = (char*)malloc(sizeof(char) * 12);
 	if (number == 0)
 		print[i] = '0';
-	while (number && options->conversion == 'p')
+	while (number && ops->conv == 'p')
 	{
 		print[i++] = "0123456789abcdef"[number % 16];
 		number /= 16;
@@ -422,44 +422,44 @@ char	*ft_ptoa(unsigned long int number, t_options *options)
 	return (print);
 }
 
-char	*ft_htoa(unsigned long int number, t_options *options)
+char	*ft_htoa(unsigned long int number, t_ops *ops)
 {
 	char	*print;
 	int		i;
 
 	i = 0;
 	print = (char*)malloc(sizeof(char) * 18);
-	options->num += 1;
+	ops->num += 1;
 	if (number == 0)
 		print[i] = '0';
-	while (number && options->conversion == 'x')
+	while (number && ops->conv == 'x')
 	{
 		print[i++] = "0123456789abcdef"[number % 16];
 		number /= 16;
 	}
-	while (number && options->conversion == 'X')
+	while (number && ops->conv == 'X')
 	{
 		print[i++] = "0123456789ABCDEF"[number % 16];
 		number /= 16;
 	}
 	ft_strrev(print);
-	if (options->pound && options->conversion == 'x')
+	if (ops->pound && ops->conv == 'x')
 		print = ft_strjoin("0x", print);
-	else if (options->pound && options->conversion == 'X')
+	else if (ops->pound && ops->conv == 'X')
 		print = ft_strjoin("0X", print);
 	return (print);
 }
 
-char	*ft_zeros(char *s, t_options *options)
+char	*ft_zeros(char *s, t_ops *ops)
 {
 	char	*block;
 	int		i;
 
 	i = 0;
-	block = (char*)malloc(sizeof(char) * options->precision + 1);
+	block = (char*)malloc(sizeof(char) * ops->prec + 1);
 	if (!block)
 		return (s);
-	while (i < options->precision)
+	while (i < ops->prec)
 	{
 		block[i] = '0';
 		i++;
@@ -472,37 +472,37 @@ char	*ft_zeros(char *s, t_options *options)
 	}
 	else
 		s = ft_strjoin(block, s);
-	options->zero = 0;
+	ops->zero = 0;
 	return (s);
 }
 
-char	*ft_spaces(char *s, t_options *options)
+char	*ft_spaces(char *s, t_ops *ops)
 {
 	char	*block;
 	int		i;
 
 	i = 0;
-	block = (char*)malloc(sizeof(char) * options->width + 1);
+	block = (char*)malloc(sizeof(char) * ops->width + 1);
 	if (!block)
 		return (s);
-	while (i < options->width)
+	while (i < ops->width)
 	{
-		block[i] = (options->zero && options->precision) ? '0' : ' ';
+		block[i] = (ops->zero && ops->prec) ? '0' : ' ';
 		i++;
 	}
 	block[i] = '\0';
-	s = (options->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
+	s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
 	return (s);
 }
 
-char	*ft_chop(char *s, t_options *options)
+char	*ft_chop(char *s, t_ops *ops)
 {
 	char	*dest;
 	int		i;
 
 	i = 0;
-	dest = (char*)malloc(sizeof(char) * options->precision + 1);
-	while (i < options->precision)
+	dest = (char*)malloc(sizeof(char) * ops->prec + 1);
+	while (i < ops->prec)
 	{
 		dest[i] = s[i];
 		i++;
@@ -511,29 +511,29 @@ char	*ft_chop(char *s, t_options *options)
 	return (dest);
 }
 
-void	ft_apply_flags(char *s, t_options *options)
+void	ft_apply_flags(char *s, t_ops *ops)
 {
 	if (!s)
 	{
 		write(1, "(null)", 6);
 		return ;
 	}
-	if (options->num)
+	if (ops->num)
 	{
-		(options->space && s[0] != '-') ? options->width -= 1 : 0;
-		options->precision -= ft_strlen(s);
-		(options->plus) ? options->width -= 1 : 0;
-		s = ft_zeros(s, options);
-		options->width -= ft_strlen(s);
-		s = ft_spaces(s, options);
-		s = (options->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
-		s = (options->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
+		(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
+		ops->prec -= ft_strlen(s);
+		(ops->plus) ? ops->width -= 1 : 0;
+		s = ft_zeros(s, ops);
+		ops->width -= ft_strlen(s);
+		s = ft_spaces(s, ops);
+		s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
+		s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	}
 	else
 	{
-		s = (options->precision) ? ft_chop(s, options) : s;
-		options->width -= ft_strlen(s);
-		s = ft_spaces(s, options);
+		s = (ops->prec) ? ft_chop(s, ops) : s;
+		ops->width -= ft_strlen(s);
+		s = ft_spaces(s, ops);
 	}
 	ft_putstr(s);
 }
@@ -545,24 +545,24 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (*(unsigned char*)s1) - *((unsigned char*)s2);
 }
 
-char	*ft_my_type(va_list *args, t_options *options, int base)
+char	*ft_my_type(va_list *args, t_ops *ops, int base)
 {
 	char	*s;
 
-	if (!options->modifier)
-		s = ft_itoa((va_arg(*args, ssize_t)), options);
-	else if (ft_strcmp(options->modifier, "j") || ft_strcmp(options->modifier, "z"))
-		s = ft_itoabase_umax(va_arg(*args, intmax_t), base, options);
-	else if (ft_strcmp(options->modifier, "ll"))
-		s = ft_itoabase_umax(va_arg(*args, long long), base, options);
-	else if (ft_strcmp(options->modifier, "l"))
-		s = ft_itoabase_umax(va_arg(*args, long), base, options);
-	else if (ft_strcmp(options->modifier, "hh"))
-		s = ft_itoabase_umax((char)va_arg(*args, int), base, options);
-	else if (ft_strcmp(options->modifier, "h"))
-		s = ft_itoabase_umax((short)va_arg(*args, int), base, options);
+	if (!ops->mod)
+		s = ft_itoa((va_arg(*args, ssize_t)), ops);
+	else if (ft_strcmp(ops->mod, "j") || ft_strcmp(ops->mod, "z"))
+		s = ft_itoabase_umax(va_arg(*args, intmax_t), base, ops);
+	else if (ft_strcmp(ops->mod, "ll"))
+		s = ft_itoabase_umax(va_arg(*args, long long), base, ops);
+	else if (ft_strcmp(ops->mod, "l"))
+		s = ft_itoabase_umax(va_arg(*args, long), base, ops);
+	else if (ft_strcmp(ops->mod, "hh"))
+		s = ft_itoabase_umax((char)va_arg(*args, int), base, ops);
+	else if (ft_strcmp(ops->mod, "h"))
+		s = ft_itoabase_umax((short)va_arg(*args, int), base, ops);
 	else
-		s = ft_itoabase_umax(va_arg(*args, intmax_t), base, options);
+		s = ft_itoabase_umax(va_arg(*args, intmax_t), base, ops);
 	return (s);
 }
 
@@ -592,26 +592,26 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 	return (wstr);
 }
 
-void	ft_handle_it(t_options *options, va_list *args)
+void	ft_handle_it(t_ops *ops, va_list *args)
 {
-	if (options->conversion == 's')
-		ft_apply_flags(va_arg(*args, char*), options);
-	if (options->conversion == 'S')
+	if (ops->conv == 's')
+		ft_apply_flags(va_arg(*args, char*), ops);
+	if (ops->conv == 'S')
 		ft_putwstr(ft_wstrdup(va_arg(*args, wchar_t*)));
-	if (options->conversion == 'C')
+	if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(*args, wchar_t))));
-	if (options->conversion == 'c')
+	if (ops->conv == 'c')
 		ft_putchar(va_arg(*args, int));
-	if (options->conversion == 'o' || options->conversion == 'O')
-		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int), options), options);
-	if (options->conversion == 'p')
-		ft_apply_flags(ft_ptoa(va_arg(*args, unsigned long int), options), options);
-	if (options->conversion == 'd' || options->conversion == 'i')
-		ft_apply_flags(ft_my_type(args, options, 10), options);
-	if (options->conversion == 'x' || options->conversion == 'X')
-		ft_apply_flags(ft_htoa(va_arg(*args, unsigned int), options), options);
-	if (options->conversion == 'u')
-		ft_putstr(ft_itoabase_umax(va_arg(*args, intmax_t), 10, options));
+	if (ops->conv == 'o' || ops->conv == 'O')
+		ft_apply_flags(ft_otoa(va_arg(*args, unsigned int), ops), ops);
+	if (ops->conv == 'p')
+		ft_apply_flags(ft_ptoa(va_arg(*args, unsigned long int), ops), ops);
+	if (ops->conv == 'd' || ops->conv == 'i')
+		ft_apply_flags(ft_my_type(args, ops, 10), ops);
+	if (ops->conv == 'x' || ops->conv == 'X')
+		ft_apply_flags(ft_htoa(va_arg(*args, unsigned int), ops), ops);
+	if (ops->conv == 'u')
+		ft_putstr(ft_itoabase_umax(va_arg(*args, intmax_t), 10, ops));
 }
 
 int	ft_printf(const char *format, ...)
@@ -619,7 +619,7 @@ int	ft_printf(const char *format, ...)
 	va_list		args;
 	int		i;
 	int		ret;
-	t_options	options;
+	t_ops	ops;
 
 	i = 0;
 	ret = 0;
@@ -635,9 +635,9 @@ int	ft_printf(const char *format, ...)
 		}
 		else if (format[i] == '%')
 		{
-			ft_init_options(&options);
-			if (ft_check_and_save((char*)format, &i, &options))
-				ft_handle_it(&options, &args);
+			ft_init_ops(&ops);
+			if (ft_check_and_save((char*)format, &i, &ops))
+				ft_handle_it(&ops, &args);
 		}
 		else
 			write(1, &format[i], 1);
