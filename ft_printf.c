@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 02:22:25 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 02:24:15 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <wchar.h>
+# include <stdint.h>
 #include <limits.h>
 #include <locale.h>
 
