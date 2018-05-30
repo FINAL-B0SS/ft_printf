@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:06:54 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:23:31 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,19 +280,20 @@ int	ft_mod_double_check(char *s, int *i, t_ops *ops, char *mod)
 
 int	ft_mod_check(char *s, int *i, t_ops *ops)
 {
-	if (s[*i] == 'h' && s[*i + 1] == 'h')
-		return (ft_mod_double_check(s, i, ops, "hh"));
-	if (s[*i] == 'h' && s[*i + 1] != 'h')
-		return (ft_mod_double_check(s, i, ops, "h"));
-	if (s[*i] == 'l' && s[*i + 1] != 'l')
-		return (ft_mod_double_check(s, i, ops, "l"));
-	if (s[*i] == 'l' && s[*i + 1] == 'l')
-		return (ft_mod_double_check(s, i, ops, "ll"));
-	if (s[*i] == 'j')
-		return (ft_mod_double_check(s, i, ops, "j"));
-	if (s[*i] == 'z')
-		return (ft_mod_double_check(s, i, ops, "z"));
-	return (2);
+	(s[*i] == 'h' && s[*i + 1] == 'h') ? ops->mod = "hh" : 0;
+	(s[*i] == 'h' && s[*i + 1] != 'h') ? ops->mod = "h" : 0;
+	(s[*i] == 'l' && s[*i + 1] != 'l') ? ops->mod = "l" : 0;
+	(s[*i] == 'l' && s[*i + 1] == 'l') ? ops->mod = "ll" : 0;
+	(s[*i] == 'j') ? ops->mod = "j" : 0;
+	(s[*i] == 'z') ? ops->mod = "z" : 0;
+	*i += ft_strlen(ops->mod);
+	if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
+	{
+		ops->m += 1;
+		return (1);
+	}
+	else
+		return (-1);
 }
 
 void	ft_flag_save(char *s, t_ops *ops, int *i)
@@ -645,48 +646,49 @@ int	ft_printf(const char *format, ...)
 	return (1);
 }
 /*
-int main()
-{
-//	ft_printf("%qqqqqqq\n", "test");
-//	ft_printf("Handling %%%%: %%\n");
-//	ft_printf("Octal: %#o\n", 0);
-//	ft_printf("String: % s\n", "Hello World!");
-//	ft_printf("Integer: %d\n", -2147483648);
-//	ft_printf("Lowercase Hex: %#x\n", 42);
-//	ft_printf("Upercase Hex: %#X\n", 42);
-//	printf("Ascii Charcter: %c\n", '*');
-//	ft_printf("Unsigned int: %030u\n", 214783649);
-//	ft_printf("Basic text: Test test 123\n");
-	printf("\t-----------------Mine----------------\n");
-	printf("%-5.3s\n", "LYDI");
-	printf("% 4.5i\n", 42);
-	printf("%04.5i\n", 42);
-	printf("%04.3i\n", 42);
-	printf("%04.2i\n", 42);
-	printf("%  i\n", 42);
-	printf("% i\n", -42);
-	printf("% 4i\n", 42);
-	printf("%-i\n", 42);
-	printf("%-ld\n", -2147483648);
-	printf("%-i\n",-42);
-	printf("%-4d\n", 42);
-	printf("%-5d\n", -42);
-	printf("%-4i\n", 42);
-	printf("\t---------------Theirs------------------\n");
-	ft_printf("%-5.3s\n", "LYDI");
-	ft_printf("% 4.5i\n", 42);
-	ft_printf("%04.5i\n", 42);
-	ft_printf("%04.3i\n", 42);
-	ft_printf("%04.2i\n", 42);
-	ft_printf("%  i\n", 42);
-	ft_printf("% i\n", -42);
-	ft_printf("% 4i\n", 42);
-	ft_printf("%-i\n", 42);
-	ft_printf("%-d\n", -2147483648);
-	ft_printf("%-i\n",-42);
-	ft_printf("%-4d\n", 42);
-	ft_printf("%-5d\n", -42);
-	ft_printf("%-4i\n", 42);
-	ft_printf("%-+d", 42);
-	return (0);
-}*/
+**int main()
+**{
+**	ft_printf("%qqqqqqq\n", "test");
+**	ft_printf("Handling %%%%: %%\n");
+**	ft_printf("Octal: %#o\n", 0);
+**	ft_printf("String: % s\n", "Hello World!");
+**	ft_printf("Integer: %d\n", -2147483648);
+**	ft_printf("Lowercase Hex: %#x\n", 42);
+**	ft_printf("Upercase Hex: %#X\n", 42);
+**	printf("Ascii Charcter: %c\n", '*');
+**	ft_printf("Unsigned int: %030u\n", 214783649);
+**	ft_printf("Basic text: Test test 123\n");
+**	printf("\t-----------------Mine----------------\n");
+**	printf("%-5.3s\n", "LYDI");
+**	printf("% 4.5i\n", 42);
+**	printf("%04.5i\n", 42);
+**	printf("%04.3i\n", 42);
+**	printf("%04.2i\n", 42);
+**	printf("%  i\n", 42);
+**	printf("% i\n", -42);
+**	printf("% 4i\n", 42);
+**	printf("%-i\n", 42);
+**	printf("%-ld\n", -2147483648);
+**	printf("%-i\n",-42);
+**	printf("%-4d\n", 42);
+**	printf("%-5d\n", -42);
+**	printf("%-4i\n", 42);
+**	printf("\t---------------Theirs------------------\n");
+**	ft_printf("%-5.3s\n", "LYDI");
+**	ft_printf("% 4.5i\n", 42);
+**	ft_printf("%04.5i\n", 42);
+**	ft_printf("%04.3i\n", 42);
+**	ft_printf("%04.2i\n", 42);
+**	ft_printf("%  i\n", 42);
+**	ft_printf("% i\n", -42);
+**	ft_printf("% 4i\n", 42);
+**	ft_printf("%-i\n", 42);
+**	ft_printf("%-d\n", -2147483648);
+**	ft_printf("%-i\n",-42);
+**	ft_printf("%-4d\n", 42);
+**	ft_printf("%-5d\n", -42);
+**	ft_printf("%-4i\n", 42);
+**	ft_printf("%-+d", 42);
+**	return (0);
+**}
+*/
