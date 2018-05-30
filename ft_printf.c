@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:46:06 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:47:15 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,6 @@ void	ft_flag_save(char *s, t_ops *ops, int *i)
 
 int	ft_parse(char *s, int *i, t_ops *ops)
 {
-	*i += 1;
 	ft_flag_save(s, ops, i);
 	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
 	{
@@ -634,6 +633,7 @@ int	ft_printf(const char *format, ...)
 		else if (format[i] == '%')
 		{
 			ft_init_ops(&ops);
+			i += 1;
 			(ft_parse((char*)format, &i, &ops)) ? ft_handle_it(&ops, &args) : 0;
 		}
 		else
