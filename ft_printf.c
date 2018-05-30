@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 02:06:29 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 02:07:15 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef struct	s_ops
 	int		pound;
 	int		plus;
 	int		zero;
-	size_t		width;
-	size_t		prec;
+	int		width;
+	int		prec;
 	char	conv;
 	char	*mod;
 	int		f;
