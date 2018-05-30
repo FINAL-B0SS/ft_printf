@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 00:25:46 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 00:26:26 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,9 +286,9 @@ int	ft_mod_check(char *s, int *i, t_ops *ops)
 	(s[*i] == 'l' && s[*i + 1] == 'l') ? ops->mod = "ll" : 0;
 	(s[*i] == 'j') ? ops->mod = "j" : 0;
 	(s[*i] == 'z') ? ops->mod = "z" : 0;
-	*i += ft_strlen(ops->mod);
 	if (ops->mod)
 	{
+		*i += ft_strlen(ops->mod);
 		if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
 		{
 			ops->m += 1;
