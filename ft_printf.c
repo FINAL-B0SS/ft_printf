@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 01:25:33 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 01:26:34 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -496,13 +496,13 @@ int	ft_putwstr(wchar_t *ws)
 {
 	int i;
 
-	i = 1;//0;
-//	while (ws[i] != '\0')
-//	{
+	i = 1;
+	while (ws[i] != '\0')
+	{
 		printf("x\n");
-//		ft_putchar(ws[i]);
-//		i++;
-//	}
+		ft_putchar(ws[i]);
+		i++;
+	}
 	return (i);
 }
 
