@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 01:15:46 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 01:17:17 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,82 +263,6 @@ char	*ft_itoa(int nbr, t_ops *ops)
 	}
 	str[ft_strlen(str)] = '\0';
 	return (str);
-}
-
-int	ft_conv_check(int i, char *s, char c)
-{
-	while (s[++i])
-		if (c == s[i])
-			return (1);
-	return (0);
-}
-
-int	ft_mod_check(char *s, int *i, t_ops *ops)
-{
-	(s[*i] == 'h' && s[*i + 1] == 'h') ? ops->mod = "hh" : 0;
-	(s[*i] == 'h' && s[*i + 1] != 'h') ? ops->mod = "h" : 0;
-	(s[*i] == 'l' && s[*i + 1] != 'l') ? ops->mod = "l" : 0;
-	(s[*i] == 'l' && s[*i + 1] == 'l') ? ops->mod = "ll" : 0;
-	(s[*i] == 'j') ? ops->mod = "j" : 0;
-	(s[*i] == 'z') ? ops->mod = "z" : 0;
-	if (ops->mod)
-	{
-		*i += ft_strlen(ops->mod);
-		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
-		{
-			ops->m += 1;
-			return (1);
-		}
-		else
-			return (-1);
-	}
-	return (1);
-}
-
-void	ft_flag_save(char *s, t_ops *ops, int *i)
-{
-	while (s[*i] && (s[*i] == '#' || s[*i] == '0' ||
-				s[*i] == '-' || s[*i] == '+' || s[*i] == ' '))
-	{
-		(s[*i] == '0') ? ops->zero += 1 : 0;
-		(s[*i] == '-') ? ops->minus += 1 : 0;
-		(s[*i] == '+') ? ops->plus += 1 : 0;
-		(s[*i] == '#') ? ops->pound += 1 : 0;
-		(s[*i] == ' ') ? ops->space += 1 : 0;
-		*i += 1;
-	}
-}
-
-int	ft_parse(char *s, int *i, t_ops *ops)
-{
-	*i += 1;
-	ft_flag_save(s, ops, i);
-	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
-	{
-		ops->w += 1;
-		ops->width = (ft_atoi(&s[*i]));
-		*i += ft_nbrlen(ft_atoi(&s[*i]));
-	}
-	if (s[*i] && (s[*i] == '.'))
-	{
-		*i += 1;
-		ops->p += 1;
-		ops->prec = (ft_atoi(&s[*i]));
-		*i += ft_nbrlen(ft_atoi(&s[*i]));
-	}
-	if (ft_mod_check(s, i, ops) == -1)
-		return (0);
-	while (s[*i])
-	{
-		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
-		{
-			ops->c += 1;
-			ops->conv = s[*i];
-			break ;
-		}
-		*i += 1;
-	}
-	return ((ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1) ? 1 : 0);
 }
 
 static int	get_unumlen(size_t num, int base)
@@ -614,6 +538,82 @@ void	ft_handle_it(t_ops *ops, va_list *args)
 		ft_apply_flags(ft_htoa(va_arg(*args, unsigned int), ops), ops);
 	else if (ops->conv == 'u')
 		ft_putstr(ft_itoabase_umax(va_arg(*args, intmax_t), 10, ops));
+}
+
+int	ft_conv_check(int i, char *s, char c)
+{
+	while (s[++i])
+		if (c == s[i])
+			return (1);
+	return (0);
+}
+
+int	ft_mod_check(char *s, int *i, t_ops *ops)
+{
+	(s[*i] == 'h' && s[*i + 1] == 'h') ? ops->mod = "hh" : 0;
+	(s[*i] == 'h' && s[*i + 1] != 'h') ? ops->mod = "h" : 0;
+	(s[*i] == 'l' && s[*i + 1] != 'l') ? ops->mod = "l" : 0;
+	(s[*i] == 'l' && s[*i + 1] == 'l') ? ops->mod = "ll" : 0;
+	(s[*i] == 'j') ? ops->mod = "j" : 0;
+	(s[*i] == 'z') ? ops->mod = "z" : 0;
+	if (ops->mod)
+	{
+		*i += ft_strlen(ops->mod);
+		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
+		{
+			ops->m += 1;
+			return (1);
+		}
+		else
+			return (-1);
+	}
+	return (1);
+}
+
+void	ft_flag_save(char *s, t_ops *ops, int *i)
+{
+	while (s[*i] && (s[*i] == '#' || s[*i] == '0' ||
+				s[*i] == '-' || s[*i] == '+' || s[*i] == ' '))
+	{
+		(s[*i] == '0') ? ops->zero += 1 : 0;
+		(s[*i] == '-') ? ops->minus += 1 : 0;
+		(s[*i] == '+') ? ops->plus += 1 : 0;
+		(s[*i] == '#') ? ops->pound += 1 : 0;
+		(s[*i] == ' ') ? ops->space += 1 : 0;
+		*i += 1;
+	}
+}
+
+int	ft_parse(char *s, int *i, t_ops *ops)
+{
+	*i += 1;
+	ft_flag_save(s, ops, i);
+	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
+	{
+		ops->w += 1;
+		ops->width = (ft_atoi(&s[*i]));
+		*i += ft_nbrlen(ft_atoi(&s[*i]));
+	}
+	if (s[*i] && (s[*i] == '.'))
+	{
+		*i += 1;
+		ops->p += 1;
+		ops->prec = (ft_atoi(&s[*i]));
+		*i += ft_nbrlen(ft_atoi(&s[*i]));
+	}
+	if (ft_mod_check(s, i, ops) == -1)
+		return (0);
+	while (s[*i])
+	{
+		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
+		{
+			ops->c += 1;
+			ops->conv = s[*i];
+			break ;
+		}
+		*i += 1;
+	}
+	return ((ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1) ? 1 : 0);
 }
 
 int	ft_printf(const char *format, ...)
