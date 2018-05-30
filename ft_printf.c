@@ -254,8 +254,9 @@ char	*ft_itoa(int nbr, t_options *options)
 	return (str);
 }
 
-int	ft_modifier_double_check(char *s, int *i, t_options *options)
+int	ft_modifier_double_check(char *s, int *i, t_options *options, char *mod)
 {
+	options->modifier = mod;
 	*i += ft_strlen(options->modifier);	
 	if (s[*i] && (s[*i] == 's' || s[*i] == 'S' || s[*i] == 'p' || s[*i] == 'd' || s[*i] == 'D' || s[*i] == 'i' || s[*i] == 'C' || s[*i] == 'o' || s[*i] == 'O' || s[*i] == 'u' || s[*i] == 'U' || s[*i] == 'x' || s[*i] == 'X' || s[*i] == 'c'))
 	{
@@ -269,35 +270,17 @@ int	ft_modifier_double_check(char *s, int *i, t_options *options)
 int	ft_modifier_check(char *s, int *i, t_options *options)
 {
 	if (s[*i] == 'h' && s[*i + 1] == 'h')
-	{
-		options->modifier = "hh";
-		return (ft_modifier_double_check(s, i, options));
-	}
+		return (ft_modifier_double_check(s, i, options, "hh"));
 	if (s[*i] == 'h' && s[*i + 1] != 'h')
-	{
-		options->modifier = "h";
-		return (ft_modifier_double_check(s, i, options));
-	}
+		return (ft_modifier_double_check(s, i, options, "h"));
 	if (s[*i] == 'l' && s[*i + 1] != 'l')
-	{
-		options->modifier = "l";
-		return (ft_modifier_double_check(s, i, options));
-	}
+		return (ft_modifier_double_check(s, i, options, "l"));
 	if (s[*i] == 'l' && s[*i + 1] == 'l')
-	{
-		options->modifier = "ll";
-		return (ft_modifier_double_check(s, i, options));
-	}
+		return (ft_modifier_double_check(s, i, options, "ll"));
 	if (s[*i] == 'j')
-	{
-		options->modifier = "j";
-		return (ft_modifier_double_check(s, i, options));
-	}
+		return (ft_modifier_double_check(s, i, options, "j"));
 	if (s[*i] == 'z')
-	{
-		options->modifier = "z";
-		return (ft_modifier_double_check(s, i, options));
-	}
+		return (ft_modifier_double_check(s, i, options, "z"));
 	return (2);
 }
 
