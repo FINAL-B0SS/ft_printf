@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 17:51:15 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 17:52:22 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -521,7 +521,7 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 void	ft_handle_it(t_ops *ops, va_list *args)
 {
 	if (ops->conv == 's')
-	;//	ft_apply_flags(va_arg(*args, char*), ops);
+		ft_apply_flags(va_arg(*args, char*), ops);
 	else if (ops->conv == 'S')
 		ft_putwstr(va_arg(*args, wchar_t*));
 	else if (ops->conv == 'C')
