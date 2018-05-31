@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 17:53:32 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 20:49:59 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -492,7 +492,7 @@ char	*ft_mod_cast(va_list *args, t_ops *ops, int base)
 	return (s);
 }
 
-int	ft_putwstr(wchar_t *ws)
+int	ft_putwstr(wint_t *ws)
 {
 	int i;
 
@@ -646,46 +646,46 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%qqqqqqq\n", "test");
-	ft_printf("Handling %%%%: %%\n");
-	ft_printf("Octal: %#o\n", 0);
-	ft_printf("String: % s\n", "Hello World!");
-	ft_printf("Integer: %d\n", -2147483648);
-	ft_printf("Lowercase Hex: %#x\n", 42);
-	ft_printf("Upercase Hex: %#X\n", 42);
-	printf("Ascii Charcter: %c\n", '*');
-	ft_printf("Unsigned int: %030u\n", 214783649);
-	ft_printf("Basic text: Test test 123\n");
-	printf("\t-----------------Mine----------------\n");
-	printf("%-5.3s\n", "LYDI");
-	printf("% 4.5i\n", 42);
-	printf("%04.5i\n", 42);
-	printf("%04.3i\n", 42);
-	printf("%04.2i\n", 42);
-	printf("%  i\n", 42);
-	printf("% i\n", -42);
-	printf("% 4i\n", 42);
-	printf("%-i\n", 42);
-	printf("%-ld\n", -2147483648);
-	printf("%-i\n",-42);
-	printf("%-4d\n", 42);
-	printf("%-5d\n", -42);
-	printf("%-4i\n", 42);
-	printf("\t---------------Theirs------------------\n");
-	ft_printf("%-5.3s\n", "LYDI");
-	ft_printf("% 4.5i\n", 42);
-	ft_printf("%04.5i\n", 42);
-	ft_printf("%04.3i\n", 42);
-	ft_printf("%04.2i\n", 42);
-	ft_printf("%  i\n", 42);
-	ft_printf("% i\n", -42);
-	ft_printf("% 4i\n", 42);
-	ft_printf("%-i\n", 42);
-	ft_printf("%-d\n", -2147483648);
-	ft_printf("%-i\n",-42);
-	ft_printf("%-4d\n", 42);
-	ft_printf("%-5d\n", -42);
-	ft_printf("%-4i\n", 42);
-	ft_printf("%n", 42.42);
+//	ft_printf("%qqqqqqq\n", "test");
+//	ft_printf("Handling %%%%: %%\n");
+//	ft_printf("Octal: %#o\n", 0);
+//	ft_printf("String: % s\n", "Hello World!");
+//	ft_printf("Integer: %d\n", -2147483648);
+//	ft_printf("Lowercase Hex: %#x\n", 42);
+//	ft_printf("Upercase Hex: %#X\n", 42);
+//	printf("Ascii Charcter: %c\n", '*');
+//	ft_printf("Unsigned int: %030u\n", 214783649);
+//	ft_printf("Basic text: Test test 123\n");
+//	printf("\t-----------------Mine----------------\n");
+//	printf("%-5.3s\n", "LYDI");
+//	printf("% 4.5i\n", 42);
+//	printf("%04.5i\n", 42);
+//	printf("%04.3i\n", 42);
+//	printf("%04.2i\n", 42);
+///	printf("%  i\n", 42);
+//	printf("% i\n", -42);
+//	printf("% 4i\n", 42);
+//	printf("%-i\n", 42);
+//	printf("%-ld\n", -2147483648);
+//	printf("%-i\n",-42);
+//	printf("%-4d\n", 42);
+//	printf("%-5d\n", -42);
+//	printf("%-4i\n", 42);
+//	printf("\t---------------Theirs------------------\n");
+//	ft_printf("%-5.3s\n", "LYDI");
+//	ft_printf("% 4.5i\n", 42);
+//	ft_printf("%04.5i\n", 42);
+//	ft_printf("%04.3i\n", 42);
+//	ft_printf("%04.2i\n", 42);
+//	ft_printf("%  i\n", 42);
+//	ft_printf("% i\n", -42);
+//	ft_printf("% 4i\n", 42);
+//	ft_printf("%-i\n", 42);
+//	ft_printf("%-d\n", -2147483648);
+//	ft_printf("%-i\n",-42);
+//	ft_printf("%-4d\n", 42);
+//	ft_printf("%-5d\n", -42);
+//	ft_printf("%-4i\n", 42);
+//	printf("@moulitest: %#.x %#.0x", 0, 0);
 	return (0);
 }*/
