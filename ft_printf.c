@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 21:45:52 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 21:49:32 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,6 +444,11 @@ char	*ft_chop(char *s, t_ops *ops)
 
 void	ft_apply_flags(char *s, t_ops *ops)
 {
+	if (!s)
+	{
+		write(1, "(null)", 6);
+		return ;
+	}
 	if (ops->num)
 	{
 		(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
