@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 21:04:42 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 21:06:45 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -492,6 +492,11 @@ char	*ft_mod_cast(va_list *args, t_ops *ops, int base)
 	return (s);
 }
 
+void	ft_putwchar(wchar_t a)
+{
+	write(1, &a, 1);
+}
+
 int	ft_putwstr(wchar_t *ws)
 {
 	int i;
@@ -499,10 +504,9 @@ int	ft_putwstr(wchar_t *ws)
 	i = 0;
 	while (ws[i] != '\0')
 	{
-		write(1, &ws[i], 1);
+		ft_putwchar(ws[i]);
 		i++;
 	}
-	write(1, &ws[i], 1);
 	return (i);
 }
 
