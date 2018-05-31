@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 21:51:16 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 21:56:47 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -598,17 +598,33 @@ void	ft_flag_save(char *s, t_ops *ops, int *i)
 	}
 }
 
+int	ft_seg_start(char *s, int **index, int i)
+{
+	while (s[i] && s[i] != '%')
+	{
+		if (s[i] == '*')
+		{
+			**index = i;
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 int	ft_parse(char *s, int *i, t_ops *ops)
 {
 	*i += 1;
 	ft_flag_save(s, ops, i);
-	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9') && s[*i] != '*'))
+	if (!ft_seg_start(s, &i, 0))
+			return (0);
+	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
 	{
 		ops->w += 1;
 		ops->width = (ft_atoi(&s[*i]));
 		*i += ft_nbrlen(ft_atoi(&s[*i]));
 	}
-	if (s[*i] && (s[*i] == '.') && s[*i] != '*')
+	if (s[*i] && (s[*i] == '.'))
 	{
 		*i += 1;
 		ops->p += 1;
