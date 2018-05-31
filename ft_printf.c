@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 16:08:37 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 16:15:09 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -713,7 +713,7 @@ int main()
 	//	ft_printf("%S\n", a);
 	//`	ft_printf("%-*.3s", 5, "LYDI");
 //////	ft_printf("%D", 4294959296);
-	//	ft_printf("%");
+		ft_printf("%");
 	//	ft_printf("% ");
 	//	ft_printf("% h");
 	//	ft_printf("% hZ");
