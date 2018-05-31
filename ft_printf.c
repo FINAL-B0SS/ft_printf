@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 21:56:47 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 22:07:10 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -598,38 +598,32 @@ void	ft_flag_save(char *s, t_ops *ops, int *i)
 	}
 }
 
-int	ft_seg_start(char *s, int **index, int i)
-{
-	while (s[i] && s[i] != '%')
-	{
-		if (s[i] == '*')
-		{
-			**index = i;
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	ft_parse(char *s, int *i, t_ops *ops)
+int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 {
 	*i += 1;
 	ft_flag_save(s, ops, i);
-	if (!ft_seg_start(s, &i, 0))
-			return (0);
-	if (s[*i] && ((s[*i] > '0' && s[*i] <= '9')))
+	if (s[*i] && (((s[*i] > '0' && s[*i] <= '9')) || (s[*i] == '*' && s[*i - 1] != '*')))
 	{
-		ops->w += 1;
-		ops->width = (ft_atoi(&s[*i]));
-		*i += ft_nbrlen(ft_atoi(&s[*i]));
+		if (s[*i] == '*' && s[*i - 1] != '*')
+			ops->width = va_arg(args, int);
+		else
+		{
+			ops->w += 1;
+			ops->width = (ft_atoi(&s[*i]));
+			*i += ft_nbrlen(ft_atoi(&s[*i]));
+		}
 	}
 	if (s[*i] && (s[*i] == '.'))
 	{
 		*i += 1;
-		ops->p += 1;
-		ops->prec = (ft_atoi(&s[*i]));
-		*i += ft_nbrlen(ft_atoi(&s[*i]));
+		if (s[*i] == '*')
+			ops->prec = va_arg(args, int);
+		else
+		{
+			ops->p += 1;
+			ops->prec = (ft_atoi(&s[*i]));
+			*i += ft_nbrlen(ft_atoi(&s[*i]));
+		}
 	}
 	if (ft_mod_check(s, i, ops) == -1)
 		return (0);
@@ -666,7 +660,7 @@ int	ft_printf(const char *format, ...)
 		else if (format[i] == '%')
 		{
 			ft_init_ops(&ops);
-			(ft_parse((char*)format, &i, &ops)) ? ft_handle_it(&ops, args) : 0;
+			(ft_parse((char*)format, &i, &ops, args)) ? ft_handle_it(&ops, args) : 0;
 		}
 		else
 			write(1, &format[i], 1);
