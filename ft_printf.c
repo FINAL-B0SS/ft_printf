@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 21:21:12 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 21:23:15 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -646,6 +646,7 @@ int	ft_printf(const char *format, ...)
 		else
 			write(1, &format[i], 1);
 	}
+	va_end(args);
 	return (1);
 }
 /*
