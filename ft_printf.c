@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 17:42:28 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 17:43:24 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -662,10 +662,10 @@ int	ft_printf(const char *format, ...)
 	}
 	return (1);
 }
-
+/*
 int main()
 {
-/*	ft_printf("%qqqqqqq\n", "test");
+	ft_printf("%qqqqqqq\n", "test");
 	ft_printf("Handling %%%%: %%\n");
 	ft_printf("Octal: %#o\n", 0);
 	ft_printf("String: % s\n", "Hello World!");
@@ -704,8 +704,8 @@ int main()
 	ft_printf("%-i\n",-42);
 	ft_printf("%-4d\n", 42);
 	ft_printf("%-5d\n", -42);
-	ft_printf("%-4i\n", 42);*/
+	ft_printf("%-4i\n", 42);
 	ft_printf("%*s", 10, "test");
 	return (0);
 }
-
+*/
