@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 20:52:29 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 20:53:30 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -492,14 +492,14 @@ char	*ft_mod_cast(va_list *args, t_ops *ops, int base)
 	return (s);
 }
 
-int	ft_putwstr(wint_t *ws)
+int	ft_putwstr(wchar_t *ws)
 {
 	int i;
 
 	i = 0;
 	while (ws[i] != '\0')
 	{
-		ft_putchar(ws[i]);
+		write(1, &ws[i], 1);
 		i++;
 	}
 	return (i);
@@ -523,7 +523,7 @@ void	ft_handle_it(t_ops *ops, va_list *args)
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(*args, char*), ops);
 	else if (ops->conv == 'S')
-		ft_putwstr(va_arg(*args, wint_t*));
+		ft_putwstr(va_arg(*args, wchar_t*));
 	else if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(*args, wchar_t))));
 	else if (ops->conv == 'c')
