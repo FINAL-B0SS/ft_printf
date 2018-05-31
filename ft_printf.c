@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 15:28:32 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 16:08:37 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -652,9 +652,11 @@ int	ft_printf(const char *format, ...)
 {
 	va_list		args;
 	int			i;
+	int			x;
 	t_ops		ops;
 
 	i = -1;
+	x = 0;
 	va_start(args, format);
 	if (!format)
 		return (0);
@@ -671,9 +673,9 @@ int	ft_printf(const char *format, ...)
 			if (ft_parse((char*)format, &i, &ops, args))
 				ft_handle_it(&ops, args);
 			else
-				return (0);
+				break ;
 		}
-		else
+		else if (format[i] != '\0')
 			write(1, &format[i], 1);
 	}
 	va_end(args);
@@ -682,52 +684,72 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-//	wchar_t a [3] = L"@@";
-//	ft_printf("%qqqqqqq\n", "test");
-//	ft_printf("Handling %%%%: %%\n");
-//	ft_printf("Octal: %#o\n", 0);
-//	ft_printf("String: % s\n", "Hello World!");
-//	ft_printf("Integer: %d\n", -2147483648);
-//	ft_printf("Lowercase Hex: %#x\n", 42);
-//	ft_printf("Upercase Hex: %#X\n", 42);
-//	printf("Ascii Charcter: %c\n", '*');
-//	ft_printf("Unsigned int: %030u\n", 214783649);
-//	ft_printf("Basic text: Test test 123\n");
-//	printf("\t-----------------Mine----------------\n");
-//	printf("%-5.3s\n", "LYDI");
-//	printf("% 4.5i\n", 42);
-//	printf("%04.5i\n", 42);
-//	printf("%04.3i\n", 42);
-//	printf("%04.2i\n", 42);
-//	printf("%  i\n", 42);
-//	printf("% i\n", -42);
-//	printf("% 4i\n", 42);
-//	printf("%-i\n", 42);
-//	printf("%-ld\n", -2147483648);
-//	printf("%-i\n",-42);
-//	printf("%-4d\n", 42);
-//	printf("%-5d\n", -42);
-//	printf("%-4i\n", 42);
-//	printf("\t---------------Theirs------------------\n");
-//	ft_printf("%-5.3s\n", "LYDI");
-//	ft_printf("% 4.5i\n", 42);
-//	ft_printf("%04.5i\n", 42);
-//	ft_printf("%04.3i\n", 42);
-//	ft_printf("%04.2i\n", 42);
-//	ft_printf("%  i\n", 42);
-//	ft_printf("% i\n", -42);
-//	ft_printf("% 4i\n", 42);
-//	ft_printf("%-i\n", 42);
-//	ft_printf("%-d\n", -2147483648);
-//	ft_printf("%-i\n",-42);
-//	ft_printf("%-4d\n", 42);
-//	ft_printf("%-5d\n", -42);
-//	ft_printf("%-4i\n", 42);
-//	ft_printf("%ls\n", a);
-//	ft_printf("%S\n", a);
-//`	ft_printf("%-*.3s", 5, "LYDI");
-//	ft_printf("%D", 4294959296);
-//	ft_printf("%");
-//	printf("%");
-//	return (0);
+	//	wchar_t a [3] = L"@@";
+	//	ft_printf("%qqqqqqq\n", "test");
+	//	ft_printf("Handling %%%%: %%\n");
+	//	ft_printf("Octal: %#o\n", 0);
+	//	ft_printf("String: % s\n", "Hello World!");
+	//	ft_printf("Integer: %d\n", -2147483648);
+	//	ft_printf("Lowercase Hex: %#x\n", 42);
+	//	ft_printf("Upercase Hex: %#X\n", 42);
+	//	printf("Ascii Charcter: %c\n", '*');
+	//	ft_printf("Unsigned int: %030u\n", 214783649);
+	//	ft_printf("Basic text: Test test 123\n");
+	//	ft_printf("%-5.3s\n", "LYDI");
+	//	ft_printf("% 4.5i\n", 42);
+	//	ft_printf("%04.5i\n", 42);
+	//	ft_printf("%04.3i\n", 42);
+	//	ft_printf("%04.2i\n", 42);
+	//	ft_printf("%  i\n", 42);
+	//	ft_printf("% i\n", -42);
+	//	ft_printf("% 4i\n", 42);
+	//	ft_printf("%-i\n", 42);
+	//	ft_printf("%-d\n", -2147483648);
+	//	ft_printf("%-i\n",-42);
+	//	ft_printf("%-4d\n", 42);
+	//	ft_printf("%-5d\n", -42);
+	//	ft_printf("%-4i\n", 42);
+	//	ft_printf("%ls\n", a);
+	//	ft_printf("%S\n", a);
+	//`	ft_printf("%-*.3s", 5, "LYDI");
+//////	ft_printf("%D", 4294959296);
+	//	ft_printf("%");
+	//	ft_printf("% ");
+	//	ft_printf("% h");
+	//	ft_printf("% hZ");
+	//	ft_printf("%05%");
+	//	ft_printf("%-05%");
+	//	ft_printf("% hZ%");
+	//	ft_printf("% Z", "test");
+	//	ft_printf("% Z ", "test");
+	//	ft_printf("% Z%s", "test");
+	//	ft_printf("%000   %", "test");
+	//	ft_printf("%%   %", "test");
+	//	ft_printf("%ll#x", 9223372036854775807);
+	//	ft_printf("%010s is a string", "this");
+	//	ft_printf("%-010s is a string", "this");
+	//	ft_printf("%05c", 42);
+	//	ft_printf("% Z", 42);
+	//	ft_printf("%0 d", 42);
+	//	ft_printf("%0 d", -42);
+	//	ft_printf("% 0d", 42);
+	//	ft_printf("% 0d", -42);
+	//	ft_printf("%5+d", 42);
+	//	ft_printf("%5+d", -42);
+	//	ft_printf("%-5+d", 42);
+	//	ft_printf("%-0+5d", 42);
+	//	ft_printf("%-5+d", -42);
+	//	ft_printf("%-0+5d", -42);
+	//	ft_printf("%zhd", 4294967296);
+	//	ft_printf("%jzd", 9223372036854775807);
+	//	ft_printf("%jhd", 9223372036854775807);
+	//	ft_printf("%lhl", 9223372036854775807);
+	//	ft_printf("%lhlz", 9223372036854775807);
+	//	ft_printf("%zj", 9223372036854775807);
+	//	ft_printf("%lhh", 2147483647);
+	//	ft_printf("%hhld", 128);
+	//	ft_printf("@main_ftprintf: %####0000 33..1..#00d\n", 256);
+	//	ft_printf("@main_ftprintf: %####0000 33..1d", 256);
+	//	ft_printf("@main_ftprintf: %###-#0000 33...12..#0+0d", 256);
+	return (0);
 }*/
