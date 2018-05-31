@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 22:07:10 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 15:07:19 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -605,7 +605,10 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	if (s[*i] && (((s[*i] > '0' && s[*i] <= '9')) || (s[*i] == '*' && s[*i - 1] != '*')))
 	{
 		if (s[*i] == '*' && s[*i - 1] != '*')
+		{
 			ops->width = va_arg(args, int);
+			*i += 1;
+		}
 		else
 		{
 			ops->w += 1;
@@ -617,7 +620,10 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	{
 		*i += 1;
 		if (s[*i] == '*')
+		{
 			ops->prec = va_arg(args, int);
+			*i += 1;
+		}
 		else
 		{
 			ops->p += 1;
@@ -688,7 +694,7 @@ int main()
 //	printf("%04.5i\n", 42);
 //	printf("%04.3i\n", 42);
 //	printf("%04.2i\n", 42);
-///	printf("%  i\n", 42);
+//	printf("%  i\n", 42);
 //	printf("% i\n", -42);
 //	printf("% 4i\n", 42);
 //	printf("%-i\n", 42);
@@ -712,7 +718,8 @@ int main()
 //	ft_printf("%-4d\n", 42);
 //	ft_printf("%-5d\n", -42);
 //	ft_printf("%-4i\n", 42);
-	ft_printf("%ls\n", a);
-	ft_printf("%S\n", a);
+//	ft_printf("%ls\n", a);
+//	ft_printf("%S\n", a);
+	ft_printf("%-*.3s", 5, "LYDI");
 	return (0);
 }*/
