@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 15:07:19 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 15:12:22 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -536,6 +536,8 @@ void	ft_handle_it(t_ops *ops, va_list args)
 {
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
+	else if (ops->conv == 'D')
+		ft_apply_flags(ft_itoabase_umax(va_arg(args, long), 10, ops), ops);
 	else if (ops->conv == 'S' || (ops->conv == 'S' && ops->mod[0] == 'l'))
 		ft_putwstr(va_arg(args, wchar_t*));
 	else if (ops->conv == 'C')
@@ -546,7 +548,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 		ft_apply_flags(ft_otoa(va_arg(args, unsigned int), ops), ops);
 	else if (ops->conv == 'p')
 		ft_apply_flags(ft_ptoa(va_arg(args, unsigned long int), ops), ops);
-	else if (ops->conv == 'd' || ops->conv == 'i' || ops->conv == 'D')
+	else if (ops->conv == 'd' || ops->conv == 'i')
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(args, unsigned int), ops), ops);
@@ -677,7 +679,7 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	wchar_t a [3] = L"@@";
+//	wchar_t a [3] = L"@@";
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 0);
@@ -720,6 +722,7 @@ int main()
 //	ft_printf("%-4i\n", 42);
 //	ft_printf("%ls\n", a);
 //	ft_printf("%S\n", a);
-	ft_printf("%-*.3s", 5, "LYDI");
+//`	ft_printf("%-*.3s", 5, "LYDI");
+	ft_printf("%D", 4294959296);
 	return (0);
 }*/
