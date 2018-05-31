@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 21:23:15 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 21:45:52 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -477,6 +477,8 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 
 	if (!ops->mod)
 		s = ft_itoa((va_arg(args, ssize_t)), ops);
+	else if (ft_strcmp(ops->mod, "l") && ops->conv == 'd')
+		s = ft_itoabase_umax(va_arg(args, long), base, ops);
 	else if (ft_strcmp(ops->mod, "j") || ft_strcmp(ops->mod, "z"))
 		s = ft_itoabase_umax(va_arg(args, intmax_t), base, ops);
 	else if (ft_strcmp(ops->mod, "ll"))
