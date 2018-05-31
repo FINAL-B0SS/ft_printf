@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/30 21:08:12 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/30 21:21:12 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -527,7 +527,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 {
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
-	else if (ops->conv == 'S')
+	else if (ops->conv == 'S' || (ops->conv == 'S' && ops->mod[0] == 'l'))
 		ft_putwstr(va_arg(args, wchar_t*));
 	else if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))));
@@ -651,6 +651,7 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
+	wchar_t a [3] = L"@@";
 //	ft_printf("%qqqqqqq\n", "test");
 //	ft_printf("Handling %%%%: %%\n");
 //	ft_printf("Octal: %#o\n", 0);
@@ -691,6 +692,7 @@ int main()
 //	ft_printf("%-4d\n", 42);
 //	ft_printf("%-5d\n", -42);
 //	ft_printf("%-4i\n", 42);
-//	printf("@moulitest: %#.x %#.0x", 0, 0);
+	ft_printf("%ls\n", a);
+	ft_printf("%S\n", a);
 	return (0);
 }*/
