@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 19:28:53 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 20:00:26 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -584,59 +584,49 @@ int	ft_mod_check(char *s, int *i, t_ops *ops)
 	return (1);
 }
 
-void	ft_flag_save(char *s, t_ops *ops, int i)
+void	ft_flag_save(char *s, t_ops *ops, int *i)
 {
-	while (s[i] && (s[i] != '%'))
+	while (s[*i] && (s[*i] == '#' || s[*i] == '0' ||
+				s[*i] == '-' || s[*i] == '+' || s[*i] == ' '))
 	{
-		(s[i] == '0') ? ops->zero += 1 : 0;
-		(s[i] == '-') ? ops->minus += 1 : 0;
-		(s[i] == '+') ? ops->plus += 1 : 0;
-		(s[i] == '#') ? ops->pound += 1 : 0;
-		(s[i] == ' ') ? ops->space += 1 : 0;
-		i += 1;
+		(s[*i] == '0') ? ops->zero += 1 : 0;
+		(s[*i] == '-') ? ops->minus += 1 : 0;
+		(s[*i] == '+') ? ops->plus += 1 : 0;
+		(s[*i] == '#') ? ops->pound += 1 : 0;
+		(s[*i] == ' ') ? ops->space += 1 : 0;
+		*i += 1;
 	}
 }
 
-void	ft_width_parse(char *s, int i, t_ops *ops, va_list args)
+void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 {
-	while (s[++i] != '%')
+	if (s[*i] && (((s[*i] > '0' && s[*i] <= '9')) || (s[*i] == '*' && s[*i - 1] != '*')))
 	{
-		if (s[i] && (((s[i] > '0' && s[i] <= '9')) || (s[i] == '*' && s[i - 1] != '*')))
+		if (s[*i] == '*' && s[*i - 1] != '*')
 		{
-			if (s[i] == '*' && s[i - 1] != '*')
-			{
-				ops->width = va_arg(args, int);
-				i += 1;
-			}
-			else
-			{
-				ops->w += 1;
-				ops->width = (ft_atoi(&s[i]));
-				i += ft_nbrlen(ft_atoi(&s[i]));
-			}
+			ops->width = va_arg(args, int);
+			*i += 1;
+		}
+		else
+		{
+			ops->w += 1;
+			ops->width = (ft_atoi(&s[*i]));
+			*i += ft_nbrlen(ft_atoi(&s[*i]));
 		}
 	}
-}
-
-void	ft_prec_width_parse(char *s, int i, t_ops *ops, va_list args)
-{
-	ft_width_parse(s, -1, ops, args);
-	while (s[++i] != '%')
+	if (s[*i] && (s[*i] == '.'))
 	{
-		if (s[i] && (s[i] == '.'))
+		*i += 1;
+		if (s[*i] == '*')
 		{
-			i += 1;
-			if (s[i] == '*')
-			{
-				ops->prec = va_arg(args, int);
-				i += 1;
-			}
-			else
-			{
-				ops->p += 1;
-				ops->prec = (ft_atoi(&s[i]));
-				i += ft_nbrlen(ft_atoi(&s[i]));
-			}
+			ops->prec = va_arg(args, int);
+			*i += 1;
+		}
+		else
+		{
+			ops->p += 1;
+			ops->prec = (ft_atoi(&s[*i]));
+			*i += ft_nbrlen(ft_atoi(&s[*i]));
 		}
 	}
 }
@@ -644,12 +634,10 @@ void	ft_prec_width_parse(char *s, int i, t_ops *ops, va_list args)
 int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 {
 	*i += 1;
-	ft_flag_save(s, ops, 0);
-	ft_prec_width_parse(s, -1, ops, args);
+	ft_flag_save(s, ops, i);
+	ft_prec_width_parse(s, i, ops, args);
 	if (ft_mod_check(s, i, ops) == -1)
 		return (0);
-	while (!ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
-		*i += 1;
 	if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 	{
 		ops->c += 1;
@@ -695,7 +683,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-//	ft_printf("%ll#x", 9223372036854775807);
-//	ft_printf("%-i", 42);
+	ft_printf("%ll#x", 9223372036854775807);
 	return (0);
 }*/
