@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 18:21:31 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 18:24:37 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,7 +456,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		return ;
 	}
 	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
-	if (ops->num)
+	if (!ops->num)
 		s = (ops->prec) ? ft_chop(s, ops) : s;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
 	ops->prec -= ft_strlen(s);
@@ -678,6 +678,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%010s is a string", "this");
+	ft_printf("%-5.3s", "LYDI");
 	return (0);
 }*/
