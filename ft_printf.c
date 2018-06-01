@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 16:15:09 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 18:10:54 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ typedef struct	s_ops
 	int		c;
 	int		m;
 	int		data;
+	int		bytes;
 }				t_ops;
 
 void	ft_init_ops(t_ops *ops)
 {
+	ops->bytes = 0;
 	ops->num = 0;
 	ops->data = 0;
 	ops->space = 0;
@@ -72,12 +74,13 @@ int	ft_nbrlen(int n)
 	return (i);
 }
 
-void	ft_putchar(char c)
+void	ft_putchar(char c, t_ops *ops)
 {
 	write(1, &c, 1);
+	ops->bytes += 1;
 }
 
-void	ft_putstr(char *s)
+void	ft_putstr(char *s, t_ops *ops)
 {
 	int	i;
 
@@ -91,6 +94,7 @@ void	ft_putstr(char *s)
 	{
 		write(1, &s[i], 1);
 		i++;
+		ops->bytes += 1;
 	}
 }
 
@@ -451,6 +455,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		write(1, "(null)", 6);
 		return ;
 	}
+	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
 	if (ops->num)
 	{
 		(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
@@ -468,7 +473,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		ops->width -= ft_strlen(s);
 		s = ft_spaces(s, ops);
 	}
-	ft_putstr(s);
+	ft_putstr(s, ops);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -543,7 +548,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))));
 	else if (ops->conv == 'c')
-		ft_putchar(va_arg(args, int));
+		ft_putchar(va_arg(args, int), ops);
 	else if (ops->conv == 'o' || ops->conv == 'O')
 		ft_apply_flags(ft_otoa(va_arg(args, unsigned int), ops), ops);
 	else if (ops->conv == 'p')
@@ -553,7 +558,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(args, unsigned int), ops), ops);
 	else if (ops->conv == 'u')
-		ft_putstr(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops));
+		ft_putstr(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
 }
 
 int	ft_conv_check(int i, char *s, char c)
@@ -635,121 +640,51 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	}
 	if (ft_mod_check(s, i, ops) == -1)
 		return (0);
-	while (s[*i])
+	if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 	{
-		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
-		{
-			ops->c += 1;
-			ops->conv = s[*i];
-			break ;
-		}
-		*i += 1;
+		ops->c += 1;
+		ops->conv = s[*i];
 	}
-	return ((ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1) ? 1 : 0);
+	return (ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1 ? 1 : 0);
 }
 
 int	ft_printf(const char *format, ...)
 {
 	va_list		args;
 	int			i;
-	int			x;
+	int			bytes;
 	t_ops		ops;
 
 	i = -1;
-	x = 0;
+	bytes = 0;
 	va_start(args, format);
 	if (!format)
 		return (0);
 	while (format[++i])
 	{
+		ft_init_ops(&ops);
 		if (format[i] == '%' && format[i + 1] == '%')
 		{
-			write(1, "%", 1);
+			ft_putchar('%', &ops);
 			i += 1;
 		}
 		else if (format[i] == '%')
 		{
-			ft_init_ops(&ops);
 			if (ft_parse((char*)format, &i, &ops, args))
 				ft_handle_it(&ops, args);
-			else
-				break ;
+			else if (format[i])
+				ft_putchar(format[i], &ops);
 		}
-		else if (format[i] != '\0')
-			write(1, &format[i], 1);
+		else if (i < ft_strlen((char*)format))
+			ft_putchar(format[i], &ops);
+		bytes += ops.bytes;
 	}
 	va_end(args);
-	return (1);
+	return (bytes);
 }
-/*
+
 int main()
 {
-	//	wchar_t a [3] = L"@@";
-	//	ft_printf("%qqqqqqq\n", "test");
-	//	ft_printf("Handling %%%%: %%\n");
-	//	ft_printf("Octal: %#o\n", 0);
-	//	ft_printf("String: % s\n", "Hello World!");
-	//	ft_printf("Integer: %d\n", -2147483648);
-	//	ft_printf("Lowercase Hex: %#x\n", 42);
-	//	ft_printf("Upercase Hex: %#X\n", 42);
-	//	printf("Ascii Charcter: %c\n", '*');
-	//	ft_printf("Unsigned int: %030u\n", 214783649);
-	//	ft_printf("Basic text: Test test 123\n");
-	//	ft_printf("%-5.3s\n", "LYDI");
-	//	ft_printf("% 4.5i\n", 42);
-	//	ft_printf("%04.5i\n", 42);
-	//	ft_printf("%04.3i\n", 42);
-	//	ft_printf("%04.2i\n", 42);
-	//	ft_printf("%  i\n", 42);
-	//	ft_printf("% i\n", -42);
-	//	ft_printf("% 4i\n", 42);
-	//	ft_printf("%-i\n", 42);
-	//	ft_printf("%-d\n", -2147483648);
-	//	ft_printf("%-i\n",-42);
-	//	ft_printf("%-4d\n", 42);
-	//	ft_printf("%-5d\n", -42);
-	//	ft_printf("%-4i\n", 42);
-	//	ft_printf("%ls\n", a);
-	//	ft_printf("%S\n", a);
-	//`	ft_printf("%-*.3s", 5, "LYDI");
-//////	ft_printf("%D", 4294959296);
-		ft_printf("%");
-	//	ft_printf("% ");
-	//	ft_printf("% h");
-	//	ft_printf("% hZ");
-	//	ft_printf("%05%");
-	//	ft_printf("%-05%");
-	//	ft_printf("% hZ%");
-	//	ft_printf("% Z", "test");
-	//	ft_printf("% Z ", "test");
-	//	ft_printf("% Z%s", "test");
-	//	ft_printf("%000   %", "test");
-	//	ft_printf("%%   %", "test");
-	//	ft_printf("%ll#x", 9223372036854775807);
-	//	ft_printf("%010s is a string", "this");
-	//	ft_printf("%-010s is a string", "this");
-	//	ft_printf("%05c", 42);
-	//	ft_printf("% Z", 42);
-	//	ft_printf("%0 d", 42);
-	//	ft_printf("%0 d", -42);
-	//	ft_printf("% 0d", 42);
-	//	ft_printf("% 0d", -42);
-	//	ft_printf("%5+d", 42);
-	//	ft_printf("%5+d", -42);
-	//	ft_printf("%-5+d", 42);
-	//	ft_printf("%-0+5d", 42);
-	//	ft_printf("%-5+d", -42);
-	//	ft_printf("%-0+5d", -42);
-	//	ft_printf("%zhd", 4294967296);
-	//	ft_printf("%jzd", 9223372036854775807);
-	//	ft_printf("%jhd", 9223372036854775807);
-	//	ft_printf("%lhl", 9223372036854775807);
-	//	ft_printf("%lhlz", 9223372036854775807);
-	//	ft_printf("%zj", 9223372036854775807);
-	//	ft_printf("%lhh", 2147483647);
-	//	ft_printf("%hhld", 128);
-	//	ft_printf("@main_ftprintf: %####0000 33..1..#00d\n", 256);
-	//	ft_printf("@main_ftprintf: %####0000 33..1d", 256);
-	//	ft_printf("@main_ftprintf: %###-#0000 33...12..#0+0d", 256);
+	ft_printf("%-0+5d", 42);
 	return (0);
-}*/
+}
