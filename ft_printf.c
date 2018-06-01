@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 01:37:27 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 21:33:21 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,7 +391,6 @@ char	*ft_zeros(char *s, t_ops *ops)
 {
 	char	*block;
 	int		i;
-	char	*x;
 
 	i = 0;
 	block = (char*)malloc(sizeof(char) * ops->prec + 1);
@@ -406,20 +405,19 @@ char	*ft_zeros(char *s, t_ops *ops)
 	if (s[0] == '-')
 	{
 		s = ft_strjoin(block, &s[1]);
-		x = ft_strjoin("-", s);
+		s = ft_strjoin("-", s);
 	}
 	else
-		x = ft_strjoin(block, s);
+		s = ft_strjoin(block, s);
 	free(block);
 	ops->zero = 0;
-	return (x);
+	return (s);
 }
 
 char	*ft_spaces(char *s, t_ops *ops)
 {
 	char	*block;
 	int		i;
-	char	*x;
 
 	i = 0;
 	block = (char*)malloc(sizeof(char) * ops->width + 1);
@@ -431,9 +429,9 @@ char	*ft_spaces(char *s, t_ops *ops)
 		i++;
 	}
 	block[i] = '\0';
-	x = ((ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s));
+	s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
 	free(block);
-	return (x);
+	return (s);
 }
 
 char	*ft_chop(char *s, t_ops *ops)
@@ -449,9 +447,7 @@ char	*ft_chop(char *s, t_ops *ops)
 		i++;
 	}
 	dest[i] = '\0';
-	s = dest;
-	free(dest);
-	return (s);
+	return (dest);
 }
 
 void	ft_apply_flags(char *s, t_ops *ops)
@@ -473,8 +469,6 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
 	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	ft_putstr(s, ops);
-	if (ops->conv != 's')
-		free(s);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -553,7 +547,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'o' || ops->conv == 'O')
 		ft_apply_flags(ft_otoa(va_arg(args, unsigned int), ops), ops);
 	else if (ops->conv == 'p')
-		ft_apply_flags(ft_ptoa(va_arg(args, unsigned long long int), ops), ops);
+		ft_apply_flags(ft_ptoa(va_arg(args, unsigned long int), ops), ops);
 	else if (ops->conv == 'd' || ops->conv == 'i')
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	else if (ops->conv == 'x' || ops->conv == 'X')
@@ -688,15 +682,9 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (bytes);
 }
-/*
-int main(void)
+
+int main()
 {
-  ft_printf("%p\n", &ft_printf);
-//  ft_printf("% d\n", 3);
-//  ft_printf("%+d\n", 3);
-//  ft_printf("%u\n", 4294967295);
-//  ft_printf("%#X\n", 1000);
-//  ft_printf("%C\n", 15000);
-  sleep(5);
-  return (0);
-}*/
+	ft_printf("%05.3d", 922);
+	return (0);
+}
