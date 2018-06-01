@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 19:25:34 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 19:28:53 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -648,7 +648,7 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	ft_prec_width_parse(s, -1, ops, args);
 	if (ft_mod_check(s, i, ops) == -1)
 		return (0);
-	while (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
+	while (!ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 		*i += 1;
 	if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 	{
@@ -695,6 +695,7 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%ll#x", 9223372036854775807);
+//	ft_printf("%ll#x", 9223372036854775807);
+//	ft_printf("%-i", 42);
 	return (0);
 }*/
