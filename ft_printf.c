@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 04:33:37 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 04:50:59 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -460,7 +460,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		s = (ops->prec) ? ft_chop(s, ops) : s;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
 	ops->prec -= ft_strlen(s);
-	(ops->plus) ? ops->width -= 1 : 0;
+	(ops->num && (ops->plus || s[0] == '-')) ? ops->prec += 1 : 0;
 	s = ft_zeros(s, ops);
 	ops->width -= ft_strlen(s);
 	s = ft_spaces(s, ops);
@@ -530,8 +530,14 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 	return (wstr);
 }
 
+void	ft_default(t_ops *ops)
+{
+	(ops->conv == 'u') ? ops->plus = 0 : 0;
+}
+
 void	ft_handle_it(t_ops *ops, va_list args)
 {
+	ft_default(ops);
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
@@ -683,6 +689,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-//	ft_printf("%ll#x", 9223372036854775807);
+	ft_printf("%03.2d", -1);
 	return (0);
 }*/
