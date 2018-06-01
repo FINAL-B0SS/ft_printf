@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 01:43:11 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 05:04:54 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -530,8 +530,15 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 	return (wstr);
 }
 
+void	ft_default(t_ops *ops)
+{
+	(ops->conv == 'u' || ops->conv == 'U') ? ops->space = 0 : 0;
+	(ops->conv == 'u' || ops->conv == 'U') ? ops->plus = 0 : 0;
+}
+
 void	ft_handle_it(t_ops *ops, va_list args)
 {
+	ft_default(ops);
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
@@ -550,8 +557,8 @@ void	ft_handle_it(t_ops *ops, va_list args)
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(args, unsigned int), ops), ops);
-	else if (ops->conv == 'u')
-		ft_putstr(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
+	else if (ops->conv == 'u' || ops->conv == 'U')
+		ft_apply_flags(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
 }
 
 int	ft_conv_check(int i, char *s, char c)
@@ -683,6 +690,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-//	ft_printf("%ll#x", 9223372036854775807);
+	ft_printf("%+u", 4294967295);
 	return (0);
 }*/
