@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 05:04:54 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 05:18:36 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,9 +426,18 @@ char	*ft_spaces(char *s, t_ops *ops)
 	{
 		block[i] = (ops->zero && ops->prec) ? '0' : ' ';
 		i++;
+
 	}
 	block[i] = '\0';
-	s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
+	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
+	if (s[0] == '-')
+	{
+		s = ft_strjoin(block, &s[1]);
+		s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
+		s = ft_strjoin("-", s);
+	}
+	else
+		s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
 	return (s);
 }
 
@@ -465,7 +474,6 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	ops->width -= ft_strlen(s);
 	s = ft_spaces(s, ops);
 	s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
-	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	ft_putstr(s, ops);
 }
 
@@ -690,6 +698,7 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%+u", 4294967295);
+	ft_printf("%+10.5d\n", 4242);
+	ft_printf("%0+5d\n", -42);
 	return (0);
 }*/
