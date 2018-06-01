@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 04:50:59 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 01:43:11 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -460,7 +460,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		s = (ops->prec) ? ft_chop(s, ops) : s;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
 	ops->prec -= ft_strlen(s);
-	(ops->num && (ops->plus || s[0] == '-')) ? ops->prec += 1 : 0;
+	(ops->plus) ? ops->width -= 1 : 0;
 	s = ft_zeros(s, ops);
 	ops->width -= ft_strlen(s);
 	s = ft_spaces(s, ops);
@@ -530,14 +530,8 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 	return (wstr);
 }
 
-void	ft_default(t_ops *ops)
-{
-	(ops->conv == 'u') ? ops->plus = 0 : 0;
-}
-
 void	ft_handle_it(t_ops *ops, va_list args)
 {
-	ft_default(ops);
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
@@ -556,8 +550,8 @@ void	ft_handle_it(t_ops *ops, va_list args)
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(args, unsigned int), ops), ops);
-	else if (ops->conv == 'u' || ops->conv == 'U')
-		ft_apply_flags(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
+	else if (ops->conv == 'u')
+		ft_putstr(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
 }
 
 int	ft_conv_check(int i, char *s, char c)
@@ -689,6 +683,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%03.2d", -1);
+//	ft_printf("%ll#x", 9223372036854775807);
 	return (0);
 }*/
