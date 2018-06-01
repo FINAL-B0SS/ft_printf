@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 21:33:21 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 01:40:58 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -682,9 +682,9 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (bytes);
 }
-
+/*
 int main()
 {
 	ft_printf("%05.3d", 922);
 	return (0);
-}
+}*/
