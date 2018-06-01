@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 18:51:43 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 18:55:21 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,23 +456,16 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		return ;
 	}
 	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
-	if (ops->num)
-	{
-		(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
-		ops->prec -= ft_strlen(s);
-		(ops->plus) ? ops->width -= 1 : 0;
-		s = ft_zeros(s, ops);
-		ops->width -= ft_strlen(s);
-		s = ft_spaces(s, ops);
-		s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
-		s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
-	}
-	else
-	{
+	if (!ops->num)
 		s = (ops->prec) ? ft_chop(s, ops) : s;
-		ops->width -= ft_strlen(s);
-		s = ft_spaces(s, ops);
-	}
+	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
+	ops->prec -= ft_strlen(s);
+	(ops->plus) ? ops->width -= 1 : 0;
+	s = ft_zeros(s, ops);
+	ops->width -= ft_strlen(s);
+	s = ft_spaces(s, ops);
+	s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
+	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	ft_putstr(s, ops);
 }
 
@@ -685,6 +678,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%-0+5d", 42);
+	ft_printf("%010s is a string", "this");
 	return (0);
 }*/
