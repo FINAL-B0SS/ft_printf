@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/05/31 20:00:26 by maljean          ###   ########.fr       */
+/*   Updated: 2018/05/31 21:32:40 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,6 +409,7 @@ char	*ft_zeros(char *s, t_ops *ops)
 	}
 	else
 		s = ft_strjoin(block, s);
+	free(block);
 	ops->zero = 0;
 	return (s);
 }
@@ -429,6 +430,7 @@ char	*ft_spaces(char *s, t_ops *ops)
 	}
 	block[i] = '\0';
 	s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
+	free(block);
 	return (s);
 }
 
@@ -480,21 +482,21 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 {
 	char	*s;
 
-	if (!ops->mod)
-		s = ft_itoa((va_arg(args, ssize_t)), ops);
-	else if (ft_strcmp(ops->mod, "l") && ops->conv == 'd')
-		s = ft_itoabase_umax(va_arg(args, long), base, ops);
-	else if (ft_strcmp(ops->mod, "j") || ft_strcmp(ops->mod, "z"))
-		s = ft_itoabase_umax(va_arg(args, intmax_t), base, ops);
-	else if (ft_strcmp(ops->mod, "ll"))
-		s = ft_itoabase_umax(va_arg(args, long long), base, ops);
-	else if (ft_strcmp(ops->mod, "l"))
-		s = ft_itoabase_umax(va_arg(args, long), base, ops);
-	else if (ft_strcmp(ops->mod, "hh"))
-		s = ft_itoabase_umax((char)va_arg(args, int), base, ops);
-	else if (ft_strcmp(ops->mod, "h"))
-		s = ft_itoabase_umax((short)va_arg(args, int), base, ops);
-	else
+//	if (!ops->mod)
+//		s = ft_itoa((va_arg(args, ssize_t)), ops);
+//	else if (ft_strcmp(ops->mod, "l") && ops->conv == 'd')
+//		s = ft_itoabase_umax(va_arg(args, long), base, ops);
+//	else if (ft_strcmp(ops->mod, "j") || ft_strcmp(ops->mod, "z"))
+//		s = ft_itoabase_umax(va_arg(args, intmax_t), base, ops);
+//	else if (ft_strcmp(ops->mod, "ll"))
+//		s = ft_itoabase_umax(va_arg(args, long long), base, ops);
+//	else if (ft_strcmp(ops->mod, "l"))
+//		s = ft_itoabase_umax(va_arg(args, long), base, ops);
+//	else if (ft_strcmp(ops->mod, "hh"))
+//		s = ft_itoabase_umax((char)va_arg(args, int), base, ops);
+//	else if (ft_strcmp(ops->mod, "h"))
+//		s = ft_itoabase_umax((short)va_arg(args, int), base, ops);
+//	else
 		s = ft_itoabase_umax(va_arg(args, intmax_t), base, ops);
 	return (s);
 }
@@ -683,6 +685,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%ll#x", 9223372036854775807);
+	ft_printf("%05.3d", 922);
 	return (0);
 }*/
