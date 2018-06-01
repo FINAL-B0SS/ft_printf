@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 01:43:11 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 01:51:03 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,6 +416,7 @@ char	*ft_zeros(char *s, t_ops *ops)
 char	*ft_spaces(char *s, t_ops *ops)
 {
 	char	*block;
+	char	*ptr;
 	int		i;
 
 	i = 0;
@@ -429,7 +430,10 @@ char	*ft_spaces(char *s, t_ops *ops)
 	}
 	block[i] = '\0';
 	s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
-	return (s);
+	ptr = s;
+	free(block);
+	free(s);
+	return (ptr);
 }
 
 char	*ft_chop(char *s, t_ops *ops)
