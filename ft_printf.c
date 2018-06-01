@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 01:31:09 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 01:37:27 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -412,7 +412,6 @@ char	*ft_zeros(char *s, t_ops *ops)
 		x = ft_strjoin(block, s);
 	free(block);
 	ops->zero = 0;
-	free(s);
 	return (x);
 }
 
@@ -434,7 +433,6 @@ char	*ft_spaces(char *s, t_ops *ops)
 	block[i] = '\0';
 	x = ((ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s));
 	free(block);
-	free(s);
 	return (x);
 }
 
