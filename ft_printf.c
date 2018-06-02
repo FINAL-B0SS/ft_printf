@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 19:01:06 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 19:13:42 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,7 +461,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 {
 	if (!s)
 	{
-		write(1, "(null)", 6);
+		ft_putstr("(null)", ops);
 		return ;
 	}
 	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
@@ -696,6 +696,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%+04d", 42);
+	ft_printf("%-.2s is a string", "this");
 	return (0);
 }*/
