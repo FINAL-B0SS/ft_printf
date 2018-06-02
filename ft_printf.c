@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 20:00:25 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 21:27:06 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,6 @@ char	*ft_strcpy(char *dest, const char *src)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-		s1++ && s2++;
-	return (*(unsigned char*)s1) - *((unsigned char*)s2);
 }
 
 char	*ft_strcat(char *dest, const char *src)
@@ -422,13 +415,10 @@ char	*ft_htoa(unsigned long int number, t_ops *ops)
 		number /= 16;
 	}
 	ft_strrev(print);
-	if (ft_strcmp(print, "0"))
-	{
-		if (ops->pound && ops->conv == 'x')
-			print = ft_strjoin("0x", print);
-		else if (ops->pound && ops->conv == 'X')
-			print = ft_strjoin("0X", print);
-	}
+	if (ops->pound && ops->conv == 'x')
+		print = ft_strjoin("0x", print);
+	else if (ops->pound && ops->conv == 'X')
+		print = ft_strjoin("0X", print);
 	return (print);
 }
 
@@ -523,24 +513,29 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	ft_putstr(s, ops);
 }
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+		s1++ && s2++;
+	return (*(unsigned char*)s1) - *((unsigned char*)s2);
+}
+
 char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 {
-	if ((ops->conv == 'u' || ops->conv == 'U') && !ops->mod)
-		return (ft_itoabase_umax(va_arg(args, unsigned int), base, ops));
-	else if (!ops->mod)
+	if (!ops->mod)
 		return (ft_itoa((va_arg(args, ssize_t)), ops));
-	else if (ft_strcmp(ops->mod, "j") || ft_strcmp(ops->mod, "z"))
-		return (ft_itoabase_umax(va_arg(args, ssize_t), base, ops));
-	else if (ft_strcmp(ops->mod, "ll"))
-		return (ft_itoa_smax(va_arg(args, long long), ops));
-	else if (ft_strcmp(ops->mod, "l"))
-		return (ft_itoabase_umax(va_arg(args, long), base, ops));
-	else if (ft_strcmp(ops->mod, "hh"))
+	else if (!ft_strcmp(ops->mod, "j") || !ft_strcmp(ops->mod, "z"))
+		return (ft_itoa_smax(va_arg(args, int), ops));
+	else if (!ft_strcmp(ops->mod, "ll"))
+		return (ft_itoabase_umax(va_arg(args, long long), base, ops));
+	else if (!ft_strcmp(ops->mod, "l"))
+		return (ft_itoa_smax(va_arg(args, long), ops));
+	else if (!ft_strcmp(ops->mod, "hh"))
 		return (ft_itoa_smax((char)va_arg(args, int), ops));
-	else if (ft_strcmp(ops->mod, "h"))
-		return (ft_itoabase_umax((short)va_arg(args, int), base, ops));
+	else if (!ft_strcmp(ops->mod, "h"))
+		return (ft_itoa((short)va_arg(args, int), ops));
 	else
-		return (ft_itoabase_umax(va_arg(args, unsigned int), base, ops));
+		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }
 
 void	ft_putwchar(wchar_t a)
@@ -736,6 +731,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%-.2s is a string", "this");
+	ft_printf("%ld", -2147483649);
 	return (0);
 }*/
