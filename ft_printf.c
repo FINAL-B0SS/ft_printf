@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 18:37:35 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 18:54:43 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -417,8 +417,11 @@ char	*ft_spaces(char *s, t_ops *ops)
 {
 	char	*block;
 	int		i;
+	char	edge[2];
 
 	i = 0;
+	edge[0] = s[0];
+	edge[1] = '\0';
 	block = (char*)malloc(sizeof(char) * ops->width + 1);
 	if (!block)
 		return (s);
@@ -428,7 +431,13 @@ char	*ft_spaces(char *s, t_ops *ops)
 		i++;
 	}
 	block[i] = '\0';
-	s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
+	if ((edge[0] == '-' || edge[0] == '+') && ops->zero && ops->num)
+	{
+		s = ft_strjoin(block, &s[1]);
+		s = ft_strjoin(edge, s);
+	}
+	else
+		s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
 	return (s);
 }
 
@@ -680,6 +689,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%+10.5d", 4242);
+	ft_printf("%+04d", 42);
 	return (0);
 }*/
