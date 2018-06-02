@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 02:30:32 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 02:06:51 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ char	*ft_itoa(int nbr, t_ops *ops)
 		str[length] = (nbr >= 10) ? (nbr % 10) + 48 : nbr + 48;
 		nbr /= 10;
 	}
-	str[ft_strlen(str) - 1] = '\0';
+	str[ft_strlen(str)] = '\0';
 	return (str);
 }
 
@@ -476,7 +476,6 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		ft_putstr("(null)", ops);
 		return ;
 	}
-	(ops->prec < ft_strlen(s)) ? ops->prec = 0 : 0;
 	(s[0] == '-') ? ops->prec += 1 : 0;
 	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
 	if (!ops->num)
@@ -671,13 +670,14 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 			ops->prec = va_arg(args, int);
 			*i += 1;
 		}
-		else if (s[*i] && s[*i] >= '0' && s[*i] <= '9')
+		else if (s[*i] && s[*i] > '0' && s[*i] <= '9')
 		{
 			ops->p += 1;
 			ops->prec = (ft_atoi(&s[*i]));
 			*i += ft_nbrlen(ft_atoi(&s[*i]));
 		}
-		ops->prec == 0 ? *i += 1 : 0;
+		else
+			*i += 1;
 	}
 }
 
@@ -733,6 +733,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%.4d\n", -424242);
+	ft_printf("@moulitest: %.o %.0o", 0, 0);
 	return (0);
 }*/
