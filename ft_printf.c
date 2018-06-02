@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 21:30:19 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 21:35:17 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -524,8 +524,10 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 {
 	if (!ops->mod)
 		return (ft_itoa((va_arg(args, ssize_t)), ops));
-	else if (!ft_strcmp(ops->mod, "j") || !ft_strcmp(ops->mod, "z"))
-		return (ft_itoa_smax(va_arg(args, int), ops));
+	else if (!ft_strcmp(ops->mod, "z"))
+		return (ft_itoa_smax(va_arg(args, ssize_t), ops));
+	else if (!ft_strcmp(ops->mod, "j"))
+		return (ft_itoa_smax(va_arg(args, intmax_t), ops));
 	else if (!ft_strcmp(ops->mod, "ll"))
 		return (ft_itoa_smax(va_arg(args, long long), ops));
 	else if (!ft_strcmp(ops->mod, "l"))
@@ -731,6 +733,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%lld", -9223372036854775808);
+	ft_printf("%jd", 9223372036854775807);
 	return (0);
 }*/
