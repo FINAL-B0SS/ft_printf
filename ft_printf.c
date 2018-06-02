@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 02:04:29 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 02:06:51 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,8 +356,6 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 	unsigned int		i;
 	unsigned long int	x;
 
-	if (number == 0)
-		return ("");
 	x = number;
 	i = 0;
 	ops->num += 1;
