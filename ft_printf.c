@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 19:24:27 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 20:00:25 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,13 @@ char	*ft_strcpy(char *dest, const char *src)
 	}
 	dest[i] = '\0';
 	return (dest);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+		s1++ && s2++;
+	return (*(unsigned char*)s1) - *((unsigned char*)s2);
 }
 
 char	*ft_strcat(char *dest, const char *src)
@@ -291,7 +298,6 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	char			*str;
 	int				len;
 	char			*basestr;
-	int				i;
 
 	basestr = ft_strdup("0123456789abcdef");
 	len = get_unumlen(num, base);
@@ -310,6 +316,42 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	return (str);
 }
 
+static	int	get_snumlen(intmax_t num)
+{
+	int	i;
+
+	i = 1;
+	while (num /= 10)
+		i++;
+	return (i);
+}
+
+char		*ft_itoa_smax(intmax_t num, t_ops *ops)
+{
+	char		*str;
+	int			len;
+	uintmax_t	tmp;
+
+	len = get_snumlen(num);
+	tmp = num;
+	ops->num += 1;
+	if (num < 0)
+	{
+		tmp = -num;
+		len++;
+	}
+	if (!(str = (char *)malloc(sizeof(*str) * len)))
+	{
+		return (NULL);
+	}
+	str[len] = '\0';
+	str[--len] = tmp % 10 + '0';
+	while (tmp /= 10)
+		str[--len] = tmp % 10 + '0';
+	if (num < 0)
+		str[0] = '-';
+	return (str);
+}
 char	*ft_otoa(unsigned long int number, t_ops *ops)
 {
 	char				*print;
@@ -380,10 +422,13 @@ char	*ft_htoa(unsigned long int number, t_ops *ops)
 		number /= 16;
 	}
 	ft_strrev(print);
-	if (ops->pound && ops->conv == 'x')
-		print = ft_strjoin("0x", print);
-	else if (ops->pound && ops->conv == 'X')
-		print = ft_strjoin("0X", print);
+	if (ft_strcmp(print, "0"))
+	{
+		if (ops->pound && ops->conv == 'x')
+			print = ft_strjoin("0x", print);
+		else if (ops->pound && ops->conv == 'X')
+			print = ft_strjoin("0X", print);
+	}
 	return (print);
 }
 
@@ -478,31 +523,24 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	ft_putstr(s, ops);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-		s1++ && s2++;
-	return (*(unsigned char*)s1) - *((unsigned char*)s2);
-}
-
 char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 {
-	if (!ops->mod)
+	if ((ops->conv == 'u' || ops->conv == 'U') && !ops->mod)
+		return (ft_itoabase_umax(va_arg(args, unsigned int), base, ops));
+	else if (!ops->mod)
 		return (ft_itoa((va_arg(args, ssize_t)), ops));
-	else if (ft_strcmp(ops->mod, "l") && ops->conv == 'd')
-		return (ft_itoabase_umax(va_arg(args, long), base, ops));
 	else if (ft_strcmp(ops->mod, "j") || ft_strcmp(ops->mod, "z"))
-		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+		return (ft_itoabase_umax(va_arg(args, ssize_t), base, ops));
 	else if (ft_strcmp(ops->mod, "ll"))
-		return (ft_itoabase_umax(va_arg(args, long long), base, ops));
+		return (ft_itoa_smax(va_arg(args, long long), ops));
 	else if (ft_strcmp(ops->mod, "l"))
 		return (ft_itoabase_umax(va_arg(args, long), base, ops));
 	else if (ft_strcmp(ops->mod, "hh"))
-		return (ft_itoabase_umax((char)va_arg(args, int), base, ops));
+		return (ft_itoa_smax((char)va_arg(args, int), ops));
 	else if (ft_strcmp(ops->mod, "h"))
 		return (ft_itoabase_umax((short)va_arg(args, int), base, ops));
 	else
-		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+		return (ft_itoabase_umax(va_arg(args, unsigned int), base, ops));
 }
 
 void	ft_putwchar(wchar_t a)
