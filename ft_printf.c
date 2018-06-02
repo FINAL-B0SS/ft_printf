@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 05:18:36 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 01:43:11 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,18 +426,9 @@ char	*ft_spaces(char *s, t_ops *ops)
 	{
 		block[i] = (ops->zero && ops->prec) ? '0' : ' ';
 		i++;
-
 	}
 	block[i] = '\0';
-	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
-	if (s[0] == '-')
-	{
-		s = ft_strjoin(block, &s[1]);
-		s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
-		s = ft_strjoin("-", s);
-	}
-	else
-		s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
+	s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
 	return (s);
 }
 
@@ -474,6 +465,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	ops->width -= ft_strlen(s);
 	s = ft_spaces(s, ops);
 	s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
+	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	ft_putstr(s, ops);
 }
 
@@ -538,15 +530,8 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 	return (wstr);
 }
 
-void	ft_default(t_ops *ops)
-{
-	(ops->conv == 'u' || ops->conv == 'U') ? ops->space = 0 : 0;
-	(ops->conv == 'u' || ops->conv == 'U') ? ops->plus = 0 : 0;
-}
-
 void	ft_handle_it(t_ops *ops, va_list args)
 {
-	ft_default(ops);
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
@@ -565,8 +550,8 @@ void	ft_handle_it(t_ops *ops, va_list args)
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(args, unsigned int), ops), ops);
-	else if (ops->conv == 'u' || ops->conv == 'U')
-		ft_apply_flags(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
+	else if (ops->conv == 'u')
+		ft_putstr(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
 }
 
 int	ft_conv_check(int i, char *s, char c)
@@ -698,7 +683,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%+10.5d\n", 4242);
-	ft_printf("%0+5d\n", -42);
+//	ft_printf("%ll#x", 9223372036854775807);
 	return (0);
 }*/
