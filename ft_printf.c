@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 18:28:07 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 01:43:11 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,6 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	char			*basestr;
 	int				i;
 
-	printf("here%zu\n", num);
 	basestr = ft_strdup("0123456789abcdef");
 	len = get_unumlen(num, base);
 	ops->num += 1;
@@ -479,22 +478,25 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 {
+	char	*s;
+
 	if (!ops->mod)
-		return (ft_itoa((va_arg(args, ssize_t)), ops));
+		s = ft_itoa((va_arg(args, ssize_t)), ops);
 	else if (ft_strcmp(ops->mod, "l") && ops->conv == 'd')
-		return (ft_itoabase_umax(va_arg(args, long), base, ops));
+		s = ft_itoabase_umax(va_arg(args, long), base, ops);
 	else if (ft_strcmp(ops->mod, "j") || ft_strcmp(ops->mod, "z"))
-		return ( ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+		s = ft_itoabase_umax(va_arg(args, intmax_t), base, ops);
 	else if (ft_strcmp(ops->mod, "ll"))
-		return (ft_itoabase_umax(va_arg(args, long long), base, ops));
+		s = ft_itoabase_umax(va_arg(args, long long), base, ops);
 	else if (ft_strcmp(ops->mod, "l"))
-		return (ft_itoabase_umax(va_arg(args, long), base, ops));
+		s = ft_itoabase_umax(va_arg(args, long), base, ops);
 	else if (ft_strcmp(ops->mod, "hh"))
-		return (ft_itoabase_umax((char)va_arg(args, int), base, ops));
+		s = ft_itoabase_umax((char)va_arg(args, int), base, ops);
 	else if (ft_strcmp(ops->mod, "h"))
-		return (ft_itoabase_umax((short)va_arg(args, int), base, ops));
+		s = ft_itoabase_umax((short)va_arg(args, int), base, ops);
 	else
-		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+		s = ft_itoabase_umax(va_arg(args, intmax_t), base, ops);
+	return (s);
 }
 
 void	ft_putwchar(wchar_t a)
@@ -548,8 +550,8 @@ void	ft_handle_it(t_ops *ops, va_list args)
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(args, unsigned int), ops), ops);
-	else if (ops->conv == 'u' || ops->conv == 'U')
-		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
+	else if (ops->conv == 'u')
+		ft_putstr(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
 }
 
 int	ft_conv_check(int i, char *s, char c)
@@ -681,6 +683,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%U", 4294967296);
+//	ft_printf("%ll#x", 9223372036854775807);
 	return (0);
 }*/
