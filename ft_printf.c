@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 22:25:11 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 01:41:35 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -476,6 +476,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		ft_putstr("(null)", ops);
 		return ;
 	}
+	(s[0] == '-') ? ops->prec += 1 : 0;
 	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
 	if (!ops->num)
 		s = (ops->prec) ? ft_chop(s, ops) : s;
@@ -730,6 +731,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%#llX", 9223372036854775807);
+	printf("@moulitest: %.10d", -42);
 	return (0);
 }*/
