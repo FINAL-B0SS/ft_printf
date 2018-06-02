@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 18:57:56 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 18:59:16 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -563,7 +563,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_htoa(va_arg(args, unsigned int), ops), ops);
 	else if (ops->conv == 'u' || ops->conv == 'U')
-		ft_putstr(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
+		ft_apply_flags(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
 }
 
 int	ft_conv_check(int i, char *s, char c)
