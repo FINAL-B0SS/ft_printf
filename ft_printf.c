@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 02:06:51 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 02:47:56 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -439,7 +439,7 @@ char	*ft_spaces(char *s, t_ops *ops)
 		return (s);
 	while (i < ops->width)
 	{
-		block[i] = (ops->zero && ops->prec && ops->conv != 's') ? '0' : ' ';
+		block[i] = (ops->zero && ops->prec) ? '0' : ' ';
 		i++;
 	}
 	block[i] = '\0';
@@ -670,14 +670,13 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 			ops->prec = va_arg(args, int);
 			*i += 1;
 		}
-		else if (s[*i] && s[*i] > '0' && s[*i] <= '9')
+		else if (s[*i] && s[*i] >= '0' && s[*i] <= '9')
 		{
 			ops->p += 1;
 			ops->prec = (ft_atoi(&s[*i]));
 			*i += ft_nbrlen(ft_atoi(&s[*i]));
 		}
-		else
-			*i += 1;
+		(!ops->prec) ? *i += 1 : 0;
 	}
 }
 
@@ -733,6 +732,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("@moulitest: %.o %.0o", 0, 0);
+	ft_printf("%010s is a string", "this");
 	return (0);
 }*/
