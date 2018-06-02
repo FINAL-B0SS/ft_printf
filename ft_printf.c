@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 02:59:37 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 02:47:56 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,20 +422,20 @@ char	*ft_zeros(char *s, t_ops *ops)
 	else
 		s = ft_strjoin(block, s);
 	ops->zero = 0;
-	free(block);
 	return (s);
 }
 
 char	*ft_spaces(char *s, t_ops *ops)
 {
-	char	*block[ops->width + 1];
+	char	*block;
 	int		i;
 	char	edge[2];
 
 	i = 0;
 	edge[0] = s[0];
 	edge[1] = '\0';
-	if (ops->width < 1)
+	block = (char*)malloc(sizeof(char) * ops->width + 1);
+	if (!block)
 		return (s);
 	while (i < ops->width)
 	{
@@ -466,9 +466,7 @@ char	*ft_chop(char *s, t_ops *ops)
 		i++;
 	}
 	dest[i] = '\0';
-	s = ft_strdup(dest);
-	free(dest);
-	return (s);
+	return (dest);
 }
 
 void	ft_apply_flags(char *s, t_ops *ops)
