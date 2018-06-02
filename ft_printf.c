@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 21:42:33 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 22:25:11 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,6 +305,12 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	{
 		str[--len] = basestr[num % base];
 	}
+	if (ops->pound && (ops->conv == 'x' || ops->conv == 'X'))
+		str = ft_strjoin("0x", str);
+	len = -1;
+	if (ops->conv == 'X')
+		while (str[++len])
+			(str[len] >= 'a' && str[len] <= 'z') ? str[len] -= 32 : 0;
 	free(basestr);
 	return (str);
 }
@@ -341,8 +347,7 @@ char		*ft_itoa_smax(intmax_t num, t_ops *ops)
 	str[--len] = tmp % 10 + '0';
 	while (tmp /= 10)
 		str[--len] = tmp % 10 + '0';
-	if (num < 0)
-		str[0] = '-';
+	(num < 0) ? str[0] = '-' : 0;
 	return (str);
 }
 char	*ft_otoa(unsigned long int number, t_ops *ops)
@@ -391,34 +396,6 @@ char	*ft_ptoa(unsigned long int number, t_ops *ops)
 	}
 	print = ft_strrev(print);
 	print = ft_strjoin("0x", print);
-	return (print);
-}
-
-char	*ft_htoa(unsigned long int number, t_ops *ops)
-{
-	char	*print;
-	int		i;
-
-	i = 0;
-	print = (char*)malloc(sizeof(char) * 18);
-	ops->num += 1;
-	if (number == 0)
-		print[i] = '0';
-	while (number && ops->conv == 'x')
-	{
-		print[i++] = "0123456789abcdef"[number % 16];
-		number /= 16;
-	}
-	while (number && ops->conv == 'X')
-	{
-		print[i++] = "0123456789ABCDEF"[number % 16];
-		number /= 16;
-	}
-	ft_strrev(print);
-	if (ops->pound && ops->conv == 'x')
-		print = ft_strjoin("0x", print);
-	else if (ops->pound && ops->conv == 'X')
-		print = ft_strjoin("0X", print);
 	return (print);
 }
 
@@ -540,6 +517,26 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }
 
+char	*ft_hex_cast(va_list args, t_ops *ops, int base)
+{
+	if (!ops->mod)
+		return (ft_itoabase_umax((va_arg(args, unsigned long int)), base, ops));
+	else if (!ft_strcmp(ops->mod, "z"))
+		return (ft_itoabase_umax(va_arg(args, ssize_t), base,  ops));
+	else if (!ft_strcmp(ops->mod, "j"))
+		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+	else if (!ft_strcmp(ops->mod, "ll"))
+		return (ft_itoabase_umax(va_arg(args, long long), base, ops));
+	else if (!ft_strcmp(ops->mod, "l"))
+		return (ft_itoabase_umax(va_arg(args, long), base, ops));
+	else if (!ft_strcmp(ops->mod, "hh"))
+		return (ft_itoabase_umax((char)va_arg(args, int), base, ops));
+	else if (!ft_strcmp(ops->mod, "h"))
+		return (ft_itoabase_umax((short)va_arg(args, int), base,  ops));
+	else
+		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+}
+
 void	ft_putwchar(wchar_t a)
 {
 	write(1, &a, 1);
@@ -599,7 +596,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'd' || ops->conv == 'i')
 		ft_apply_flags(ft_mod_cast(args, ops, 10), ops);
 	else if (ops->conv == 'x' || ops->conv == 'X')
-		ft_apply_flags(ft_htoa(va_arg(args, unsigned int), ops), ops);
+		ft_apply_flags(ft_hex_cast(args, ops, 16), ops);
 	else if (ops->conv == 'u' || ops->conv == 'U')
 		ft_apply_flags(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
 }
@@ -733,6 +730,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%0+5d", -42);
+	ft_printf("%#llX", 9223372036854775807);
 	return (0);
 }*/
