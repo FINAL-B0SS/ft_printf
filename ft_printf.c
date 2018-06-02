@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/01 18:54:43 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/01 18:57:56 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -536,8 +536,14 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 	return (wstr);
 }
 
+void	ft_default(t_ops *ops)
+{
+	(ops->plus) ? ops->space = 0 : 0;
+}
+
 void	ft_handle_it(t_ops *ops, va_list args)
 {
+	ft_default(ops);
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
