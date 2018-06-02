@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 01:41:35 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 02:04:29 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,6 +356,8 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 	unsigned int		i;
 	unsigned long int	x;
 
+	if (number == 0)
+		return ("");
 	x = number;
 	i = 0;
 	ops->num += 1;
@@ -670,12 +672,14 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 			ops->prec = va_arg(args, int);
 			*i += 1;
 		}
-		else
+		else if (s[*i] && s[*i] > '0' && s[*i] <= '9')
 		{
 			ops->p += 1;
 			ops->prec = (ft_atoi(&s[*i]));
 			*i += ft_nbrlen(ft_atoi(&s[*i]));
 		}
+		else
+			*i += 1;
 	}
 }
 
@@ -731,6 +735,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	printf("@moulitest: %.10d", -42);
+	ft_printf("@moulitest: %.o %.0o", 0, 0);
 	return (0);
 }*/
