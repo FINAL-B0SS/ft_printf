@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 21:58:39 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 23:17:52 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,7 +421,6 @@ char	*ft_zeros(char *s, t_ops *ops)
 	}
 	else
 		s = ft_strjoin(block, s);
-	ops->zero = 0;
 	return (s);
 }
 
@@ -438,7 +437,7 @@ char	*ft_spaces(char *s, t_ops *ops)
 		return (s);
 	while (i < ops->width)
 	{
-		block[i] = (ops->zero && ops->prec) ? '0' : ' ';
+		block[i] = (ops->zero) ? '0' : ' ';
 		i++;
 	}
 	block[i] = '\0';
@@ -475,9 +474,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		ft_putstr("(null)", ops);
 		return ;
 	}
-	(ops->plus) ? ops->prec += 2 : 0;
 	(s[0] == '-') ? ops->prec += 1 : 0;
-	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
 	if (!ops->num)
 		s = (ops->prec) ? ft_chop(s, ops) : s;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
@@ -574,6 +571,7 @@ void	ft_default(t_ops *ops)
 	(ops->plus) ? ops->space = 0 : 0;
 	(ops->conv == 'u' || ops->conv == 'U') ? ops->plus = 0 : 0;
 	(ops->conv == 'u' || ops->conv == 'U') ? ops->space = 0 : 0;
+	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
 
 }
 
