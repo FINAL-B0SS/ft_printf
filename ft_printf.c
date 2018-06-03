@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 21:38:15 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 21:52:48 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -696,7 +696,12 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	if (ops->zero)
 		ft_putstr(ft_zeros("", ops), ops);
 	if (ops->width)
-		ft_putstr(ft_spaces(" ", ops), ops);
+	{
+		ops->width -= 1;
+		(ops->minus) ? ft_putchar(s[*i], ops) : 0;
+		(ops->minus) ? *i += 1 : 0;
+		ft_putstr(ft_spaces("", ops), ops);
+	}
 	return (0);
 }
 
