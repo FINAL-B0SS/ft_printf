@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 21:11:06 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 21:21:35 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -542,7 +542,7 @@ void	ft_putwchar(wchar_t a)
 	write(1, &a, 1);
 }
 
-int	ft_putwstr(wchar_t *ws)
+void	ft_putwstr(wchar_t *ws, t_ops *ops)
 {
 	int i;
 
@@ -551,8 +551,8 @@ int	ft_putwstr(wchar_t *ws)
 	{
 		ft_putwchar(ws[i]);
 		i++;
+		ops->bytes += 1;
 	}
-	return (i);
 }
 
 wchar_t	*ft_wchrtostr(wchar_t wchar)
@@ -584,9 +584,9 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'D')
 		ft_apply_flags(ft_itoabase_umax(va_arg(args, long), 10, ops), ops);
 	else if (ops->conv == 'S' || (ops->conv == 'S' && ops->mod[0] == 'l'))
-		ft_putwstr(va_arg(args, wchar_t*));
+		ft_putwstr(va_arg(args, wchar_t*), ops);
 	else if (ops->conv == 'C')
-		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))));
+		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops);
 	else if (ops->conv == 'c')
 		ft_putchar(va_arg(args, int), ops);
 	else if (ops->conv == 'o' || ops->conv == 'O')
