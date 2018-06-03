@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/02 21:21:35 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/02 21:38:15 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -691,7 +691,13 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 		ops->c += 1;
 		ops->conv = s[*i];
 	}
-	return (ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1 ? 1 : 0);
+	if (ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1 ? 1 : 0)
+		return (1);
+	if (ops->zero)
+		ft_putstr(ft_zeros("", ops), ops);
+	if (ops->width)
+		ft_putstr(ft_spaces(" ", ops), ops);
+	return (0);
 }
 
 int	ft_printf(const char *format, ...)
@@ -731,6 +737,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%010s is a string", "this");
+	ft_printf("%-5%");
 	return (0);
 }*/
