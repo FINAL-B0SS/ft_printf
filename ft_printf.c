@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 00:07:26 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 00:08:22 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -475,7 +475,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 {
 	if (!s)
 	{
-		ops->conv == 'c' ? ft_putchar(s[0], ops) : ft_putstr("(null)", ops);
+		ft_putstr("(null)", ops);
 		return ;
 	}
 	(s[0] == '-') ? ops->prec += 1 : 0;
@@ -579,16 +579,6 @@ void	ft_default(t_ops *ops)
 
 }
 
-char	*ft_ctos(char c)
-{
-	char	*s;
-
-	s = (char*)malloc(sizeof(char) * 2);
-	s[0] = c;
-	s[1] = '\0';
-	return (s);
-}
-
 void	ft_handle_it(t_ops *ops, va_list args)
 {
 	ft_default(ops);
@@ -601,7 +591,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops);
 	else if (ops->conv == 'c')
-		ft_apply_flags(ft_ctos(va_arg(args, int)), ops);
+		ft_putchar(va_arg(args, int), ops);
 	else if (ops->conv == 'o' || ops->conv == 'O')
 		ft_apply_flags(ft_otoa(va_arg(args, unsigned int), ops), ops);
 	else if (ops->conv == 'p')
@@ -755,6 +745,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	printf("%c", 0);
+	irintf("{%30d}", 10000);
 	return (0);
 }*/
