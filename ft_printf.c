@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 03:17:02 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 03:41:17 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,8 +311,6 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	{
 		str[--len] = basestr[num % base];
 	}
-	if (ops->pound && (ops->conv == 'x' || ops->conv == 'X'))
-		str = ft_strjoin("0x", str);
 	len = -1;
 	if (ops->conv == 'X')
 		while (str[++len])
@@ -486,6 +484,8 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	(s[0] == '-') ? ops->prec += 1 : 0;
 	if (!ops->num)
 		s = (ops->prec) ? ft_chop(s, ops) : s;
+	s = (ops->pound && ops->conv == 'x' && !ops->zero) ? ft_strjoin("0x", s) : s;
+	s = (ops->pound && ops->conv == 'X' && !ops->zero) ? ft_strjoin("0X", s) : s;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
 	ops->prec -= ft_strlen(s);
 	(ops->plus && s[0] != '-') ? ops->width -= 1 : 0;
@@ -493,6 +493,8 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	ops->width -= ft_strlen(s);
 	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	s = ft_spaces(s, ops);
+	s = (ops->pound && ops->conv == 'x' && ops->zero) ? ft_strjoin("0x", s) : s;
+	s = (ops->pound && ops->conv == 'X' && ops->zero) ? ft_strjoin("0X", s) : s;
 	s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
 	ft_putstr(s, ops);
 }
@@ -748,6 +750,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("@moulitest: %5.x %5.0x", 0, 0);
+	ft_printf("%#08x", 42);
 	return (0);
 }*/
