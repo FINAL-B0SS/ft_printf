@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 00:08:22 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 00:13:06 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -522,7 +522,7 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 {
 	if (!ops->mod)
-		return (ft_itoabase_umax((va_arg(args, unsigned long int)), base, ops));
+		return (ft_itoabase_umax((va_arg(args, unsigned int)), base, ops));
 	else if (!ft_strcmp(ops->mod, "z"))
 		return (ft_itoabase_umax(va_arg(args, ssize_t), base,  ops));
 	else if (!ft_strcmp(ops->mod, "j"))
@@ -745,6 +745,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	irintf("{%30d}", 10000);
+	ft_printf("%x", 4294967296);
 	return (0);
 }*/
