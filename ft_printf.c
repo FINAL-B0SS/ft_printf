@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 00:13:06 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 03:17:02 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,9 @@ char	*ft_itoa(int nbr, t_ops *ops)
 	sign = nbr;
 	length = 1;
 	ops->num += 1;
+	nbr == 0 ? ops->zero = 0 : 0;
+	if (nbr == 0 && ops->p)
+		return ("");
 	while (sign /= 10)
 		length++;
 	sign = nbr < 0 ? 1 : 0;
@@ -295,7 +298,9 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	basestr = ft_strdup("0123456789abcdef");
 	len = get_unumlen(num, base);
 	ops->num += 1;
-	(num == 0) ? ops->pound = 0 : 0;
+	num == 0 ? ops->pound = 0 : 0;
+	if (num == 0 && ops->p)
+		return ("");
 	if (!(str = (char *)malloc(sizeof(*str) * len + 1)))
 	{
 		return (NULL);
@@ -361,10 +366,10 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 	i = 0;
 	ops->num += 1;
 	print = (char*)malloc(sizeof(char) * 24);
-	if (number == 0)
-		return ("0");
 	if (number < i)
 		return ("errno: Unsigned Only!");
+	if (number == 0 && !ops->pound && ops->p)
+		return ("");
 	if (number == 0)
 	{
 		print[i] = '0';
@@ -667,18 +672,16 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 	if (s[*i] && (s[*i] == '.'))
 	{
 		*i += 1;
+		ops->p += 1;
 		if (s[*i] == '*')
 		{
 			ops->prec = va_arg(args, int);
 			*i += 1;
 		}
 		else if (s[*i] && s[*i] >= '0' && s[*i] <= '9')
-		{
-			ops->p += 1;
 			ops->prec = (ft_atoi(&s[*i]));
-			*i += ft_nbrlen(ft_atoi(&s[*i]));
-		}
-		(!ops->prec) ? *i += 1 : 0;
+		while (s[*i] >= '0' && s[*i]<= '9')
+			*i += 1;
 	}
 }
 
@@ -745,6 +748,6 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%x", 4294967296);
+	ft_printf("@moulitest: %5.x %5.0x", 0, 0);
 	return (0);
 }*/
