@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 00:55:41 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 00:59:40 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -480,7 +480,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	(s[0] == '-') ? ops->prec += 1 : 0;
 	if (!ops->num)
 		s = (ops->prec) ? ft_chop(s, ops) : s;
-	(ops->num && ops->prec <= ft_strlen(s)) ? ops->zero = 0 : 0;
+	(ops->num && !ops->plus && ops->prec <= ft_strlen(s)) ? ops->zero = 0 : 0;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
 	ops->prec -= ft_strlen(s);
 	(ops->plus && s[0] != '-') ? ops->width -= 1 : 0;
@@ -745,7 +745,8 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%04.2i", 42);
+//	ft_printf("%+04d",  42);
+//	ft_printf("%04.2i", 42);
 //  ft_printf("%d\n", 42);
 //  ft_printf("%d%d\n", 42, 41);
 //  ft_printf("%d%d%d\n", 42, 43, 44);
