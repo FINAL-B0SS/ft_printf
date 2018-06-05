@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 00:44:44 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 00:47:26 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,7 +409,10 @@ char	*ft_zeros(char *s, t_ops *ops)
 
 	i = 0;
 	if (ops->prec < 1)
+	{	
+		ops->zero = 0;
 		return (s);
+	}
 	while (i < ops->prec)
 	{
 		block[i] = '0';
@@ -744,7 +747,8 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-  ft_printf("%d\n", 42);
+	ft_printf("%04.2i", 42);
+//  ft_printf("%d\n", 42);
 //  ft_printf("%d%d\n", 42, 41);
 //  ft_printf("%d%d%d\n", 42, 43, 44);
 //  ft_printf("%ld\n", 2147483647);
@@ -772,6 +776,6 @@ int main()
 //  ft_printf("%s%s\n", "test", "test");
 //  ft_printf("%s%s%s\n", "test", "test", "test");
 //  ft_printf("%C\n", 15000);
-  while (1);
+//  while (1);
   return (0);
 }*/
