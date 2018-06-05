@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 00:49:39 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 00:52:02 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -744,7 +744,7 @@ int	ft_printf(const char *format, ...)
 /*
 int main()
 {
-	ft_printf("%04.2i", 42);
+	printf("%04.2i", 42);
 //  ft_printf("%d\n", 42);
 //  ft_printf("%d%d\n", 42, 41);
 //  ft_printf("%d%d%d\n", 42, 43, 44);
