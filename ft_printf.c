@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/04 23:50:05 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/04 23:53:14 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -539,6 +539,11 @@ char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }
 
+void	ft_putwchar(wchar_t a)
+{
+	write(1, &a, 1);
+}
+
 void	ft_putwstr(wchar_t *ws, t_ops *ops)
 {
 	int i;
@@ -546,45 +551,10 @@ void	ft_putwstr(wchar_t *ws, t_ops *ops)
 	i = 0;
 	while (ws[i] != '\0')
 	{
-		write(1, &ws[i], 1);
+		ft_putwchar(ws[i]);
 		i++;
 		ops->bytes += 1;
 	}
-}
-
-int	ft_print_unicode(wchar_t *wide, t_ops *ops)
-{
-	wchar_t	*fake_wide;
-	int	len;
-	char	org;
-	int	i;
-
-	i = 0;
-	len = 0;
-	org = 0;
-	fake_wide = NULL;
-	if (len == 1)
-		fake_wide[0] = org;
-	else if (len == 2)
-	{
-		fake_wide[0] = ((org >> 6) | 0xC0);
-		fake_wide[1] = ((org & 0x3f) | 0x80);
-	}
-	else if (len == 3)
-	{
-		fake_wide[0] = ((org >> 12) | 0xE0);
-		fake_wide[1] = (((org >> 6) & 0x3f) | 0x80);
-		fake_wide[2] = ((org & 0x3f) | 0x80);
-	}
-	else if (len == 4)
-	{
-		fake_wide[0] = ((org >> 18) | 0xf0);
-		fake_wide[1] = (((org >> 12) & 0x3f) | 0x80);
-		fake_wide[2] = (((org >> 6) & 0x3f) | 0x80);
-		fake_wide[3] = ((org & 0x3f) | 0x80);
-	}
-	ft_putwstr(wide, ops);
-	return (len);
 }
 
 wchar_t	*ft_wchrtostr(wchar_t wchar)
@@ -616,8 +586,8 @@ void	ft_handle_it(t_ops *ops, va_list args)
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
 		ft_apply_flags(ft_itoabase_umax(va_arg(args, long), 10, ops), ops);
-	else if (ops->conv == 'S' || (ops->conv == 's' && ops->mod[0] == 'l'))
-		ft_print_unicode(va_arg(args, wchar_t*), ops);
+	else if (ops->conv == 'S' || (ops->conv == 'S' && ops->mod[0] == 'l'))
+		ft_putwstr(va_arg(args, wchar_t*), ops);
 	else if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops);
 	else if (ops->conv == 'c')
