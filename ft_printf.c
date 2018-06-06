@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:49:29 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:51:07 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,6 +357,7 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 	unsigned long int	x;
 
 	x = number;
+	ops->num += 1;
 	i = 0;
 	print = (char*)malloc(sizeof(char) * 24);
 	if (number < i)
