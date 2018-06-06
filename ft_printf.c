@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:45:22 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:49:29 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,6 @@ char	*ft_itoa(int nbr, t_ops *ops)
 
 	sign = nbr;
 	length = 1;
-	ops->num += 1;
 	if (nbr == 0 && ops->p)
 		return ("");
 	while (sign /= 10)
@@ -296,7 +295,6 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 
 	basestr = ft_strdup("0123456789abcdef");
 	len = get_unumlen(num, base);
-	ops->num += 1;
 	num == 0 ? ops->pound = 0 : 0;
 	if (num == 0 && ops->p)
 		return ("");
@@ -336,7 +334,6 @@ char		*ft_itoa_smax(intmax_t num, t_ops *ops)
 
 	len = get_snumlen(num);
 	tmp = num;
-	ops->num += 1;
 	if (num < 0)
 	{
 		tmp = -num;
@@ -361,7 +358,6 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 
 	x = number;
 	i = 0;
-	ops->num += 1;
 	print = (char*)malloc(sizeof(char) * 24);
 	if (number < i)
 		return ("errno: Unsigned Only!");
@@ -390,7 +386,6 @@ char	*ft_ptoa(unsigned long int number, t_ops *ops)
 	int		i;
 
 	i = 0;
-	ops->num += 1;
 	print = (char*)malloc(sizeof(char) * 12);
 	if (number == 0)
 		print[i] = '0';
@@ -508,6 +503,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 {
+	ops->num += 1;
 	if (!ops->mod)
 		return (ft_itoa((va_arg(args, ssize_t)), ops));
 	else if (!ft_strcmp(ops->mod, "z"))
@@ -528,6 +524,7 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 
 char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 {
+	ops->num += 1;
 	if (!ops->mod)
 		return (ft_itoabase_umax((va_arg(args, unsigned int)), base, ops));
 	else if (!ft_strcmp(ops->mod, "z"))
