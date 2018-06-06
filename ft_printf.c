@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:52:25 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:55:43 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ void	ft_putstr(char *s, t_ops *ops)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!s)
 	{
 		write(1, "(null)", 6);
 		return ;
 	}
-	while (s[i])
+	while (s[++i])
 	{
 		write(1, &s[i], 1);
 		i++;
