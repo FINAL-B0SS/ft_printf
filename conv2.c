@@ -6,13 +6,13 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:08:15 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 02:33:24 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 03:18:27 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_atoi(char *s, int i, int nb, int sign)
+int		ft_atoi(char *s, int i, int nb, int sign)
 {
 	if (!s)
 		return (0);

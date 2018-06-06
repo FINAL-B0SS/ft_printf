@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 02:30:17 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 03:20:08 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	(s[0] == '-') ? ops->prec += 1 : 0;
 	if (!ops->num)
 		s = (ops->prec) ? ft_chop(s, ops, -1) : s;
-	s = (ops->pound && ops->conv == 'x' && !ops->zero) ? ft_strjoin("0x", s) : s;
-	s = (ops->pound && ops->conv == 'X' && !ops->zero) ? ft_strjoin("0X", s) : s;
+	s = (ops->pound && ops->conv == 'x' && !ops->zero)
+		? ft_strjoin("0x", s) : s;
+	s = (ops->pound && ops->conv == 'X' && !ops->zero)
+		? ft_strjoin("0X", s) : s;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
 	ops->prec -= ft_strlen(s);
 	(ops->plus && s[0] != '-') ? ops->width -= 1 : 0;

@@ -6,22 +6,16 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 02:31:05 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 03:42:14 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *format, ...)
+void	ft_printf2(const char *format, va_list args, int i, int *bytes)
 {
-	va_list		args;
-	int			i;
-	int			bytes;
 	t_ops		ops;
 
-	i = -1;
-	bytes = 0;
-	va_start(args, format);
 	while (format[++i])
 	{
 		ft_init_ops(&ops);
@@ -39,8 +33,20 @@ int	ft_printf(const char *format, ...)
 		}
 		else if (i < ft_strlen((char*)format))
 			ft_putchar(format[i], &ops);
-		bytes += ops.bytes;
+		*bytes += ops.bytes;
 	}
+}
+
+int		ft_printf(const char *format, ...)
+{
+	va_list		args;
+	int			i;
+	int			bytes;
+
+	i = -1;
+	bytes = 0;
+	va_start(args, format);
+	ft_printf2(format, args, -1, &bytes);
 	va_end(args);
 	return (bytes);
 }

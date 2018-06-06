@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 01:59:53 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 02:31:27 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 03:17:05 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_strrev(char *str, int i, int length)
 	return (str);
 }
 
-int	ft_strlen(char *s)
+int		ft_strlen(char *s)
 {
 	int	i;
 

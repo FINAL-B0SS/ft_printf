@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:12:37 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 02:30:24 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 03:21:09 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 	if (!ops->mod)
 		return (ft_itoabase_umax((va_arg(args, unsigned int)), base, ops));
 	else if (!ft_strcmp(ops->mod, "z"))
-		return (ft_itoabase_umax(va_arg(args, ssize_t), base,  ops));
+		return (ft_itoabase_umax(va_arg(args, ssize_t), base, ops));
 	else if (!ft_strcmp(ops->mod, "j"))
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 	else if (!ft_strcmp(ops->mod, "ll"))
@@ -66,7 +66,7 @@ char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 	else if (!ft_strcmp(ops->mod, "hh"))
 		return (ft_itoabase_umax((char)va_arg(args, int), base, ops));
 	else if (!ft_strcmp(ops->mod, "h"))
-		return (ft_itoabase_umax((short)va_arg(args, int), base,  ops));
+		return (ft_itoabase_umax((short)va_arg(args, int), base, ops));
 	else
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }

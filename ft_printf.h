@@ -6,22 +6,20 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:15:39 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 03:15:03 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 03:51:01 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-#include <inttypes.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdarg.h>
-#include <wchar.h>
-#include <limits.h>
-#include <locale.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdarg.h>
+# include <wchar.h>
+# include <limits.h>
 
-typedef struct	s_ops
+typedef	struct	s_ops
 {
 	int		num;
 	int		space;
