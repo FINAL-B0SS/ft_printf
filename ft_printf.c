@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 18:37:41 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:34:46 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -667,7 +667,6 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 		}
 		else
 		{
-			ops->w += 1;
 			ops->width = (ft_atoi(&s[*i]));
 			*i += ft_nbrlen(ft_atoi(&s[*i]));
 		}
@@ -675,7 +674,6 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 	if (s[*i] && (s[*i] == '.'))
 	{
 		*i += 1;
-		ops->p += 1;
 		if (s[*i] == '*')
 		{
 			ops->prec = va_arg(args, int);
