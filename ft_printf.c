@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 21:05:44 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 18:37:41 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -524,8 +524,7 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 	else if (!ft_strcmp(ops->mod, "h"))
 		return (ft_itoa((short)va_arg(args, int), ops));
 	else
-		return (ft_itoa((va_arg(args, ssize_t)), ops));
-
+		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }
 
 char	*ft_hex_cast(va_list args, t_ops *ops, int base)
@@ -548,6 +547,11 @@ char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }
 
+void	ft_putwchar(wchar_t a)
+{
+	write(1, &a, 1);
+}
+
 void	ft_putwstr(wchar_t *ws, t_ops *ops)
 {
 	int i;
@@ -555,7 +559,7 @@ void	ft_putwstr(wchar_t *ws, t_ops *ops)
 	i = 0;
 	while (ws[i] != '\0')
 	{
-		write(1, &ws[i], 1);
+		ft_putwchar(ws[i]);
 		i++;
 		ops->bytes += 1;
 	}
@@ -574,12 +578,18 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 	return (wstr);
 }
 
-void	ft_handle_it(t_ops *ops, va_list args)
+void	ft_default(t_ops *ops)
 {
 	(ops->plus) ? ops->space = 0 : 0;
 	(ops->conv == 'u' || ops->conv == 'U') ? ops->plus = 0 : 0;
 	(ops->conv == 'u' || ops->conv == 'U') ? ops->space = 0 : 0;
 	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
+
+}
+
+void	ft_handle_it(t_ops *ops, va_list args)
+{
+	ft_default(ops);
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
@@ -622,7 +632,10 @@ int	ft_mod_check(char *s, int *i, t_ops *ops)
 	{
 		*i += ft_strlen(ops->mod);
 		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
+		{
+			ops->m += 1;
 			return (1);
+		}
 		else
 			return (-1);
 	}
@@ -654,6 +667,7 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 		}
 		else
 		{
+			ops->w += 1;
 			ops->width = (ft_atoi(&s[*i]));
 			*i += ft_nbrlen(ft_atoi(&s[*i]));
 		}
@@ -661,6 +675,7 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 	if (s[*i] && (s[*i] == '.'))
 	{
 		*i += 1;
+		ops->p += 1;
 		if (s[*i] == '*')
 		{
 			ops->prec = va_arg(args, int);
@@ -685,7 +700,7 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 		ops->c += 1;
 		ops->conv = s[*i];
 	}
-	if (ops->c == 1)
+	if (ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1 ? 1 : 0)
 		return (1);
 	if (ops->zero)
 		ft_putstr(ft_zeros("", ops), ops);
