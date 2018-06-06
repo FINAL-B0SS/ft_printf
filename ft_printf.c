@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:02:37 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:05:00 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,8 @@ void	ft_init_ops(t_ops *ops)
 	ops->m = 0;
 }
 
-int	ft_nbrlen(int n)
+int	ft_nbrlen(int n, int i)
 {
-	int	i;
-
-	i = 0;
 	while (n != 0)
 	{
 		n /= 10;
@@ -317,7 +314,7 @@ static	int	get_snumlen(intmax_t num)
 	return (i);
 }
 
-char		*ft_itoa_smax(intmax_t num, t_ops *ops)
+char		*ft_itoa_smax(intmax_t num)
 {
 	char		*str;
 	int			len;
@@ -492,15 +489,15 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 	if (!ops->mod)
 		return (ft_itoa((va_arg(args, ssize_t)), ops));
 	else if (!ft_strcmp(ops->mod, "z"))
-		return (ft_itoa_smax(va_arg(args, ssize_t), ops));
+		return (ft_itoa_smax(va_arg(args, ssize_t)));
 	else if (!ft_strcmp(ops->mod, "j"))
-		return (ft_itoa_smax(va_arg(args, intmax_t), ops));
+		return (ft_itoa_smax(va_arg(args, intmax_t)));
 	else if (!ft_strcmp(ops->mod, "ll"))
-		return (ft_itoa_smax(va_arg(args, long long), ops));
+		return (ft_itoa_smax(va_arg(args, long long)));
 	else if (!ft_strcmp(ops->mod, "l"))
-		return (ft_itoa_smax(va_arg(args, long), ops));
+		return (ft_itoa_smax(va_arg(args, long)));
 	else if (!ft_strcmp(ops->mod, "hh"))
-		return (ft_itoa_smax((char)va_arg(args, int), ops));
+		return (ft_itoa_smax((char)va_arg(args, int)));
 	else if (!ft_strcmp(ops->mod, "h"))
 		return (ft_itoa((short)va_arg(args, int), ops));
 	else
@@ -646,7 +643,7 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 		else
 		{
 			ops->width = (ft_atoi(&s[*i]));
-			*i += ft_nbrlen(ft_atoi(&s[*i]));
+			*i += ft_nbrlen(ft_atoi(&s[*i]), -1);
 		}
 	}
 	if (s[*i] && (s[*i] == '.'))
