@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:57:29 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:58:24 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,9 +339,7 @@ char		*ft_itoa_smax(intmax_t num, t_ops *ops)
 		len++;
 	}
 	if (!(str = (char *)malloc(sizeof(*str) * len)))
-	{
 		return (NULL);
-	}
 	str[len] = '\0';
 	str[--len] = tmp % 10 + '0';
 	while (tmp /= 10)
@@ -359,8 +357,6 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 	ops->num += 1;
 	i = 0;
 	print = (char*)malloc(sizeof(char) * 24);
-	if (number < i)
-		return ("errno: Unsigned Only!");
 	if (number == 0 && !ops->pound && ops->p)
 		return ("");
 	if (number == 0)
