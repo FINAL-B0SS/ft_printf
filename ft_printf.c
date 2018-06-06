@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:20:48 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:22:36 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,15 +168,8 @@ size_t	ft_wstrlen(const wchar_t *s, size_t len)
 	return (len);
 }
 
-int	ft_atoi(char *s)
+int	ft_atoi(char *s, int i, int nb, int sign)
 {
-	int	i;
-	int	nb;
-	int	sign;
-
-	i = 0;
-	nb = 0;
-	sign = 1;
 	if (!s)
 		return (0);
 	while (s[i] && (s[i] == ' ' || s[i] == '\t' || s[i] == '\n'))
@@ -599,8 +592,8 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 		}
 		else
 		{
-			ops->width = (ft_atoi(&s[*i]));
-			*i += ft_nbrlen(ft_atoi(&s[*i]), 0);
+			ops->width = (ft_atoi(&s[*i], 0, 0, 1));
+			*i += ft_nbrlen(ft_atoi(&s[*i], 0, 0, 1), 0);
 		}
 	}
 	if (s[*i] && (s[*i] == '.'))
@@ -613,7 +606,7 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 			*i += 1;
 		}
 		else if (s[*i] && s[*i] >= '0' && s[*i] <= '9')
-			ops->prec = (ft_atoi(&s[*i]));
+			ops->prec = (ft_atoi(&s[*i], 0, 0, 1));
 		while (s[*i] >= '0' && s[*i]<= '9')
 			*i += 1;
 	}
