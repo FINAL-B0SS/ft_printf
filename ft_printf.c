@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 18:31:18 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 18:32:06 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,9 +411,6 @@ char	*ft_zeros(char *s, t_ops *ops)
 	int		i;
 
 	i = 0;
-	ops->zero = 0;
-	if (ops->prec < 2)
-		return (s);
 	while (i < ops->prec)
 	{
 		block[i] = '0';
@@ -427,6 +424,7 @@ char	*ft_zeros(char *s, t_ops *ops)
 	}
 	else
 		s = ft_strjoin(block, s);
+	ops->zero = 0;
 	return (s);
 }
 
@@ -488,7 +486,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
 	ops->prec -= ft_strlen(s);
 	(ops->plus && s[0] != '-') ? ops->width -= 1 : 0;
-	s = (ops->num) ? ft_zeros(s, ops) : s;
+	s = (ops->num && ops->prec) ? ft_zeros(s, ops) : s;
 	ops->width -= ft_strlen(s);
 	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	s = ft_spaces(s, ops);
