@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:37:58 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:40:52 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -586,13 +586,10 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 		*i += 1;
 		ops->p += 1;
 		if (s[*i] == '*')
-		{
 			ops->prec = va_arg(args, int);
-			*i += 1;
-		}
 		else if (s[*i] && s[*i] >= '0' && s[*i] <= '9')
 			ops->prec = (ft_atoi(&s[*i], 0, 0, 1));
-		while (s[*i] >= '0' && s[*i]<= '9')
+		while ((s[*i] >= '0' && s[*i]<= '9') || s[*i] == '*')
 			*i += 1;
 	}
 }
