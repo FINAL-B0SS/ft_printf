@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:40:52 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:42:10 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -630,8 +630,6 @@ int	ft_printf(const char *format, ...)
 	i = -1;
 	bytes = 0;
 	va_start(args, format);
-	if (!format)
-		return (0);
 	while (format[++i])
 	{
 		ft_init_ops(&ops);
