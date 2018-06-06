@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:34:46 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:36:19 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -691,7 +691,7 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	*i += 1;
 	ft_flag_save(s, ops, i);
 	ft_prec_width_parse(s, i, ops, args);
-	if (ft_mod_check(s, i, ops) == -1)
+	if (!ft_mod_check(s, i, ops))
 		return (0);
 	if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 	{
