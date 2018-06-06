@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:51:07 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:52:25 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,7 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	char			*basestr;
 
 	basestr = ft_strdup("0123456789abcdef");
+	ops->num += 1;
 	len = get_unumlen(num, base);
 	num == 0 ? ops->pound = 0 : 0;
 	if (num == 0 && ops->p)
