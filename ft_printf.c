@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 20:17:36 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 20:31:15 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,12 +407,11 @@ char	*ft_ptoa(unsigned long int number, t_ops *ops)
 
 char	*ft_zeros(char *s, t_ops *ops)
 {
-	char	*block;
+	char	block[(ops->prec) ? ops->prec + 1 : 1];
 	int		i;
 
 	i = 0;
-	block = (char*)malloc(sizeof(char) * ops->prec + 1);
-	if (!block)
+	if (ops->prec < 1)
 		return (s);
 	while (i < ops->prec)
 	{
@@ -428,7 +427,6 @@ char	*ft_zeros(char *s, t_ops *ops)
 	else
 		s = ft_strjoin(block, s);
 	ops->zero = 0;
-	free(block);
 	return (s);
 }
 
@@ -761,7 +759,7 @@ int main(void)
 //  ft_printf("%p\n", &ft_printf);
 // ft_printf("%20.15d\n", 54321);
 //  ft_printf("%-10d\n", 3);
-  ft_printf("% d\n", 3);
+//-- ft_printf("% d\n", 3);
 //  ft_printf("%+d\n", 3);
 //  ft_printf("%010d\n", 1);
 //  ft_printf("%hhd\n", 0);
@@ -779,6 +777,6 @@ int main(void)
 //  ft_printf("%s%s\n", "test", "test");
 //  ft_printf("%s%s%s\n", "test", "test", "test");
 //  ft_printf("%C\n", 15000);
-  while (1);
+  ft_printf("%5.3d\n", 42);
   return (0);
 }*/
