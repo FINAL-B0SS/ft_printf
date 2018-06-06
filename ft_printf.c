@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:24:36 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:26:07 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,11 +213,8 @@ char	*ft_itoa(int nbr, t_ops *ops, int length, int sign)
 	return (str);
 }
 
-static int	get_unumlen(size_t num, int base)
+static int	get_unumlen(size_t num, int base, int i)
 {
-	int	i;
-
-	i = 1;
 	while (num /= base)
 		i++;
 	return (i);
@@ -231,7 +228,7 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 
 	basestr = ft_strdup("0123456789abcdef", -1);
 	ops->num += 1;
-	len = get_unumlen(num, base);
+	len = get_unumlen(num, base, 1);
 	num == 0 ? ops->pound = 0 : 0;
 	if (num == 0 && ops->p)
 		return ("");
