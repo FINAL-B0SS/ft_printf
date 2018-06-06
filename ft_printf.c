@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:51:30 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:52:13 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -480,16 +480,15 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 
 void	ft_default(t_ops *ops)
 {
-	(ops->plus) ? ops->space = 0 : 0;
-	(ops->conv == 'u' || ops->conv == 'U') ? ops->plus = 0 : 0;
-	(ops->conv == 'u' || ops->conv == 'U') ? ops->space = 0 : 0;
-	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
-
+	
 }
 
 void	ft_handle_it(t_ops *ops, va_list args)
 {
-	ft_default(ops);
+	(ops->plus) ? ops->space = 0 : 0;
+	(ops->conv == 'u' || ops->conv == 'U') ? ops->plus = 0 : 0;
+	(ops->conv == 'u' || ops->conv == 'U') ? ops->space = 0 : 0;
+	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
