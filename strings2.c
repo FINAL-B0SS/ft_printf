@@ -6,13 +6,13 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:09:27 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 02:31:37 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 03:14:29 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_nbrlen(int n, int i)
+int		ft_nbrlen(int n, int i)
 {
 	while (n != 0)
 	{
@@ -52,13 +52,17 @@ char	*ft_strdup(char *s1, int i)
 	return (str_copy);
 }
 
-size_t	ft_wstrlen(const wchar_t *s, size_t len)
+size_t	ft_wstrlen(const wchar_t *s)
 {
-	while (s[++len] != L'\0');
+	int	len;
+
+	len = 0;
+	while (s[len] != L'\0')
+		len++;
 	return (len);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int		ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s2 && *s1 == *s2)
 		s1++ && s2++;
