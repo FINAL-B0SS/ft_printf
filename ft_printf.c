@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:17:44 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:19:13 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,15 +162,9 @@ char	*ft_strdup(char *s1, int i)
 	return (str_copy);
 }
 
-size_t	ft_wstrlen(const wchar_t *s)
+size_t	ft_wstrlen(const wchar_t *s, size_t len)
 {
-	size_t len;
-
-	len = 0;
-	while (s[len] != L'\0')
-	{
-		len++;
-	}
+	while (s[++len] != L'\0');
 	return (len);
 }
 
@@ -180,7 +174,7 @@ wchar_t	*ft_wstrdup(const wchar_t *wstr)
 	wchar_t	*wstr_copy;
 	int		i;
 
-	len = ft_wstrlen(wstr);
+	len = ft_wstrlen(wstr, -1);
 	wstr_copy = malloc(sizeof(*wstr_copy) * (len + 1));
 	if (wstr_copy)
 	{
