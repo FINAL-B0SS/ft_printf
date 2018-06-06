@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:07:17 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:09:21 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,10 @@ void	ft_putstr(char *s, t_ops *ops, int i)
 	}
 }
 
-char	*ft_strrev(char *str)
+char	*ft_strrev(char *str, int i, int length)
 {
-	int		i;
-	int		length;
 	char	buff;
 
-	i = -1;
-	length = 0;
 	while (str[length])
 		length++;
 	while (length - 1 > ++i)
@@ -357,7 +353,7 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 		i++;
 	}
 	print[i] = '\0';
-	ft_strrev(print);
+	ft_strrev(print, -1, 0);
 	(x != 0 && ops->pound) ? print = ft_strjoin("0", print) : 0;
 	return (print);
 }
@@ -376,7 +372,7 @@ char	*ft_ptoa(unsigned long int number, t_ops *ops)
 		print[i++] = "0123456789abcdef"[number % 16];
 		number /= 16;
 	}
-	print = ft_strrev(print);
+	print = ft_strrev(print, -1, 0);
 	print = ft_strjoin("0x", print);
 	return (print);
 }
