@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 21:01:28 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 21:04:49 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -622,10 +622,7 @@ int	ft_mod_check(char *s, int *i, t_ops *ops)
 	{
 		*i += ft_strlen(ops->mod);
 		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
-		{
-			ops->m += 1;
 			return (1);
-		}
 		else
 			return (-1);
 	}
@@ -657,7 +654,6 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 		}
 		else
 		{
-			ops->w += 1;
 			ops->width = (ft_atoi(&s[*i]));
 			*i += ft_nbrlen(ft_atoi(&s[*i]));
 		}
@@ -665,7 +661,6 @@ void	ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args)
 	if (s[*i] && (s[*i] == '.'))
 	{
 		*i += 1;
-		ops->p += 1;
 		if (s[*i] == '*')
 		{
 			ops->prec = va_arg(args, int);
@@ -686,11 +681,8 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	if (ft_mod_check(s, i, ops) == -1)
 		return (0);
 	if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
-	{
-		ops->c += 1;
 		ops->conv = s[*i];
-	}
-	if (ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1 ? 1 : 0)
+	if (ops->c == 1)
 		return (1);
 	if (ops->zero)
 		ft_putstr(ft_zeros("", ops), ops);
