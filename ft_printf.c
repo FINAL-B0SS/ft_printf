@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:27:03 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:31:48 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,14 +213,7 @@ char	*ft_itoa(int nbr, t_ops *ops, int length, int sign)
 	return (str);
 }
 
-int	get_unumlen(size_t num, int base, int i)
-{
-	while (num /= base)
-		i++;
-	return (i);
-}
-
-char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
+char	*ft_itoabase_umax(size_t num, int base, t_ops *ops, int i)
 {
 	char			*str;
 	int				len;
@@ -228,14 +221,14 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 
 	basestr = ft_strdup("0123456789abcdef", -1);
 	ops->num += 1;
-	len = get_unumlen(num, base, 1);
+	while (num /= base)
+		i++;
+	len = i;
 	num == 0 ? ops->pound = 0 : 0;
 	if (num == 0 && ops->p)
 		return ("");
 	if (!(str = (char *)malloc(sizeof(*str) * len + 1)))
-	{
 		return (NULL);
-	}
 	str[len] = '\0';
 	str[--len] = basestr[num % base];
 	while (num /= base)
@@ -445,28 +438,28 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 	else if (!ft_strcmp(ops->mod, "h"))
 		return (ft_itoa((short)va_arg(args, int), ops, 1, 0));
 	else
-		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops, 1));
 }
 
 char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 {
 	ops->num += 1;
 	if (!ops->mod)
-		return (ft_itoabase_umax((va_arg(args, unsigned int)), base, ops));
+		return (ft_itoabase_umax((va_arg(args, unsigned int)), base, ops, 1));
 	else if (!ft_strcmp(ops->mod, "z"))
-		return (ft_itoabase_umax(va_arg(args, ssize_t), base,  ops));
+		return (ft_itoabase_umax(va_arg(args, ssize_t), base,  ops,1 ));
 	else if (!ft_strcmp(ops->mod, "j"))
-		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops, 1));
 	else if (!ft_strcmp(ops->mod, "ll"))
-		return (ft_itoabase_umax(va_arg(args, long long), base, ops));
+		return (ft_itoabase_umax(va_arg(args, long long), base, ops, 1));
 	else if (!ft_strcmp(ops->mod, "l"))
-		return (ft_itoabase_umax(va_arg(args, long), base, ops));
+		return (ft_itoabase_umax(va_arg(args, long), base, ops, 1));
 	else if (!ft_strcmp(ops->mod, "hh"))
-		return (ft_itoabase_umax((char)va_arg(args, int), base, ops));
+		return (ft_itoabase_umax((char)va_arg(args, int), base, ops, 1));
 	else if (!ft_strcmp(ops->mod, "h"))
-		return (ft_itoabase_umax((short)va_arg(args, int), base,  ops));
+		return (ft_itoabase_umax((short)va_arg(args, int), base,  ops, 1));
 	else
-		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
+		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops, 1));
 }
 
 void	ft_putwchar(wchar_t a)
@@ -515,7 +508,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	if (ops->conv == 's')
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
-		ft_apply_flags(ft_itoabase_umax(va_arg(args, long), 10, ops), ops);
+		ft_apply_flags(ft_itoabase_umax(va_arg(args, long), 10, ops, 1), ops);
 	else if (ops->conv == 'S' || (ops->conv == 'S' && ops->mod[0] == 'l'))
 		ft_putwstr(va_arg(args, wchar_t*), ops);
 	else if (ops->conv == 'C')
@@ -531,7 +524,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'x' || ops->conv == 'X')
 		ft_apply_flags(ft_hex_cast(args, ops, 16), ops);
 	else if (ops->conv == 'u' || ops->conv == 'U')
-		ft_apply_flags(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops), ops);
+		ft_apply_flags(ft_itoabase_umax(va_arg(args, intmax_t), 10, ops, 1), ops);
 }
 
 int	ft_conv_check(int i, char *s, char c)
