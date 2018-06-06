@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:13:03 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:17:44 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,8 @@ int	ft_strlen(char *s, int i)
 	return (i);
 }
 
-char	*ft_strcpy(char *dest, const char *src)
+char	*ft_strcpy(char *dest, const char *src, size_t i)
 {
-	size_t	i;
-
-	i = -1;
 	while (src[++i])
 		dest[i] = src[i];
 	dest[i] = '\0';
@@ -144,22 +141,20 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!(str = (char *)malloc(ft_strlen((char *)s1, -1) +
 					ft_strlen((char *)s2, -1)), -1))
 		return (NULL);
-	str = ft_strcpy(str, s1);
+	str = ft_strcpy(str, s1, -1);
 	str = ft_strcat(str, s2);
 	return (str);
 }
 
-char	*ft_strdup(char *s1)
+char	*ft_strdup(char *s1, int i)
 {
 	int		s1_len;
 	char	*str_copy;
-	int		i;
 
 	s1_len = ft_strlen(s1, -1);
 	str_copy = malloc(sizeof(*str_copy) * (s1_len + 1));
 	if (str_copy)
 	{
-		i = -1;
 		while (s1[++i] != '\0')
 			str_copy[i] = s1[i];
 		str_copy[i] = '\0';
@@ -241,7 +236,7 @@ char	*ft_itoa(int nbr, t_ops *ops)
 	length = nbr < 0 ? length += 1 : length;
 	str = (char*)malloc(sizeof(char) * length + 1);
 	if (nbr == -2147483648)
-		return (str = ft_strdup("-2147483648"));
+		return (str = ft_strdup("-2147483648", -1));
 	if (!str)
 		return (NULL);
 	(sign) ? str[0] = '-' : 0;
@@ -271,7 +266,7 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	int				len;
 	char			*basestr;
 
-	basestr = ft_strdup("0123456789abcdef");
+	basestr = ft_strdup("0123456789abcdef", -1);
 	ops->num += 1;
 	len = get_unumlen(num, base);
 	num == 0 ? ops->pound = 0 : 0;
@@ -711,9 +706,3 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (bytes);
 }
-/*
-int main()
-{
-	ft_printf("%#08x", 42);
-	return (0);
-}*/
