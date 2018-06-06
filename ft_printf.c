@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 18:35:04 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 18:37:41 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ char	*ft_strcat(char *dest, const char *src)
 	return (dest);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
 
@@ -407,11 +407,12 @@ char	*ft_ptoa(unsigned long int number, t_ops *ops)
 
 char	*ft_zeros(char *s, t_ops *ops)
 {
-	char	block[ops->prec + 1];
+	char	*block;
 	int		i;
 
 	i = 0;
-	if (!ops->prec)
+	block = (char*)malloc(sizeof(char) * ops->prec + 1);
+	if (!block)
 		return (s);
 	while (i < ops->prec)
 	{
@@ -427,6 +428,7 @@ char	*ft_zeros(char *s, t_ops *ops)
 	else
 		s = ft_strjoin(block, s);
 	ops->zero = 0;
+	free(block);
 	return (s);
 }
 
