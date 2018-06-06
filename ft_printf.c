@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:48:27 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:51:30 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,8 @@ typedef struct	s_ops
 	int		prec;
 	char	conv;
 	char	*mod;
-	int		f;
-	int		w;
 	int		p;
 	int		c;
-	int		m;
-	int		data;
 	int		bytes;
 }				t_ops;
 
@@ -44,7 +40,6 @@ void	ft_init_ops(t_ops *ops)
 {
 	ops->bytes = 0;
 	ops->num = 0;
-	ops->data = 0;
 	ops->space = 0;
 	ops->minus = 0;
 	ops->pound = 0;
@@ -54,11 +49,8 @@ void	ft_init_ops(t_ops *ops)
 	ops->prec = 0;
 	ops->conv = 0;
 	ops->mod = 0;
-	ops->f = 0;
-	ops->w = 0;
 	ops->p = 0;
 	ops->c = 0;
-	ops->m = 0;
 }
 
 int	ft_nbrlen(int n, int i)
@@ -460,11 +452,6 @@ char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }
 
-void	ft_putwchar(wchar_t a)
-{
-	write(1, &a, 1);
-}
-
 void	ft_putwstr(wchar_t *ws, t_ops *ops)
 {
 	int i;
@@ -472,7 +459,7 @@ void	ft_putwstr(wchar_t *ws, t_ops *ops)
 	i = 0;
 	while (ws[i] != '\0')
 	{
-		ft_putwchar(ws[i]);
+		write(1, &ws[i], 1);
 		i++;
 		ops->bytes += 1;
 	}
