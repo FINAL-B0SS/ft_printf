@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:05:45 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:07:17 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,8 @@ void	ft_putchar(char c, t_ops *ops)
 	ops->bytes += 1;
 }
 
-void	ft_putstr(char *s, t_ops *ops)
+void	ft_putstr(char *s, t_ops *ops, int i)
 {
-	int	i;
-
-	i = -1;
 	if (!s)
 	{
 		write(1, "(null)", 6);
@@ -455,7 +452,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 {
 	if (!s)
 	{
-		ft_putstr("(null)", ops);
+		ft_putstr("(null)", ops, -1);
 		return ;
 	}
 	(s[0] == '-') ? ops->prec += 1 : 0;
@@ -473,7 +470,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	s = (ops->pound && ops->conv == 'x' && ops->zero) ? ft_strjoin("0x", s) : s;
 	s = (ops->pound && ops->conv == 'X' && ops->zero) ? ft_strjoin("0X", s) : s;
 	s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
-	ft_putstr(s, ops);
+	ft_putstr(s, ops, -1);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -677,13 +674,13 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	if (ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1 ? 1 : 0)
 		return (1);
 	if (ops->zero)
-		ft_putstr(ft_zeros("", ops), ops);
+		ft_putstr(ft_zeros("", ops), ops, -1);
 	if (ops->width)
 	{
 		ops->width -= 1;
 		(ops->minus) ? ft_putchar(s[*i], ops) : 0;
 		(ops->minus) ? *i += 1 : 0;
-		ft_putstr(ft_spaces("", ops), ops);
+		ft_putstr(ft_spaces("", ops), ops, -1);
 	}
 	return (0);
 }
