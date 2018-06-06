@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:42:10 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:48:27 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -606,7 +606,7 @@ int	ft_parse(char *s, int *i, t_ops *ops, va_list args)
 		ops->c += 1;
 		ops->conv = s[*i];
 	}
-	if (ops->w <= 1 && ops->p <= 1 && ops->m <= 1 && ops->c == 1 ? 1 : 0)
+	if (ops->p <= 1 && ops->c == 1 ? 1 : 0)
 		return (1);
 	if (ops->zero)
 		ft_putstr(ft_zeros("", ops), ops, -1);
