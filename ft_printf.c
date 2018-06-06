@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 18:39:41 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 18:40:22 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,7 +456,6 @@ char	*ft_spaces(char *s, t_ops *ops)
 	}
 	else
 		s = (ops->minus) ? ft_strjoin(s, block) : ft_strjoin(block, s);
-	free(block);
 	return (s);
 }
 
