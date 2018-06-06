@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:56:23 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:57:29 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,9 +306,7 @@ char	*ft_itoabase_umax(size_t num, int base, t_ops *ops)
 	str[len] = '\0';
 	str[--len] = basestr[num % base];
 	while (num /= base)
-	{
 		str[--len] = basestr[num % base];
-	}
 	len = -1;
 	if (ops->conv == 'X')
 		while (str[++len])
