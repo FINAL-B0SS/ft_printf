@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:22:36 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:24:36 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,14 +186,11 @@ int	ft_atoi(char *s, int i, int nb, int sign)
 	return (sign * nb);
 }
 
-char	*ft_itoa(int nbr, t_ops *ops)
+char	*ft_itoa(int nbr, t_ops *ops, int length, int sign)
 {
-	int		length;
-	int		sign;
 	char	*str;
 
 	sign = nbr;
-	length = 1;
 	if (nbr == 0 && ops->p)
 		return ("");
 	while (sign /= 10)
@@ -437,7 +434,7 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 {
 	ops->num += 1;
 	if (!ops->mod)
-		return (ft_itoa((va_arg(args, ssize_t)), ops));
+		return (ft_itoa((va_arg(args, ssize_t)), ops, 1, 0));
 	else if (!ft_strcmp(ops->mod, "z"))
 		return (ft_itoa_smax(va_arg(args, ssize_t)));
 	else if (!ft_strcmp(ops->mod, "j"))
@@ -449,7 +446,7 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 	else if (!ft_strcmp(ops->mod, "hh"))
 		return (ft_itoa_smax((char)va_arg(args, int)));
 	else if (!ft_strcmp(ops->mod, "h"))
-		return (ft_itoa((short)va_arg(args, int), ops));
+		return (ft_itoa((short)va_arg(args, int), ops, 1, 0));
 	else
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }
