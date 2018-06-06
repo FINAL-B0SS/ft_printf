@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:01:20 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:02:37 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,12 +173,9 @@ char	*ft_strdup(char *s1)
 	str_copy = malloc(sizeof(*str_copy) * (s1_len + 1));
 	if (str_copy)
 	{
-		i = 0;
-		while (s1[i] != '\0')
-		{
+		i = -1;
+		while (s1[++i] != '\0')
 			str_copy[i] = s1[i];
-			i++;
-		}
 		str_copy[i] = '\0';
 	}
 	return (str_copy);
