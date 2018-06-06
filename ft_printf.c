@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 18:18:19 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 18:18:51 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ char	*ft_strcat(char *dest, const char *src)
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
-	char	*leak;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -166,8 +165,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	str = ft_strcpy(str, s1);
 	str = ft_strcat(str, s2);
-	leak = &str;
-	free(leak);
 	return (str);
 }
 
