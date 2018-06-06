@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/05 18:30:13 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/05 18:31:18 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,6 +411,7 @@ char	*ft_zeros(char *s, t_ops *ops)
 	int		i;
 
 	i = 0;
+	ops->zero = 0;
 	if (ops->prec < 2)
 		return (s);
 	while (i < ops->prec)
@@ -426,7 +427,6 @@ char	*ft_zeros(char *s, t_ops *ops)
 	}
 	else
 		s = ft_strjoin(block, s);
-	ops->zero = 0;
 	return (s);
 }
 
