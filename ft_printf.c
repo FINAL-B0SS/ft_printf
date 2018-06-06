@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:35:45 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:37:58 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,7 @@ char		*ft_itoa_smax(intmax_t num)
 	(num < 0) ? str[0] = '-' : 0;
 	return (str);
 }
+
 char	*ft_otoa(unsigned long int number, t_ops *ops)
 {
 	char				*print;
@@ -374,18 +375,13 @@ char	*ft_spaces(char *s, t_ops *ops)
 	return (s);
 }
 
-char	*ft_chop(char *s, t_ops *ops)
+char	*ft_chop(char *s, t_ops *ops, int i)
 {
 	char	*dest;
-	int		i;
 
-	i = 0;
 	dest = (char*)malloc(sizeof(char) * ops->prec + 1);
-	while (i < ops->prec)
-	{
+	while (++i < ops->prec)
 		dest[i] = s[i];
-		i++;
-	}
 	dest[i] = '\0';
 	return (dest);
 }
@@ -399,7 +395,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	}
 	(s[0] == '-') ? ops->prec += 1 : 0;
 	if (!ops->num)
-		s = (ops->prec) ? ft_chop(s, ops) : s;
+		s = (ops->prec) ? ft_chop(s, ops, -1) : s;
 	s = (ops->pound && ops->conv == 'x' && !ops->zero) ? ft_strjoin("0x", s) : s;
 	s = (ops->pound && ops->conv == 'X' && !ops->zero) ? ft_strjoin("0X", s) : s;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
