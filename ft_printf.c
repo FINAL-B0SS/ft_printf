@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:59:21 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:01:20 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,16 @@ char	*ft_strrev(char *str)
 	int		length;
 	char	buff;
 
-	i = 0;
+	i = -1;
 	length = 0;
 	while (str[length])
 		length++;
-	while (length - 1 > i)
+	while (length - 1 > ++i)
 	{
 		buff = str[i];
 		str[i] = str[length - 1];
 		str[length - 1] = buff;
 		length--;
-		i++;
 	}
 	return (str);
 }
@@ -132,12 +131,9 @@ char	*ft_strcpy(char *dest, const char *src)
 {
 	size_t	i;
 
-	i = 0;
-	while (src[i])
-	{
+	i = -1;
+	while (src[++i])
 		dest[i] = src[i];
-		i++;
-	}
 	dest[i] = '\0';
 	return (dest);
 }
