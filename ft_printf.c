@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 00:58:24 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 00:59:21 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,15 @@ void	ft_putstr(char *s, t_ops *ops)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!s)
 	{
 		write(1, "(null)", 6);
 		return ;
 	}
-	while (s[i])
+	while (s[++i])
 	{
 		write(1, &s[i], 1);
-		i++;
 		ops->bytes += 1;
 	}
 }
@@ -400,15 +399,12 @@ char	*ft_zeros(char *s, t_ops *ops)
 	char	*block;
 	int		i;
 
-	i = 0;
+	i = -1;
 	block = (char*)malloc(sizeof(char) * ops->prec + 1);
 	if (!block)
 		return (s);
-	while (i < ops->prec)
-	{
+	while (++i < ops->prec)
 		block[i] = '0';
-		i++;
-	}
 	block[i] = '\0';
 	if (s[0] == '-')
 	{
