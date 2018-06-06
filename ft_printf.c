@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:52:13 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:52:41 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -476,11 +476,6 @@ wchar_t	*ft_wchrtostr(wchar_t wchar)
 		wstr[1] = L'\0';
 	}
 	return (wstr);
-}
-
-void	ft_default(t_ops *ops)
-{
-	
 }
 
 void	ft_handle_it(t_ops *ops, va_list args)
