@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 01:10:19 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 01:13:03 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,8 @@ char	*ft_strrev(char *str, int i, int length)
 	return (str);
 }
 
-int	ft_strlen(char *s)
+int	ft_strlen(char *s, int i)
 {
-	int	i;
-
-	i = -1;
 	while (s[++i]);
 	return (i);
 }
@@ -131,7 +128,7 @@ char	*ft_strcat(char *dest, const char *src)
 {
 	size_t	i;
 
-	i = ft_strlen(dest);
+	i = ft_strlen(dest, -1);
 	while (*src)
 		dest[i++] = *src++;
 	dest[i] = '\0';
@@ -144,8 +141,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	if (!(str = (char *)malloc(ft_strlen((char *)s1) +
-					ft_strlen((char *)s2) + 1)))
+	if (!(str = (char *)malloc(ft_strlen((char *)s1, -1) +
+					ft_strlen((char *)s2, -1)), -1))
 		return (NULL);
 	str = ft_strcpy(str, s1);
 	str = ft_strcat(str, s2);
@@ -158,7 +155,7 @@ char	*ft_strdup(char *s1)
 	char	*str_copy;
 	int		i;
 
-	s1_len = ft_strlen(s1);
+	s1_len = ft_strlen(s1, -1);
 	str_copy = malloc(sizeof(*str_copy) * (s1_len + 1));
 	if (str_copy)
 	{
@@ -254,7 +251,7 @@ char	*ft_itoa(int nbr, t_ops *ops)
 		str[length] = (nbr >= 10) ? (nbr % 10) + 48 : nbr + 48;
 		nbr /= 10;
 	}
-	str[ft_strlen(str)] = '\0';
+	str[ft_strlen(str, -1)] = '\0';
 	return (str);
 }
 
@@ -456,10 +453,10 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	s = (ops->pound && ops->conv == 'x' && !ops->zero) ? ft_strjoin("0x", s) : s;
 	s = (ops->pound && ops->conv == 'X' && !ops->zero) ? ft_strjoin("0X", s) : s;
 	(ops->space && s[0] != '-') ? ops->width -= 1 : 0;
-	ops->prec -= ft_strlen(s);
+	ops->prec -= ft_strlen(s, -1);
 	(ops->plus && s[0] != '-') ? ops->width -= 1 : 0;
 	s = (ops->num) ? ft_zeros(s, ops) : s;
-	ops->width -= ft_strlen(s);
+	ops->width -= ft_strlen(s, -1);
 	s = (ops->plus && s[0] != '-') ? ft_strjoin("+", s) : s;
 	s = ft_spaces(s, ops);
 	s = (ops->pound && ops->conv == 'x' && ops->zero) ? ft_strjoin("0x", s) : s;
@@ -600,7 +597,7 @@ int	ft_mod_check(char *s, int *i, t_ops *ops)
 	(s[*i] == 'z') ? ops->mod = "z" : 0;
 	if (ops->mod)
 	{
-		*i += ft_strlen(ops->mod);
+		*i += ft_strlen(ops->mod, -1);
 		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 			return (1);
 		else
@@ -707,7 +704,7 @@ int	ft_printf(const char *format, ...)
 			else if (format[i])
 				ft_putchar(format[i], &ops);
 		}
-		else if (i < ft_strlen((char*)format))
+		else if (i < ft_strlen((char*)format, -1))
 			ft_putchar(format[i], &ops);
 		bytes += ops.bytes;
 	}
