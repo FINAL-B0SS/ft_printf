@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:12:37 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 17:54:08 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 18:11:59 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ void	ft_putwchar(wchar_t c)
 {
 	write(1, &c, 1);
 }
-
+#include <stdio.h>
 void	ft_putwstr(wchar_t *ws, t_ops *ops)
 {
-	int i;
+	printf("%S", ws);
+/*	int i;
 
 	i = 0;
 	while (ws[i] != '\0')
@@ -86,7 +87,7 @@ void	ft_putwstr(wchar_t *ws, t_ops *ops)
 		ft_putwchar(ws[i]);
 		i++;
 		ops->bytes += 1;
-	}
+	}*/
 }
 
 wchar_t	*ft_wchrtostr(wchar_t wchar)
