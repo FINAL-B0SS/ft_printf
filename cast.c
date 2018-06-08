@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:12:37 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 22:09:34 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 22:55:45 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,12 @@ char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
 }
 
-void	ft_putwstr(wchar_t *ws, t_ops *ops)
+void	ft_putwstr(wchar_t *ws, t_ops *ops, int i)
 {
-	int i;
-
-	i = 0;
-	while (ws[i])
+	while (ws[++i])
 	{
 		ft_putchar(ws[i], ops);
 		ops->bytes += 1;
-		i++;
 	}
 }
 

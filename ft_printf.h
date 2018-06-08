@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:15:39 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 17:29:13 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 22:56:55 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void			ft_handle_it(t_ops *ops, va_list args);
 void			ft_init_ops(t_ops *ops);
 char			*ft_mod_cast(va_list args, t_ops *ops, int base);
 char			*ft_hex_cast(va_list args, t_ops *ops, int base);
-void			ft_putwstr(wchar_t *ws, t_ops *ops);
+void			ft_putwstr(wchar_t *ws, t_ops *ops, int i);
 wchar_t			*ft_wchrtostr(wchar_t wchar);
 char			*ft_itoa(int nbr, t_ops *ops, int length, int sign);
 int				get_unumlen(size_t num, int base, int i);
@@ -69,7 +69,7 @@ char			*ft_strcpy(char *dest, const char *src, size_t i);
 int				ft_nbrlen(int n, int i);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strdup(char *s1, int i);
-size_t			ft_wstrlen(const wchar_t *s);
+int				ft_wstrlen(const wchar_t *s);
 int				ft_strcmp(const char *s1, const char *s2);
 
 #endif

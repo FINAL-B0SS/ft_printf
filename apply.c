@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 22:14:31 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 22:58:31 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,11 @@ void	ft_handle_it(t_ops *ops, va_list args)
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
 		ft_apply_flags(ft_itoabase_umax(va_arg(args, long), 10, ops), ops);
-	else if (ops->conv == 'S' || (ops->conv == 's' && ft_strcmp("l", ops->mod) == 0))
-		ft_putwstr(va_arg(args, wchar_t*), ops);
+	else if (ops->conv == 'S' ||
+			(ops->conv == 's' && ft_strcmp("l", ops->mod) == 0))
+		ft_putwstr(va_arg(args, wchar_t*), ops, -1);
 	else if (ops->conv == 'C')
-		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops);
+		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops, -1);
 	else if (ops->conv == 'c')
 		ft_putchar(va_arg(args, int), ops);
 	else if (ops->conv == 'o' || ops->conv == 'O')

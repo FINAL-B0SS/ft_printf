@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:09:27 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 22:13:38 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 22:54:56 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_strdup(char *s1, int i)
 	return (str_copy);
 }
 
-size_t	ft_wstrlen(const wchar_t *s)
+int		ft_wstrlen(const wchar_t *s)
 {
 	int	len;
 
