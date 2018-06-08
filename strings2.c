@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:09:27 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 03:14:29 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 22:13:38 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ size_t	ft_wstrlen(const wchar_t *s)
 
 int		ft_strcmp(const char *s1, const char *s2)
 {
+	if (!s1 || !s2)
+		return (-1);
 	while (*s1 && *s2 && *s1 == *s2)
 		s1++ && s2++;
 	return (*(unsigned char*)s1) - *((unsigned char*)s2);
