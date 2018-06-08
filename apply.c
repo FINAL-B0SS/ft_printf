@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 03:20:08 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 18:45:18 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
 	ft_putstr(s, ops, -1);
 }
-
+#include 
 void	ft_handle_it(t_ops *ops, va_list args)
 {
 	(ops->plus) ? ops->space = 0 : 0;
@@ -114,7 +114,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'S' || (ops->conv == 'S' && ops->mod[0] == 'l'))
 		ft_putwstr(va_arg(args, wchar_t*), ops);
 	else if (ops->conv == 'C')
-		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops);
+		printf("%C", va_arg(args, wchar_t));/*ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops);*/
 	else if (ops->conv == 'c')
 		ft_putchar(va_arg(args, int), ops);
 	else if (ops->conv == 'o' || ops->conv == 'O')
