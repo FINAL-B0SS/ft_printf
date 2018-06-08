@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:12:37 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 18:23:16 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 18:24:08 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_putwstr(wchar_t *ws, t_ops *ops)
 	i = 0;
 	while (ws[i] != '\0')
 	{
-		ft_putchar((char)ws[i], ops);
+		write(1, &ws[i], 2);
 		i++;
 	}
 }
