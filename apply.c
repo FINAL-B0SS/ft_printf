@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 21:49:16 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 22:10:05 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	(ops->conv == 'u' || ops->conv == 'U') ? ops->plus = 0 : 0;
 	(ops->conv == 'u' || ops->conv == 'U') ? ops->space = 0 : 0;
 	(ops->zero && ops->minus) ? ops->zero = 0 : 0;
-	if (ops->conv == 's')
+	if (ops->conv == 's' && ft_strcmp(ops->mod, "l") != 0)
 		ft_apply_flags(va_arg(args, char*), ops);
 	else if (ops->conv == 'D')
 		ft_apply_flags(ft_itoabase_umax(va_arg(args, long), 10, ops), ops);
-	else if (ops->conv == 'S' || (ops->conv == 'S' && ops->mod[0] == 'l'))
+	else if (ops->conv == 'S' || (ops->conv == 's' && ft_strcmp("l", ops->mod) == 0))
 		ft_putwstr(va_arg(args, wchar_t*), ops);
 	else if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops);
