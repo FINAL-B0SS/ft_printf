@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:12:37 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 23:19:55 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 23:21:50 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ void	ft_putwstr(wchar_t *ws, t_ops *ops, int i)
 {
 	ops->width -= (ft_wstrlen(ws) - ops->prec);
 	ops->minus ? ops->zero = 0 : 0;
-	ft_printf("%d\n%d\n", ops->width, ops->prec);
-	i++;
 	if (ops->width && !ops->minus)
-		write(1, "cool", 4);
-	//	while (ops->width--)
-	//		ops->zero ? write(1, "0", 1) : write(1, " ", 1);
-/*	while (ws[++i])
+		while (ops->width)
+		{
+			ops->zero ? write(1, "0", 1) : write(1, " ", 1);
+			ops->width -= 1;
+		}
+	while (ws[++i])
 	{
 		if (ops->prec && ops->prec < ft_wstrlen(ws))
 		{
@@ -94,7 +94,10 @@ void	ft_putwstr(wchar_t *ws, t_ops *ops, int i)
 	}
 	if (ops->width && ops->minus)
 		while (ops->width--)
-			ops->zero ? write(1, "0", 1) : write(1, " ", 1);*/
+		{
+			ops->zero ? write(1, "0", 1) : write(1, " ", 1);
+			ops->width -= 1;
+		}
 }
 
 wchar_t	*ft_wchrtostr(wchar_t wchar)
