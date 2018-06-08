@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/08 16:43:51 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/08 16:45:08 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	ft_handle_it(t_ops *ops, va_list args)
 	else if (ops->conv == 'C')
 		ft_putwstr((ft_wchrtostr(va_arg(args, wchar_t))), ops, -1);
 	else if (ops->conv == 'c')
-		ft_apply_flags(ft_ctoa((char)va_arg(args, int)), ops);
+		ft_putchar(va_arg(args, int), ops);
 	else if (ops->conv == 'o' || ops->conv == 'O')
 		ft_apply_flags(ft_otoa(va_arg(args, unsigned int), ops), ops);
 	else if (ops->conv == 'p')

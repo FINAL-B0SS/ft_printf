@@ -6,21 +6,11 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/08 16:39:13 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/08 16:45:47 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-char	*ft_ctoa(char c)
-{
-	char	*s;
-	
-	s = (char*)malloc(sizeof(char) * 2);
-	s[0] = c;
-	s[1] = '\0';
-	return (s);
-}
 
 void	ft_printf2(const char *format, va_list args, int i, int *bytes)
 {
