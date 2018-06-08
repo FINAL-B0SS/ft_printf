@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:15:39 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 22:56:55 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/08 16:38:12 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef	struct	s_ops
 	int		bytes;
 }				t_ops;
 
+char			*ft_ctoa(char c);
 char			*ft_zeros(char *s, t_ops *ops);
 char			*ft_strcat(char *dest, const char *src);
 char			*ft_spaces(char *s, t_ops *ops);
