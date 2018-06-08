@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:12:37 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 23:22:55 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/08 16:33:15 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ char	*ft_mod_cast(va_list args, t_ops *ops, int base)
 	ops->num += 1;
 	if (!ops->mod)
 		return (ft_itoa((va_arg(args, ssize_t)), ops, 1, 0));
-	else if (!ft_strcmp(ops->mod, "z"))
+	else if (ft_strcmp(ops->mod, "z") == 0)
 		return (ft_itoa_smax(va_arg(args, ssize_t)));
-	else if (!ft_strcmp(ops->mod, "j"))
+	else if (ft_strcmp(ops->mod, "j") == 0)
 		return (ft_itoa_smax(va_arg(args, intmax_t)));
-	else if (!ft_strcmp(ops->mod, "ll"))
+	else if (ft_strcmp(ops->mod, "ll") == 0)
 		return (ft_itoa_smax(va_arg(args, long long)));
-	else if (!ft_strcmp(ops->mod, "l"))
+	else if (ft_strcmp(ops->mod, "l") == 0)
 		return (ft_itoa_smax(va_arg(args, long)));
-	else if (!ft_strcmp(ops->mod, "hh"))
+	else if (ft_strcmp(ops->mod, "hh") == 0)
 		return (ft_itoa_smax((char)va_arg(args, int)));
-	else if (!ft_strcmp(ops->mod, "h"))
+	else if (ft_strcmp(ops->mod, "h") == 0)
 		return (ft_itoa((short)va_arg(args, int), ops, 1, 0));
 	else
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
@@ -55,17 +55,17 @@ char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 	ops->num += 1;
 	if (!ops->mod)
 		return (ft_itoabase_umax((va_arg(args, unsigned int)), base, ops));
-	else if (!ft_strcmp(ops->mod, "z"))
+	else if (ft_strcmp(ops->mod, "z") == 0)
 		return (ft_itoabase_umax(va_arg(args, ssize_t), base, ops));
-	else if (!ft_strcmp(ops->mod, "j"))
+	else if (ft_strcmp(ops->mod, "j") == 0)
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
-	else if (!ft_strcmp(ops->mod, "ll"))
+	else if (ft_strcmp(ops->mod, "ll") == 0)
 		return (ft_itoabase_umax(va_arg(args, long long), base, ops));
-	else if (!ft_strcmp(ops->mod, "l"))
+	else if (ft_strcmp(ops->mod, "l") == 0)
 		return (ft_itoabase_umax(va_arg(args, long), base, ops));
-	else if (!ft_strcmp(ops->mod, "hh"))
+	else if (ft_strcmp(ops->mod, "hh") == 0)
 		return (ft_itoabase_umax((char)va_arg(args, int), base, ops));
-	else if (!ft_strcmp(ops->mod, "h"))
+	else if (ft_strcmp(ops->mod, "h") == 0)
 		return (ft_itoabase_umax((short)va_arg(args, int), base, ops));
 	else
 		return (ft_itoabase_umax(va_arg(args, intmax_t), base, ops));
