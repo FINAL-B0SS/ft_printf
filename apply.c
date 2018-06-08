@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 18:45:18 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 18:47:19 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	s = (ops->space && s[0] != '-') ? ft_strjoin(" ", s) : s;
 	ft_putstr(s, ops, -1);
 }
-#include 
+#include <stdio.h>
 void	ft_handle_it(t_ops *ops, va_list args)
 {
 	(ops->plus) ? ops->space = 0 : 0;
