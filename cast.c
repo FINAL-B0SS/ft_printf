@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:12:37 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/07 23:15:00 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/07 23:15:51 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,8 @@ char	*ft_hex_cast(va_list args, t_ops *ops, int base)
 
 void	ft_putwstr(wchar_t *ws, t_ops *ops, int i)
 {
-	ops->width -= (ops->prec -ft_wstrlen(ws));
+	ops->width -= (ft_wstrlen(ws) - ops->prec);
 	ops->minus ? ops->zero = 0 : 0;
-	ops->width -= 1;
 	if (ops->width && !ops->minus)
 		while (ops->width--)
 			ops->zero ? write(1, "0", 1) : write(1, " ", 1);
