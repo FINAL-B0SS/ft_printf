@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:15:39 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/08 16:46:27 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/10 00:36:13 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <wchar.h>
-# include <limits.h>
 
 typedef	struct	s_ops
 {
