@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:15:39 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/11 15:20:55 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/11 15:39:09 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef	struct	s_ops
 	char	conv;
 	char	*mod;
 	int		p;
-	int		c;
 	int		bytes;
 }				t_ops;
 

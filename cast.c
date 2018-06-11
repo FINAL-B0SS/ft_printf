@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:12:37 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/08 16:33:15 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/11 15:39:53 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	ft_init_ops(t_ops *ops)
 	ops->conv = 0;
 	ops->mod = 0;
 	ops->p = 0;
-	ops->c = 0;
 }
 
 char	*ft_mod_cast(va_list args, t_ops *ops, int base)
