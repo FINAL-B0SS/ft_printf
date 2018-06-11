@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:15:39 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/11 14:57:16 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/11 15:20:55 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				ft_atoi(char *s, int i, int nb, int sign);
 char			*ft_otoa(unsigned long int number, t_ops *ops);
 char			*ft_ptoa(unsigned long int number, t_ops *ops);
 int				ft_printf(const char *format, ...);
-int				ft_conv_check(int i, char *s, char c);
+int				ft_conv_check(int i, char *s, char c, t_ops *ops);
 void			ft_mod_check(char *s, int *i, t_ops *ops);
 void			ft_flag_save(char *s, t_ops *ops, int *i);
 void			ft_prec_width_parse(char *s, int *i, t_ops *ops, va_list args);
