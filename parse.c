@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:01:57 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 03:19:20 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/11 14:55:33 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		ft_conv_check(int i, char *s, char c)
 	return (0);
 }
 
-int		ft_mod_check(char *s, int *i, t_ops *ops)
+void	ft_mod_check(char *s, int *i, t_ops *ops)
 {
 	(s[*i] == 'h' && s[*i + 1] == 'h') ? ops->mod = "hh" : 0;
 	(s[*i] == 'h' && s[*i + 1] != 'h') ? ops->mod = "h" : 0;
@@ -29,14 +29,7 @@ int		ft_mod_check(char *s, int *i, t_ops *ops)
 	(s[*i] == 'j') ? ops->mod = "j" : 0;
 	(s[*i] == 'z') ? ops->mod = "z" : 0;
 	if (ops->mod)
-	{
 		*i += ft_strlen(ops->mod);
-		if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
-			return (1);
-		else
-			return (0);
-	}
-	return (1);
 }
 
 void	ft_flag_save(char *s, t_ops *ops, int *i)
@@ -87,8 +80,7 @@ int		ft_parse(char *s, int *i, t_ops *ops, va_list args)
 	*i += 1;
 	ft_flag_save(s, ops, i);
 	ft_prec_width_parse(s, i, ops, args);
-	if (ft_mod_check(s, i, ops) == -1)
-		return (0);
+	ft_mod_check(s, i, ops); 
 	if (ft_conv_check(-1, "sSpdDioOuUxXcC", s[*i]))
 	{
 		ops->c += 1;
