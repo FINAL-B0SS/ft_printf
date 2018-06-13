@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/13 15:08:13 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/13 15:13:37 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	ft_printf2(const char *format, va_list args, int i, int *bytes)
 {
 	t_ops		ops;
+	int			x;
 
+	x = ft_strlen((char*)format);
 	while (format[++i])
 	{
 		ft_init_ops(&ops);
@@ -31,7 +33,7 @@ void	ft_printf2(const char *format, va_list args, int i, int *bytes)
 			else if (format[i])
 				ft_putchar(format[i], &ops);
 		}
-		else if (i < ft_strlen((char*)format))
+		else if (i < x)
 			ft_putchar(format[i], &ops);
 		*bytes += ops.bytes;
 	}
