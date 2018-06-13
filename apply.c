@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/12 21:42:28 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/12 21:46:19 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*ft_zeros(char *s, t_ops *ops)
 {
 	char	*block;
 	int		i;
-	char	*tmp;
 
 	i = -1;
 	block = (char*)malloc(sizeof(char) * ops->prec + 1);
@@ -25,17 +24,15 @@ char	*ft_zeros(char *s, t_ops *ops)
 	while (++i < ops->prec)
 		block[i] = '0';
 	block[i] = '\0';
-	tmp = s;
 	if (s[0] == '-')
 	{
 		s = ft_strjoin(block, &s[1]);
 		s = ft_strjoin("-", s);
 	}
 	else
-		s ? s = ft_strjoin(block, s) : 0; 
+		s = ft_strjoin(block, s); 
 	ops->zero = 0;
 	free(block);
-	free(tmp);
 	return (s);
 }
 
