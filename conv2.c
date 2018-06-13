@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:08:15 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/12 17:25:34 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/06 03:18:27 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,11 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 	char				*print;
 	unsigned int		i;
 	unsigned long int	x;
-	char				*tmp;
 
 	x = number;
 	ops->num += 1;
 	i = 0;
 	print = (char*)malloc(sizeof(char) * 24);
-	tmp = print;
 	if (number == 0 && !ops->pound && ops->p)
 		return ("");
 	if (number == 0)
@@ -58,7 +56,6 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 	print[i] = '\0';
 	ft_strrev(print, -1, 0);
 	(x != 0 && ops->pound) ? print = ft_strjoin("0", print) : 0;
-	print[i] != 0 ? free(tmp) : 0;
 	return (print);
 }
 
@@ -66,11 +63,9 @@ char	*ft_ptoa(unsigned long int number, t_ops *ops)
 {
 	char	*print;
 	int		i;
-	char	*tmp;
 
 	i = 0;
 	print = (char*)malloc(sizeof(char) * 12);
-	tmp = print;
 	if (number == 0)
 		print[i] = '0';
 	while (number && ops->conv == 'p')
@@ -80,7 +75,6 @@ char	*ft_ptoa(unsigned long int number, t_ops *ops)
 	}
 	print = ft_strrev(print, -1, 0);
 	print = ft_strjoin("0x", print);
-	free(tmp);
 	return (print);
 }
 
