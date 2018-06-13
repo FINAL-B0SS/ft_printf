@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/12 21:40:09 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/12 21:42:28 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_zeros(char *s, t_ops *ops)
 		s = ft_strjoin("-", s);
 	}
 	else
-		s = ft_strjoin(block, s);
+		s ? s = ft_strjoin(block, s) : 0; 
 	ops->zero = 0;
 	free(block);
 	free(tmp);
