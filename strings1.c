@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 01:59:53 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/12 23:28:06 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/12 23:30:43 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_putstr(char *s, t_ops *ops, int i)
 		write(1, &s[i], 1);
 		ops->bytes += 1;
 	}
-//	(ops->conv != 's') ? s = NULL : 0;
+	s = 0;
 }
 
 char	*ft_strrev(char *str, int i, int length)
