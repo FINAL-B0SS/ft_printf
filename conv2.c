@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:08:15 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/12 17:22:33 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/12 17:25:34 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_otoa(unsigned long int number, t_ops *ops)
 	print[i] = '\0';
 	ft_strrev(print, -1, 0);
 	(x != 0 && ops->pound) ? print = ft_strjoin("0", print) : 0;
-	free(tmp);
+	print[i] != 0 ? free(tmp) : 0;
 	return (print);
 }
 
