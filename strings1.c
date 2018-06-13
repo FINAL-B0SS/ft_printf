@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 01:59:53 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/12 18:48:13 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/08 16:45:27 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ void	ft_putchar(char c, t_ops *ops)
 
 void	ft_putstr(char *s, t_ops *ops, int i)
 {
-	char	*tmp;
-
-	tmp	= s;
 	if (!s)
 	{
 		write(1, "(null)", 6);
@@ -33,7 +30,6 @@ void	ft_putstr(char *s, t_ops *ops, int i)
 		write(1, &s[i], 1);
 		ops->bytes += 1;
 	}
-	ops->num && ops->conv != 'd' && ops->conv !=  'i' ? free(s) : 0;
 }
 
 char	*ft_strrev(char *str, int i, int length)
