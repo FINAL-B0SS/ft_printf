@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:06:26 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/06 03:20:39 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/11 16:53:59 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_itoa(int nbr, t_ops *ops, int length, int sign)
 	char	*str;
 
 	sign = nbr;
+	ops->num += 1;
 	if (nbr == 0 && ops->p)
 		return ("");
 	while (sign /= 10)

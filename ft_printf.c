@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 23:48:08 by maljean           #+#    #+#             */
-/*   Updated: 2018/06/08 16:45:47 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/11 16:37:37 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ void	ft_printf2(const char *format, va_list args, int i, int *bytes)
 int		ft_printf(const char *format, ...)
 {
 	va_list		args;
-	int			i;
 	int			bytes;
 
-	i = -1;
 	bytes = 0;
 	va_start(args, format);
 	ft_printf2(format, args, -1, &bytes);
