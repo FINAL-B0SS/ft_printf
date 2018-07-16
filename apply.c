@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/07/16 15:08:37 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/13 00:59:42 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	ft_apply_flags(char *s, t_ops *ops)
 		return ;
 	}
 	(s[0] == '-') ? ops->prec += 1 : 0;
-	(!ops->num) && (ft_strlen(s) > ops->prec) ? s[ops->prec] = '\0' : 0;
+	if (!ops->num)
+		s = (ops->prec) ? ft_chop(s, ops, -1) : s;
 	s = (ops->pound && ops->conv == 'x' && !ops->zero)
 		? ft_strjoin("0x", s) : s;
 	s = (ops->pound && ops->conv == 'X' && !ops->zero)
