@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:15:39 by maljean           #+#    #+#             */
-/*   Updated: 2018/07/16 14:58:03 by maljean          ###   ########.fr       */
+/*   Updated: 2018/06/11 15:39:09 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef	struct	s_ops
 char			*ft_zeros(char *s, t_ops *ops);
 char			*ft_strcat(char *dest, const char *src);
 char			*ft_spaces(char *s, t_ops *ops);
-void			ft_chop(char *s, t_ops *ops, int i);
+char			*ft_chop(char *s, t_ops *ops, int i);
 void			ft_apply_flags(char *s, t_ops *ops);
 void			ft_handle_it(t_ops *ops, va_list args);
 void			ft_init_ops(t_ops *ops);
