@@ -6,7 +6,7 @@
 /*   By: maljean <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/06 02:03:41 by maljean           #+#    #+#             */
-/*   Updated: 2018/07/16 14:57:47 by maljean          ###   ########.fr       */
+/*   Updated: 2018/07/16 15:01:50 by maljean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,10 @@ char	*ft_spaces(char *s, t_ops *ops)
 
 void	ft_chop(char *s, t_ops *ops, int i)
 {
-	while (++i < ops->prec);
-	s[i] = '\0';
+	while (i < ops->prec)
+		i++;
+	if (s[i])
+		s[i] = '\0';
 }
 
 void	ft_apply_flags(char *s, t_ops *ops)
@@ -76,7 +78,7 @@ void	ft_apply_flags(char *s, t_ops *ops)
 	}
 	(s[0] == '-') ? ops->prec += 1 : 0;
 	if (!ops->num)
-		(ops->prec) ? ft_chop(s, ops, -1) : 0;
+		(ops->prec) ? ft_chop(s, ops, 0) : 0;
 	s = (ops->pound && ops->conv == 'x' && !ops->zero)
 		? ft_strjoin("0x", s) : s;
 	s = (ops->pound && ops->conv == 'X' && !ops->zero)
