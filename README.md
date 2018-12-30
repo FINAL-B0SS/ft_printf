@@ -1,4 +1,4 @@
-# ft_printf: a 42 project
+# ft_printf
 
 The goal of this project was to recode the printf function with the following prototype
 (same as man 3 printf, except for the name):
